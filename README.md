@@ -13,10 +13,6 @@ $ npm install @lcluber/aiasjs
 ```
 Or download it **[here](http://aiasjs.lcluber.com/#download)**.
 
-## Demo
-
-See a basic example **[here](http://aiasjs.lcluber.com/#example)**.
-
 ## API Reference
 
 Read the documentation **[here](http://aiasjs.lcluber.com/doc/)**.
