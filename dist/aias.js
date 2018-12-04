@@ -23,6 +23,8 @@
 * http://aiasjs.lcluber.com
 */
 
+import { Check } from '@lcluber/weejs';
+
 class HTTP {
     static get(url) {
         return this.call('GET', url);
@@ -83,7 +85,14 @@ class HTTP {
                 }
             };
             console.log('xhr processing starting (' + url + ')');
-            http.send(data == undefined ? '' : data);
+            if (data == undefined) {
+                http.send();
+                return;
+            }
+            if (Check.isObject(data)) {
+                data = JSON.stringify(data);
+            }
+            http.send(data);
         });
     }
 }

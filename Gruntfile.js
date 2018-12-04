@@ -1,5 +1,8 @@
 module.exports = function(grunt){
-
+  var path = require('path');
+  var babel = require('rollup-plugin-babel');
+  var resolve = require('rollup-plugin-node-resolve');
+  
   require('time-grunt')(grunt);
   const sass = require('node-sass');
 
@@ -157,8 +160,16 @@ module.exports = function(grunt){
         options: {
           format:'es',
           // moduleName: projectName,
-          banner: banner
+          banner: banner,
           // sourceMap: 'inline'
+          plugins: [
+            resolve({
+            //   //exclude: './node_modules/**'
+            })
+          ],
+          external: [
+            '@lcluber/weejs'
+          ]
         },
         files: [ {
           src : compiledES6Dir + projectNameLC + '.js',
@@ -169,7 +180,15 @@ module.exports = function(grunt){
         options: {
           format:'iife',
           moduleName: projectName,
-          banner: banner
+          banner: banner,
+          plugins: [
+            babel({
+            //   //exclude: './node_modules/**'
+            }),
+            resolve({
+              //   //exclude: './node_modules/**'
+            })
+          ]
           // sourceMap: 'inline'
         },
         files: [ {

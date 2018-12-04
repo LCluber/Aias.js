@@ -1,5 +1,5 @@
 
- // import { Check } from '@lcluber/weejs';
+import { Check } from '@lcluber/weejs';
 import { HTTPHeaderFields } from './httpheaderfields';
 
 export type HTTPRequestMethods = 'GET'|'HEAD'|'POST'|'PUT'|'DELETE'|'CONNECT'|'OPTIONS'|'TRACE'|'PATCH';
@@ -100,19 +100,19 @@ export class HTTP {
         }
       };
       console.log('xhr processing starting ('+url+')');
-      // if (data == undefined){
-      //   http.send();
-      //   return;
-      // }
+      if (data == undefined){
+        http.send();
+        return;
+      }
       // 
       // let contentType = 'application/json';
       // if (Check.isString(data)) {
       //   contentType = 'application/x-www-form-urlencoded';
-      // } else if (Check.isObject(data)) {
-      //   data = JSON.stringify(data);
-      // }
+      if (Check.isObject(data)) {
+        data = JSON.stringify(data);
+      }
       // http.setRequestHeader('Content-Type', contentType);
-      http.send(data == undefined ? '' : data);
+      http.send(data);
     });
   }
 
