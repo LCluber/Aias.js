@@ -22,18 +22,60 @@
 *
 * http://aiasjs.lcluber.com
 */
+
 export declare type HTTPRequestMethods = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'CONNECT' | 'OPTIONS' | 'TRACE' | 'PATCH';
 export declare class HTTP {
     static async: boolean;
     static noCache: boolean;
+    static headers: HTTPHeaderFields;
     static get(url: string): Promise<string>;
     static head(url: string): Promise<string>;
-    static post(url: string, data: string): Promise<string>;
-    static put(url: string): Promise<string>;
+    static post(url: string, data: Object | string): Promise<string>;
+    static put(url: string, data: Object | string): Promise<string>;
     static delete(url: string): Promise<string>;
     static connect(url: string): Promise<string>;
     static options(url: string): Promise<string>;
     static trace(url: string): Promise<string>;
-    static patch(url: string): Promise<string>;
+    static patch(url: string, data: Object | string): Promise<string>;
+    static setHeaders(headers: HTTPHeaderFields): void;
     private static call;
+}
+export interface HTTPHeaderFields {
+    'A-IM'?: string;
+    Accept?: string;
+    'Accept-Charset'?: string;
+    'Accept-Encoding'?: string;
+    'Accept-Language'?: string;
+    'Accept-Datetime'?: string;
+    'Access-Control-Request-Method'?: string;
+    'Access-Control-Request-Headers'?: string;
+    Authorization?: string;
+    'Cache-Control'?: string;
+    Connection?: string;
+    'Content-Length'?: number;
+    'Content-MD5'?: string;
+    'Content-Type'?: string;
+    Cookie?: string;
+    Date?: string;
+    Expect?: string;
+    Forwarded?: string;
+    From?: string;
+    Host?: string;
+    'HTTP2-Settings'?: string;
+    'If-Match'?: string;
+    'If-Modified-Since'?: string;
+    'If-None-Match'?: string;
+    'If-Range'?: string;
+    'If-Unmodified-Since'?: string;
+    'Max-Forwards'?: string;
+    Origin?: string;
+    Pragma?: string;
+    'Proxy-Authorization'?: string;
+    Range?: string;
+    Referer?: string;
+    TE?: string;
+    'User-Agent'?: string;
+    Upgrade?: string;
+    Via?: string;
+    Warning?: string;
 }

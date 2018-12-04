@@ -38,8 +38,8 @@ var Aias = (function (exports) {
         HTTP.post = function (url, data) {
             return this.call('POST', url, data);
         };
-        HTTP.put = function (url) {
-            return this.call('PUT', url);
+        HTTP.put = function (url, data) {
+            return this.call('PUT', url, data);
         };
         HTTP.delete = function (url) {
             return this.call('DELETE', url);
@@ -53,8 +53,15 @@ var Aias = (function (exports) {
         HTTP.trace = function (url) {
             return this.call('TRACE', url);
         };
-        HTTP.patch = function (url) {
-            return this.call('PATCH', url);
+        HTTP.patch = function (url, data) {
+            return this.call('PATCH', url, data);
+        };
+        HTTP.setHeaders = function (headers) {
+            for (var property in headers) {
+                if (headers.hasOwnProperty(property)) {
+                    this.headers[property] = headers[property];
+                }
+            }
         };
         HTTP.call = function (method, url, data) {
             var _this = this;
@@ -64,7 +71,11 @@ var Aias = (function (exports) {
                     url += '?cache=' + (new Date()).getTime();
                 }
                 http.open(method, url, _this.async);
-                http.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                for (var property in _this.headers) {
+                    if (_this.headers.hasOwnProperty(property)) {
+                        http.setRequestHeader(property, _this.headers[property]);
+                    }
+                }
                 http.onreadystatechange = function () {
                     if (http.readyState == 4) {
                         if (http.status == 200) {
@@ -78,11 +89,14 @@ var Aias = (function (exports) {
                     }
                 };
                 console.log('xhr processing starting (' + url + ')');
-                http.send(data);
+                http.send(data == undefined ? '' : data);
             });
         };
         HTTP.async = true;
         HTTP.noCache = false;
+        HTTP.headers = {
+            'Content-Type': 'application/json'
+        };
         return HTTP;
     }());
 

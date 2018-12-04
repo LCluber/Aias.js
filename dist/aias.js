@@ -33,8 +33,8 @@ class HTTP {
     static post(url, data) {
         return this.call('POST', url, data);
     }
-    static put(url) {
-        return this.call('PUT', url);
+    static put(url, data) {
+        return this.call('PUT', url, data);
     }
     static delete(url) {
         return this.call('DELETE', url);
@@ -48,8 +48,15 @@ class HTTP {
     static trace(url) {
         return this.call('TRACE', url);
     }
-    static patch(url) {
-        return this.call('PATCH', url);
+    static patch(url, data) {
+        return this.call('PATCH', url, data);
+    }
+    static setHeaders(headers) {
+        for (const property in headers) {
+            if (headers.hasOwnProperty(property)) {
+                this.headers[property] = headers[property];
+            }
+        }
     }
     static call(method, url, data) {
         return new Promise((resolve, reject) => {
@@ -58,7 +65,11 @@ class HTTP {
                 url += '?cache=' + (new Date()).getTime();
             }
             http.open(method, url, this.async);
-            http.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            for (let property in this.headers) {
+                if (this.headers.hasOwnProperty(property)) {
+                    http.setRequestHeader(property, this.headers[property]);
+                }
+            }
             http.onreadystatechange = () => {
                 if (http.readyState == 4) {
                     if (http.status == 200) {
@@ -72,11 +83,14 @@ class HTTP {
                 }
             };
             console.log('xhr processing starting (' + url + ')');
-            http.send(data);
+            http.send(data == undefined ? '' : data);
         });
     }
 }
 HTTP.async = true;
 HTTP.noCache = false;
+HTTP.headers = {
+    'Content-Type': 'application/json'
+};
 
 export { HTTP };

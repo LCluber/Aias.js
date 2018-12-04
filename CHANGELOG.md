@@ -1,3 +1,7 @@
+Version 0.1.7 (December 04th 2018)
+-----------------------------
+ * Added setHeaders() method to configure HTTP header fields
+
 Version 0.1.6 (November 28th 2018)
 -----------------------------
  * Aias.js published on NPM at @lcluber/aiasjs.
