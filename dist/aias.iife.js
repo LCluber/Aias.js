@@ -35,8 +35,8 @@ var Aias = (function (exports) {
         HTTP.head = function (url) {
             return this.call('HEAD', url);
         };
-        HTTP.post = function (url) {
-            return this.call('POST', url);
+        HTTP.post = function (url, data) {
+            return this.call('POST', url, data);
         };
         HTTP.put = function (url) {
             return this.call('PUT', url);
@@ -56,7 +56,7 @@ var Aias = (function (exports) {
         HTTP.patch = function (url) {
             return this.call('PATCH', url);
         };
-        HTTP.call = function (method, url) {
+        HTTP.call = function (method, url, data) {
             var _this = this;
             return new Promise(function (resolve, reject) {
                 var http = new XMLHttpRequest();
@@ -78,7 +78,7 @@ var Aias = (function (exports) {
                     }
                 };
                 console.log('xhr processing starting (' + url + ')');
-                http.send();
+                http.send(data);
             });
         };
         HTTP.async = true;

@@ -28,7 +28,7 @@ export declare class HTTP {
     static noCache: boolean;
     static get(url: string): Promise<string>;
     static head(url: string): Promise<string>;
-    static post(url: string): Promise<string>;
+    static post(url: string, data: string): Promise<string>;
     static put(url: string): Promise<string>;
     static delete(url: string): Promise<string>;
     static connect(url: string): Promise<string>;

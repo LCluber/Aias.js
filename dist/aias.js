@@ -30,8 +30,8 @@ class HTTP {
     static head(url) {
         return this.call('HEAD', url);
     }
-    static post(url) {
-        return this.call('POST', url);
+    static post(url, data) {
+        return this.call('POST', url, data);
     }
     static put(url) {
         return this.call('PUT', url);
@@ -51,7 +51,7 @@ class HTTP {
     static patch(url) {
         return this.call('PATCH', url);
     }
-    static call(method, url) {
+    static call(method, url, data) {
         return new Promise((resolve, reject) => {
             let http = new XMLHttpRequest();
             if (this.noCache) {
@@ -72,7 +72,7 @@ class HTTP {
                 }
             };
             console.log('xhr processing starting (' + url + ')');
-            http.send();
+            http.send(data);
         });
     }
 }
