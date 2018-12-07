@@ -1,3 +1,7 @@
+Version 0.1.8 (December 07th 2018)
+-----------------------------
+ * Added Logs with @lcluber/Mouettejs
+
 Version 0.1.7 (December 04th 2018)
 -----------------------------
  * Added setHeaders() method to configure HTTP header fields
@@ -30,7 +34,7 @@ Version 0.1.2 (June 16th 2018)
 Version 0.1.1 (April 29th 2018)
 -----------------------------
  * Now uses promises.
- 
+
 Version 0.1.0 (November 23rd 2010)
 -----------------------------
  * Initial version
