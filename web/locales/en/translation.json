@@ -17,7 +17,7 @@
     },
     "about" : {
       "h2" : "About",
-      "text" : "<p>The main purpose of this library is to provide a simple tool for sending asynchronous HTTP (Ajax) request.<p> You can help develop Aias.js on <a href=\"https://github.com/LCluber/Aias.js\" target=\"_blank\">Github</a>.</p>"
+      "text" : "<p>The main purpose of this library is to provide a simple tool for sending asynchronous HTTP (Ajax) request.</p><p> You can help develop Aias.js on <a href=\"https://github.com/LCluber/Aias.js\" target=\"_blank\">Github</a>.</p>"
     },
     "code" : {
       "h2" : "Code",

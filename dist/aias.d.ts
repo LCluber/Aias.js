@@ -30,13 +30,13 @@ export declare class HTTP {
     static headers: HTTPHeaderFields;
     static get(url: string): Promise<string>;
     static head(url: string): Promise<string>;
-    static post(url: string, data: Object | string): Promise<string>;
-    static put(url: string, data: Object | string): Promise<string>;
+    static post(url: string, data: string | Document | Blob | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream): Promise<string>;
+    static put(url: string, data: string | Document | Blob | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream): Promise<string>;
     static delete(url: string): Promise<string>;
     static connect(url: string): Promise<string>;
     static options(url: string): Promise<string>;
     static trace(url: string): Promise<string>;
-    static patch(url: string, data: Object | string): Promise<string>;
+    static patch(url: string, data: string | Document | Blob | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream): Promise<string>;
     static setHeaders(headers: HTTPHeaderFields): void;
     private static call;
 }

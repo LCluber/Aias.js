@@ -13,6 +13,44 @@ $ npm install @lcluber/aiasjs
 ```
 Or download it **[here](http://aiasjs.lcluber.com/#download)**.
 
+## Usage
+
+### ES6
+
+```javascript
+import { HTTP } from '@lcluber/aiasjs';
+
+var data = {
+  firstname:'Galileo',
+  lastname:'Galilei',
+  born:1564,
+  died:1642
+};
+
+HTTP.post("url", data)
+    .then(val => { console.log(val); })
+    .catch(err => { console.log('error', err.message); });
+```
+
+### IIFE
+
+```html
+<script src="node-modules/@lcluber/aiasjs/dist/aias.iife.min.js"></script>
+```
+
+```javascript
+var data = {
+  firstname:'Galileo',
+  lastname:'Galilei',
+  born:1564,
+  died:1642
+};
+
+Aias.HTTP.post("url", data)
+         .then(function (val) { console.log(val); })
+         .catch(function (err) { console.log('error', err.message); });
+```
+
 ## API Reference
 
 Read the documentation **[here](http://aiasjs.lcluber.com/doc/)**.

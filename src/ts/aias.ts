@@ -1,5 +1,5 @@
 
-import { Check } from '@lcluber/weejs';
+import { Is } from '@lcluber/chjs';
 import { Logger } from '@lcluber/mouettejs';
 import { HTTPHeaderFields } from './httpheaderfields';
 
@@ -15,19 +15,6 @@ export class HTTP {
     'Content-Type': 'application/json'//'application/x-www-form-urlencoded'
   };
 
-//   static call(url: string): Observable<AjaxResponse> {
-//     return ajax({
-//   url: 'https://httpbin.org/post',
-//   method: 'POST',
-//   headers: {
-//     'Content-Type': 'application/json',
-//     'x-rxjs-is': 'Awesome!'
-//   },
-//   body: {
-//     hello: 'World!',
-//   }
-// }).map(e => e.response);
-//   }
   public static get( url: string ): Promise<string> {
     return this.call('GET', url);
   }
@@ -36,11 +23,11 @@ export class HTTP {
     return this.call('HEAD', url);
   }
 
-  public static post( url: string, data: Object|string ): Promise<string> {
+  public static post( url: string, data: string|Document|Blob|ArrayBufferView|ArrayBuffer|FormData|URLSearchParams|ReadableStream ): Promise<string> {
     return this.call('POST', url, data);
   }
 
-  public static put( url: string, data: Object|string ): Promise<string> {
+  public static put( url: string, data: string|Document|Blob|ArrayBufferView|ArrayBuffer|FormData|URLSearchParams|ReadableStream ): Promise<string> {
     return this.call('PUT', url, data);
   }
 
@@ -60,7 +47,7 @@ export class HTTP {
     return this.call('TRACE', url);
   }
 
-  public static patch( url: string, data: Object|string ): Promise<string> {
+  public static patch( url: string, data: string|Document|Blob|ArrayBufferView|ArrayBuffer|FormData|URLSearchParams|ReadableStream ): Promise<string> {
     return this.call('PATCH', url, data);
   }
 
@@ -72,7 +59,7 @@ export class HTTP {
     }
   }
 
-  private static call( method: HTTPRequestMethods, url: string, data?:Object|string ): Promise<string> {
+  private static call( method: HTTPRequestMethods, url: string, data?: string|Document|Blob|ArrayBufferView|ArrayBuffer|FormData|URLSearchParams|ReadableStream ): Promise<string> {
     return new Promise((resolve: Function, reject: Function) => {
 
       let http = new XMLHttpRequest();
@@ -109,7 +96,7 @@ export class HTTP {
       // let contentType = 'application/json';
       // if (Check.isString(data)) {
       //   contentType = 'application/x-www-form-urlencoded';
-      if (Check.isObject(data)) {
+      if (Is.object(data)) {
         data = JSON.stringify(data);
       }
       // http.setRequestHeader('Content-Type', contentType);
