@@ -27,32 +27,32 @@ import { Is } from '@lcluber/chjs';
 import { Logger } from '@lcluber/mouettejs';
 
 class HTTP {
-    static get(url) {
-        return this.call('GET', url);
+    static get(url, headers) {
+        return this.call('GET', url, headers);
     }
-    static head(url) {
-        return this.call('HEAD', url);
+    static head(url, headers) {
+        return this.call('HEAD', url, headers);
     }
-    static post(url, data) {
-        return this.call('POST', url, data);
+    static post(url, headers, data) {
+        return this.call('POST', url, headers, data);
     }
-    static put(url, data) {
-        return this.call('PUT', url, data);
+    static put(url, headers, data) {
+        return this.call('PUT', url, headers, data);
     }
-    static delete(url) {
-        return this.call('DELETE', url);
+    static delete(url, headers) {
+        return this.call('DELETE', url, headers);
     }
-    static connect(url) {
-        return this.call('CONNECT', url);
+    static connect(url, headers) {
+        return this.call('CONNECT', url, headers);
     }
-    static options(url) {
-        return this.call('OPTIONS', url);
+    static options(url, headers) {
+        return this.call('OPTIONS', url, headers);
     }
-    static trace(url) {
-        return this.call('TRACE', url);
+    static trace(url, headers) {
+        return this.call('TRACE', url, headers);
     }
-    static patch(url, data) {
-        return this.call('PATCH', url, data);
+    static patch(url, headers, data) {
+        return this.call('PATCH', url, headers, data);
     }
     static setHeaders(headers) {
         for (const property in headers) {
@@ -61,46 +61,59 @@ class HTTP {
             }
         }
     }
-    static call(method, url, data) {
+    static setBase64(boolean) {
+        this.base64 = boolean ? true : false;
+    }
+    static call(method, url, headers, data) {
         return new Promise((resolve, reject) => {
+            let msg = ['Aias xhr ', ' (' + method + ':' + url + ')'];
             let http = new XMLHttpRequest();
-            if (this.noCache) {
-                url += '?cache=' + (new Date()).getTime();
-            }
+            url += this.noCache ? '?cache=' + (new Date()).getTime() : '';
             http.open(method, url, this.async);
-            for (let property in this.headers) {
-                if (this.headers.hasOwnProperty(property)) {
-                    http.setRequestHeader(property, this.headers[property]);
-                }
+            if (headers) {
+                this.setHeaders(headers);
             }
+            this.setRequestHeaders(http);
             http.onreadystatechange = () => {
                 if (http.readyState == 4) {
                     if (http.status == 200) {
-                        Logger.info('xhr done successfully (' + url + ')');
+                        Logger.info(msg[0] + 'successful' + msg[1]);
                         resolve(http.responseText);
                     }
                     else {
-                        Logger.error('xhr failed (' + url + ')');
+                        Logger.error(msg[0] + 'failed' + msg[1]);
                         reject(http.status);
                     }
                 }
             };
-            Logger.info('xhr processing starting (' + url + ')');
-            if (data == undefined) {
-                http.send();
-                return;
+            if (data != undefined && data != null) {
+                if (this.headers['Content-Type'] === 'application/x-www-form-urlencoded' && Is.string(data)) {
+                    data = encodeURIComponent(data);
+                }
+                else if (Is.object(data)) {
+                    data = JSON.stringify(data);
+                }
+                if (Is.string(data) && this.base64) {
+                    data = btoa(data);
+                }
             }
-            if (Is.object(data)) {
-                data = JSON.stringify(data);
-            }
-            http.send(data);
+            http.send(data || null);
+            Logger.info(msg[0] + 'sent' + msg[1]);
         });
+    }
+    static setRequestHeaders(http) {
+        for (let property in this.headers) {
+            if (this.headers.hasOwnProperty(property)) {
+                http.setRequestHeader(property, this.headers[property]);
+            }
+        }
     }
 }
 HTTP.async = true;
 HTTP.noCache = false;
+HTTP.base64 = false;
 HTTP.headers = {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/x-www-form-urlencoded'
 };
 
 export { HTTP };

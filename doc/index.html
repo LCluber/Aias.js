@@ -71,6 +71,32 @@
 				<h2 id="installation">Installation</h2>
 				<pre><code class="language-bash">$ npm install @lcluber/aiasjs</code></pre>
 				<p>Or download it <strong><a href="http://aiasjs.lcluber.com/#download">here</a></strong>.</p>
+				<h2 id="usage">Usage</h2>
+				<h3 id="es6">ES6</h3>
+				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { HTTP } <span class="hljs-keyword">from</span> <span class="hljs-string">'@lcluber/aiasjs'</span>;
+
+<span class="hljs-keyword">var</span> data = {
+  <span class="hljs-attr">firstname</span>:<span class="hljs-string">'Galileo'</span>,
+  <span class="hljs-attr">lastname</span>:<span class="hljs-string">'Galilei'</span>,
+  <span class="hljs-attr">born</span>:<span class="hljs-number">1564</span>,
+  <span class="hljs-attr">died</span>:<span class="hljs-number">1642</span>
+};
+
+HTTP.post(<span class="hljs-string">"url"</span>, data)
+    .then(<span class="hljs-function"><span class="hljs-params">val</span> =&gt;</span> { <span class="hljs-built_in">console</span>.log(val); })
+    .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'error'</span>, err.message); });</code></pre>
+				<h3 id="iife">IIFE</h3>
+				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node-modules/@lcluber/aiasjs/dist/aias.iife.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+				<pre><code class="language-javascript"><span class="hljs-keyword">var</span> data = {
+  <span class="hljs-attr">firstname</span>:<span class="hljs-string">'Galileo'</span>,
+  <span class="hljs-attr">lastname</span>:<span class="hljs-string">'Galilei'</span>,
+  <span class="hljs-attr">born</span>:<span class="hljs-number">1564</span>,
+  <span class="hljs-attr">died</span>:<span class="hljs-number">1642</span>
+};
+
+Aias.HTTP.post(<span class="hljs-string">"url"</span>, data)
+         .then(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">val</span>) </span>{ <span class="hljs-built_in">console</span>.log(val); })
+         .catch(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err</span>) </span>{ <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'error'</span>, err.message); });</code></pre>
 				<h2 id="api-reference">API Reference</h2>
 				<p>Read the documentation <strong><a href="http://aiasjs.lcluber.com/doc/">here</a></strong>.</p>
 				<h2 id="tests">Tests</h2>
@@ -108,7 +134,7 @@
 						<a href="modules/_aias_.html">"aias"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_httpheaderfields_.html">"httpheaderfields"</a>
+						<a href="modules/_httpheaders_.html">"httpheaders"</a>
 					</li>
 				</ul>
 			</nav>

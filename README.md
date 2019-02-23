@@ -28,7 +28,7 @@ var data = {
 };
 
 HTTP.post("url", data)
-    .then(val => { console.log(val); })
+    .then(response => { console.log(response); })
     .catch(err => { console.log('error', err.message); });
 ```
 
@@ -47,7 +47,7 @@ var data = {
 };
 
 Aias.HTTP.post("url", data)
-         .then(function (val) { console.log(val); })
+         .then(function (response) { console.log(response); })
          .catch(function (err) { console.log('error', err.message); });
 ```
 

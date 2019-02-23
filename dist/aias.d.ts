@@ -24,23 +24,27 @@
 */
 
 export declare type HTTPRequestMethods = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'CONNECT' | 'OPTIONS' | 'TRACE' | 'PATCH';
+export declare type dataTypes = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null;
 export declare class HTTP {
     static async: boolean;
     static noCache: boolean;
-    static headers: HTTPHeaderFields;
-    static get(url: string): Promise<string>;
-    static head(url: string): Promise<string>;
-    static post(url: string, data: string | Document | Blob | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream): Promise<string>;
-    static put(url: string, data: string | Document | Blob | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream): Promise<string>;
-    static delete(url: string): Promise<string>;
-    static connect(url: string): Promise<string>;
-    static options(url: string): Promise<string>;
-    static trace(url: string): Promise<string>;
-    static patch(url: string, data: string | Document | Blob | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream): Promise<string>;
-    static setHeaders(headers: HTTPHeaderFields): void;
+    static base64: boolean;
+    static headers: HTTPHeaders;
+    static get(url: string, headers: HTTPHeaders): Promise<string>;
+    static head(url: string, headers: HTTPHeaders): Promise<string>;
+    static post(url: string, headers: HTTPHeaders, data: dataTypes): Promise<string>;
+    static put(url: string, headers: HTTPHeaders, data: dataTypes): Promise<string>;
+    static delete(url: string, headers: HTTPHeaders): Promise<string>;
+    static connect(url: string, headers: HTTPHeaders): Promise<string>;
+    static options(url: string, headers: HTTPHeaders): Promise<string>;
+    static trace(url: string, headers: HTTPHeaders): Promise<string>;
+    static patch(url: string, headers: HTTPHeaders, data: dataTypes): Promise<string>;
+    static setHeaders(headers: HTTPHeaders): void;
+    static setBase64(boolean: boolean): void;
     private static call;
+    private static setRequestHeaders;
 }
-export interface HTTPHeaderFields {
+export interface HTTPHeaders {
     'A-IM'?: string;
     Accept?: string;
     'Accept-Charset'?: string;

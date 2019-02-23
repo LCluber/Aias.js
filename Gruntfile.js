@@ -169,6 +169,7 @@ module.exports = function(grunt){
           ],
           external: [
             '@lcluber/weejs',
+            '@lcluber/chjs',
             '@lcluber/mouettejs'
           ]
         },

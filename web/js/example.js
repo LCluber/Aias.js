@@ -17,7 +17,7 @@ var data = {
   died:1642
 };
 
-var request = Aias.HTTP.post("http://httpbin.org/post", data)
-                      .then(function (val) { console.log(val); })
-                      .catch(function (err) { console.log('error', err.message); });
+var request = Aias.HTTP.post("http://httpbin.org/post",  { 'Content-Type' : 'application/json' }, data)
+                       .then(function (response) { console.log(response); })
+                       .catch(function (err) { console.log('error', err.message); });
 
