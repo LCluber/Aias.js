@@ -1,6 +1,6 @@
 {
   "name": "@lcluber/aiasjs",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "HTTP client (Ajax) library",
   "keywords": [
     "ajax",
@@ -42,8 +42,8 @@
     "morgan": "1.9.0",
     "pug": "2.0.3",
     "serve-favicon": "2.5.0",
-    "@lcluber/chjs": "0.1.0",
-    "@lcluber/mouettejs": "0.2.8"
+    "@lcluber/chjs": "0.1.1",
+    "@lcluber/mouettejs": "0.2.9"
   },
   "devDependencies": {
     "@babel/core": "7.2.2",
@@ -71,7 +71,7 @@
     "grunt-typedoc": "0.2.4",
     "jquery": "3.2.1",
     "jquery-easing": "0.0.1",
-    "node-sass": "4.9.3",
+    "node-sass": "4.11.0",
     "rollup-plugin-babel": "4.1.0",
     "rollup-plugin-node-resolve": "4.0.0",
     "time-grunt": "1.4.0",

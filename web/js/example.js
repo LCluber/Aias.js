@@ -18,6 +18,6 @@ var data = {
 };
 
 var request = Aias.HTTP.post("http://httpbin.org/post", data)
-                      .then(function (val) { console.log(val); })
-                      .catch(function (err) { console.log('error', err.message); });
+                       .then(function (response) { console.log(response); })
+                       .catch(function (err) { console.log('error', err.message); });
 

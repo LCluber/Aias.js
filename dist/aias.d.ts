@@ -24,23 +24,26 @@
 */
 
 export declare type HTTPRequestMethods = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'CONNECT' | 'OPTIONS' | 'TRACE' | 'PATCH';
+export declare type dataTypes = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null;
 export declare class HTTP {
     static async: boolean;
     static noCache: boolean;
-    static headers: HTTPHeaderFields;
+    static base64: boolean;
+    static headers: HTTPHeaders;
     static get(url: string): Promise<string>;
     static head(url: string): Promise<string>;
-    static post(url: string, data: string | Document | Blob | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream): Promise<string>;
-    static put(url: string, data: string | Document | Blob | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream): Promise<string>;
+    static post(url: string, data: dataTypes): Promise<string>;
+    static put(url: string, data: dataTypes): Promise<string>;
     static delete(url: string): Promise<string>;
     static connect(url: string): Promise<string>;
     static options(url: string): Promise<string>;
     static trace(url: string): Promise<string>;
-    static patch(url: string, data: string | Document | Blob | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream): Promise<string>;
-    static setHeaders(headers: HTTPHeaderFields): void;
+    static patch(url: string, data: dataTypes): Promise<string>;
+    static setHeader(headers: HTTPHeaders): void;
     private static call;
+    private static setRequestHeaders;
 }
-export interface HTTPHeaderFields {
+export interface HTTPHeaders {
     'A-IM'?: string;
     Accept?: string;
     'Accept-Charset'?: string;

@@ -54,7 +54,7 @@ class HTTP {
     static patch(url, data) {
         return this.call('PATCH', url, data);
     }
-    static setHeaders(headers) {
+    static setHeader(headers) {
         for (const property in headers) {
             if (headers.hasOwnProperty(property)) {
                 this.headers[property] = headers[property];
@@ -63,44 +63,41 @@ class HTTP {
     }
     static call(method, url, data) {
         return new Promise((resolve, reject) => {
+            let msg = ['Aias xhr ', ' (' + method + ':' + url + ')'];
             let http = new XMLHttpRequest();
-            if (this.noCache) {
-                url += '?cache=' + (new Date()).getTime();
-            }
+            url += this.noCache ? '?cache=' + (new Date()).getTime() : '';
             http.open(method, url, this.async);
-            for (let property in this.headers) {
-                if (this.headers.hasOwnProperty(property)) {
-                    http.setRequestHeader(property, this.headers[property]);
-                }
-            }
+            this.setRequestHeaders(http);
             http.onreadystatechange = () => {
                 if (http.readyState == 4) {
                     if (http.status == 200) {
-                        Logger.info('xhr done successfully (' + url + ')');
+                        Logger.info(msg[0] + 'successful' + msg[1]);
                         resolve(http.responseText);
                     }
                     else {
-                        Logger.error('xhr failed (' + url + ')');
+                        Logger.error(msg[0] + 'failed' + msg[1]);
                         reject(http.status);
                     }
                 }
             };
-            Logger.info('xhr processing starting (' + url + ')');
-            if (data == undefined) {
-                http.send();
-                return;
-            }
             if (Is.object(data)) {
                 data = JSON.stringify(data);
             }
-            http.send(data);
+            http.send(data || null);
+            Logger.info(msg[0] + 'sent' + msg[1]);
         });
+    }
+    static setRequestHeaders(http) {
+        for (let property in this.headers) {
+            if (this.headers.hasOwnProperty(property)) {
+                http.setRequestHeader(property, this.headers[property]);
+            }
+        }
     }
 }
 HTTP.async = true;
 HTTP.noCache = false;
-HTTP.headers = {
-    'Content-Type': 'application/json'
-};
+HTTP.base64 = false;
+HTTP.headers = {};
 
 export { HTTP };

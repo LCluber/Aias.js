@@ -1,5 +1,5 @@
 
-export interface HTTPHeaderFields {
+export interface HTTPHeaders {
   'A-IM'?: string;
   Accept?: string;
   'Accept-Charset'?: string;

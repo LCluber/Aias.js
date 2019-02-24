@@ -1,3 +1,8 @@
+Version 0.1.10 (February 24th 2019)
+-----------------------------
+ * Improved logger messages
+ * Updated Mouette.js dependency to version 0.2.9
+ 
 Version 0.1.9 (December 24th 2018)
 -----------------------------
  * Library is lighter
