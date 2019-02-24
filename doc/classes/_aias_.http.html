@@ -86,6 +86,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_aias_.http.html#async" class="tsd-kind-icon">async</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_aias_.http.html#base64" class="tsd-kind-icon">base64</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_aias_.http.html#headers" class="tsd-kind-icon">headers</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_aias_.http.html#nocache" class="tsd-kind-icon">no<wbr>Cache</a></li>
 							</ul>
 						</section>
@@ -101,16 +102,9 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_aias_.http.html#patch" class="tsd-kind-icon">patch</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_aias_.http.html#post" class="tsd-kind-icon">post</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_aias_.http.html#put" class="tsd-kind-icon">put</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_aias_.http.html#setbase64" class="tsd-kind-icon">set<wbr>Base64</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_aias_.http.html#setheaders" class="tsd-kind-icon">set<wbr>Headers</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_aias_.http.html#setheader" class="tsd-kind-icon">set<wbr>Header</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="_aias_.http.html#setrequestheaders" class="tsd-kind-icon">set<wbr>Request<wbr>Headers</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_aias_.http.html#trace" class="tsd-kind-icon">trace</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Object literals</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-static"><a href="_aias_.http.html#headers" class="tsd-kind-icon">headers</a></li>
 							</ul>
 						</section>
 					</div>
@@ -124,7 +118,7 @@
 					<div class="tsd-signature tsd-kind-icon">async<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L13">aias.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L13">aias.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -134,7 +128,17 @@
 					<div class="tsd-signature tsd-kind-icon">base64<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L15">aias.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L15">aias.ts:15</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="headers" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> headers</h3>
+					<div class="tsd-signature tsd-kind-icon">headers<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L16">aias.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -144,7 +148,7 @@
 					<div class="tsd-signature tsd-kind-icon">no<wbr>Cache<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L14">aias.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L14">aias.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -155,13 +159,13 @@
 					<a name="call" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> call</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">call<span class="tsd-signature-symbol">(</span>method<span class="tsd-signature-symbol">: </span><a href="../modules/_aias_.html#httprequestmethods" class="tsd-signature-type">HTTPRequestMethods</a>, url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, headers<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a>, data<span class="tsd-signature-symbol">?: </span><a href="../modules/_aias_.html#datatypes" class="tsd-signature-type">dataTypes</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">call<span class="tsd-signature-symbol">(</span>method<span class="tsd-signature-symbol">: </span><a href="../modules/_aias_.html#httprequestmethods" class="tsd-signature-type">HTTPRequestMethods</a>, url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">?: </span><a href="../modules/_aias_.html#datatypes" class="tsd-signature-type">dataTypes</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L68">aias.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L64">aias.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -171,9 +175,6 @@
 								</li>
 								<li>
 									<h5>url: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> headers: <a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <a href="../modules/_aias_.html#datatypes" class="tsd-signature-type">dataTypes</a></h5>
@@ -187,22 +188,19 @@
 					<a name="connect" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> connect</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">connect<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, headers<span class="tsd-signature-symbol">: </span><a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">connect<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L40">aias.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L40">aias.ts:40</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>url: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>headers: <a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -213,22 +211,19 @@
 					<a name="delete" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> delete</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">delete<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, headers<span class="tsd-signature-symbol">: </span><a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">delete<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L36">aias.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L36">aias.ts:36</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>url: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>headers: <a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -239,22 +234,19 @@
 					<a name="get" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> get</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, headers<span class="tsd-signature-symbol">: </span><a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L20">aias.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L20">aias.ts:20</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>url: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>headers: <a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -265,22 +257,19 @@
 					<a name="head" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> head</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">head<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, headers<span class="tsd-signature-symbol">: </span><a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">head<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L24">aias.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L24">aias.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>url: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>headers: <a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -291,22 +280,19 @@
 					<a name="options" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> options</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, headers<span class="tsd-signature-symbol">: </span><a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L44">aias.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L44">aias.ts:44</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>url: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>headers: <a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -317,22 +303,19 @@
 					<a name="patch" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> patch</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">patch<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, headers<span class="tsd-signature-symbol">: </span><a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a>, data<span class="tsd-signature-symbol">: </span><a href="../modules/_aias_.html#datatypes" class="tsd-signature-type">dataTypes</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">patch<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><a href="../modules/_aias_.html#datatypes" class="tsd-signature-type">dataTypes</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L52">aias.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L52">aias.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>url: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>headers: <a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a></h5>
 								</li>
 								<li>
 									<h5>data: <a href="../modules/_aias_.html#datatypes" class="tsd-signature-type">dataTypes</a></h5>
@@ -346,22 +329,19 @@
 					<a name="post" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> post</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">post<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, headers<span class="tsd-signature-symbol">: </span><a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a>, data<span class="tsd-signature-symbol">: </span><a href="../modules/_aias_.html#datatypes" class="tsd-signature-type">dataTypes</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">post<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><a href="../modules/_aias_.html#datatypes" class="tsd-signature-type">dataTypes</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L28">aias.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L28">aias.ts:28</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>url: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>headers: <a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a></h5>
 								</li>
 								<li>
 									<h5>data: <a href="../modules/_aias_.html#datatypes" class="tsd-signature-type">dataTypes</a></h5>
@@ -375,22 +355,19 @@
 					<a name="put" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> put</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">put<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, headers<span class="tsd-signature-symbol">: </span><a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a>, data<span class="tsd-signature-symbol">: </span><a href="../modules/_aias_.html#datatypes" class="tsd-signature-type">dataTypes</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">put<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, data<span class="tsd-signature-symbol">: </span><a href="../modules/_aias_.html#datatypes" class="tsd-signature-type">dataTypes</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L32">aias.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L32">aias.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>url: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>headers: <a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a></h5>
 								</li>
 								<li>
 									<h5>data: <a href="../modules/_aias_.html#datatypes" class="tsd-signature-type">dataTypes</a></h5>
@@ -401,39 +378,16 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="setbase64" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> set<wbr>Base64</h3>
+					<a name="setheader" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> set<wbr>Header</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Base64<span class="tsd-signature-symbol">(</span>boolean<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Header<span class="tsd-signature-symbol">(</span>headers<span class="tsd-signature-symbol">: </span><a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L64">aias.ts:64</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>boolean: <span class="tsd-signature-type">boolean</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="setheaders" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> set<wbr>Headers</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Headers<span class="tsd-signature-symbol">(</span>headers<span class="tsd-signature-symbol">: </span><a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L56">aias.ts:56</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L56">aias.ts:56</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -456,7 +410,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L115">aias.ts:115</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L98">aias.ts:98</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -473,13 +427,13 @@
 					<a name="trace" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> trace</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">trace<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, headers<span class="tsd-signature-symbol">: </span><a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">trace<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L48">aias.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/bad07a2/src/ts/aias.ts#L48">aias.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -487,36 +441,10 @@
 								<li>
 									<h5>url: <span class="tsd-signature-type">string</span></h5>
 								</li>
-								<li>
-									<h5>headers: <a href="../interfaces/_httpheaders_.httpheaders.html" class="tsd-signature-type">HTTPHeaders</a></h5>
-								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Object literals</h2>
-				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-class tsd-is-static">
-					<a name="headers" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> headers</h3>
-					<div class="tsd-signature tsd-kind-icon">headers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L16">aias.ts:16</a></li>
-						</ul>
-					</aside>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="headers.content_type" class="tsd-anchor"></a>
-						<h3>Content-<wbr><wbr>Type</h3>
-						<div class="tsd-signature tsd-kind-icon">Content-<wbr><wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;application/x-www-form-urlencoded&quot;</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/LCluber/Aias.js/blob/aacc4d5/src/ts/aias.ts#L17">aias.ts:17</a></li>
-							</ul>
-						</aside>
-					</section>
 				</section>
 			</section>
 		</div>
@@ -546,6 +474,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
 								<a href="_aias_.http.html#base64" class="tsd-kind-icon">base64</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_aias_.http.html#headers" class="tsd-kind-icon">headers</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
 								<a href="_aias_.http.html#nocache" class="tsd-kind-icon">no<wbr>Cache</a>
@@ -578,19 +509,13 @@
 								<a href="_aias_.http.html#put" class="tsd-kind-icon">put</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="_aias_.http.html#setbase64" class="tsd-kind-icon">set<wbr>Base64</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="_aias_.http.html#setheaders" class="tsd-kind-icon">set<wbr>Headers</a>
+								<a href="_aias_.http.html#setheader" class="tsd-kind-icon">set<wbr>Header</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static">
 								<a href="_aias_.http.html#setrequestheaders" class="tsd-kind-icon">set<wbr>Request<wbr>Headers</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="_aias_.http.html#trace" class="tsd-kind-icon">trace</a>
-							</li>
-							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-static">
-								<a href="_aias_.http.html#headers" class="tsd-kind-icon">headers</a>
 							</li>
 						</ul>
 					</li>

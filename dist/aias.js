@@ -27,52 +27,46 @@ import { Is } from '@lcluber/chjs';
 import { Logger } from '@lcluber/mouettejs';
 
 class HTTP {
-    static get(url, headers) {
-        return this.call('GET', url, headers);
+    static get(url) {
+        return this.call('GET', url);
     }
-    static head(url, headers) {
-        return this.call('HEAD', url, headers);
+    static head(url) {
+        return this.call('HEAD', url);
     }
-    static post(url, headers, data) {
-        return this.call('POST', url, headers, data);
+    static post(url, data) {
+        return this.call('POST', url, data);
     }
-    static put(url, headers, data) {
-        return this.call('PUT', url, headers, data);
+    static put(url, data) {
+        return this.call('PUT', url, data);
     }
-    static delete(url, headers) {
-        return this.call('DELETE', url, headers);
+    static delete(url) {
+        return this.call('DELETE', url);
     }
-    static connect(url, headers) {
-        return this.call('CONNECT', url, headers);
+    static connect(url) {
+        return this.call('CONNECT', url);
     }
-    static options(url, headers) {
-        return this.call('OPTIONS', url, headers);
+    static options(url) {
+        return this.call('OPTIONS', url);
     }
-    static trace(url, headers) {
-        return this.call('TRACE', url, headers);
+    static trace(url) {
+        return this.call('TRACE', url);
     }
-    static patch(url, headers, data) {
-        return this.call('PATCH', url, headers, data);
+    static patch(url, data) {
+        return this.call('PATCH', url, data);
     }
-    static setHeaders(headers) {
+    static setHeader(headers) {
         for (const property in headers) {
             if (headers.hasOwnProperty(property)) {
                 this.headers[property] = headers[property];
             }
         }
     }
-    static setBase64(boolean) {
-        this.base64 = boolean ? true : false;
-    }
-    static call(method, url, headers, data) {
+    static call(method, url, data) {
         return new Promise((resolve, reject) => {
             let msg = ['Aias xhr ', ' (' + method + ':' + url + ')'];
             let http = new XMLHttpRequest();
             url += this.noCache ? '?cache=' + (new Date()).getTime() : '';
             http.open(method, url, this.async);
-            if (headers) {
-                this.setHeaders(headers);
-            }
             this.setRequestHeaders(http);
             http.onreadystatechange = () => {
                 if (http.readyState == 4) {
@@ -86,16 +80,8 @@ class HTTP {
                     }
                 }
             };
-            if (data != undefined && data != null) {
-                if (this.headers['Content-Type'] === 'application/x-www-form-urlencoded' && Is.string(data)) {
-                    data = encodeURIComponent(data);
-                }
-                else if (Is.object(data)) {
-                    data = JSON.stringify(data);
-                }
-                if (Is.string(data) && this.base64) {
-                    data = btoa(data);
-                }
+            if (Is.object(data)) {
+                data = JSON.stringify(data);
             }
             http.send(data || null);
             Logger.info(msg[0] + 'sent' + msg[1]);
@@ -112,8 +98,6 @@ class HTTP {
 HTTP.async = true;
 HTTP.noCache = false;
 HTTP.base64 = false;
-HTTP.headers = {
-    'Content-Type': 'application/x-www-form-urlencoded'
-};
+HTTP.headers = {};
 
 export { HTTP };

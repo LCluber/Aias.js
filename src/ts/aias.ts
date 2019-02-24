@@ -14,46 +14,46 @@ export class HTTP {
   static noCache: boolean = false;
   static base64: boolean = false;
   static headers: HTTPHeaders = {
-    'Content-Type': 'application/x-www-form-urlencoded'//'application/json'
+    //'Content-Type': 'application/x-www-form-urlencoded'//'application/json'
   };
 
-  public static get( url: string, headers: HTTPHeaders ): Promise<string> {
-    return this.call('GET', url, headers);
+  public static get( url: string ): Promise<string> {
+    return this.call('GET', url);
   }
 
-  public static head( url: string, headers: HTTPHeaders ): Promise<string> {
-    return this.call('HEAD', url, headers);
+  public static head( url: string ): Promise<string> {
+    return this.call('HEAD', url);
   }
 
-  public static post( url: string, headers: HTTPHeaders, data: dataTypes ): Promise<string> {
-    return this.call('POST', url, headers, data);
+  public static post( url: string, data: dataTypes ): Promise<string> {
+    return this.call('POST', url, data);
   }
 
-  public static put( url: string, headers: HTTPHeaders, data: dataTypes ): Promise<string> {
-    return this.call('PUT', url, headers, data);
+  public static put( url: string, data: dataTypes ): Promise<string> {
+    return this.call('PUT', url, data);
   }
 
-  public static delete( url: string, headers: HTTPHeaders ): Promise<string> {
-    return this.call('DELETE', url, headers);
+  public static delete( url: string ): Promise<string> {
+    return this.call('DELETE', url);
   }
 
-  public static connect( url: string, headers: HTTPHeaders ): Promise<string> {
-    return this.call('CONNECT', url, headers);
+  public static connect( url: string ): Promise<string> {
+    return this.call('CONNECT', url);
   }
 
-  public static options( url: string, headers: HTTPHeaders ): Promise<string> {
-    return this.call('OPTIONS', url, headers);
+  public static options( url: string ): Promise<string> {
+    return this.call('OPTIONS', url);
   }
 
-  public static trace( url: string, headers: HTTPHeaders ): Promise<string> {
-    return this.call('TRACE', url, headers);
+  public static trace( url: string ): Promise<string> {
+    return this.call('TRACE', url);
   }
 
-  public static patch( url: string, headers: HTTPHeaders, data: dataTypes ): Promise<string> {
-    return this.call('PATCH', url, headers, data);
+  public static patch( url: string, data: dataTypes ): Promise<string> {
+    return this.call('PATCH', url, data);
   }
 
-  public static setHeaders(headers: HTTPHeaders): void {
+  public static setHeader(headers: HTTPHeaders): void {
     for(const property in headers){
       if (headers.hasOwnProperty(property)) {
         this.headers[property] = headers[property];
@@ -61,11 +61,7 @@ export class HTTP {
     }
   }
 
-  public static setBase64(boolean:boolean): void {
-    this.base64 = boolean ? true : false;
-  }
-
-  private static call( method: HTTPRequestMethods, url: string,  headers?: HTTPHeaders, data?: dataTypes): Promise<string> {
+  private static call( method: HTTPRequestMethods, url: string, data?: dataTypes): Promise<string> {
     return new Promise((resolve: Function, reject: Function) => {
 
       let msg = ['Aias xhr ', ' ('+ method +':' + url + ')'];
@@ -74,10 +70,6 @@ export class HTTP {
       url += this.noCache ? '?cache=' + (new Date()).getTime() : '';
 
       http.open(method, url, this.async);
-      
-      if(headers) {
-        this.setHeaders(headers);
-      }
       
       this.setRequestHeaders(http);
 
@@ -92,20 +84,11 @@ export class HTTP {
           }
         }
       };
-      
-      if (data != undefined && data != null) {
-        // Logger.info(msg[0] + 'processing data' + msg[1]);
 
-        if (this.headers['Content-Type'] === 'application/x-www-form-urlencoded' && Is.string(data)) {
-          data = encodeURIComponent(<string>data);
-        } else if (/*this.headers['Content-Type'] === 'application/json' && */Is.object(data)) {
-          data = JSON.stringify(data);
-        }
-        
-        if (Is.string(data) && this.base64) {
-          data = btoa(<string>data);
-        }
+      if (Is.object(data)) {
+        data = JSON.stringify(data);
       }
+
       http.send(data || null);
       Logger.info(msg[0] + 'sent' + msg[1]);
 
@@ -119,5 +102,5 @@ export class HTTP {
       }
     }
   }
-
+  
 }

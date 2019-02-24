@@ -424,43 +424,43 @@ var Aias = (function (exports) {
   function () {
     function HTTP() {}
 
-    HTTP.get = function get(url, headers) {
-      return this.call('GET', url, headers);
+    HTTP.get = function get(url) {
+      return this.call('GET', url);
     };
 
-    HTTP.head = function head(url, headers) {
-      return this.call('HEAD', url, headers);
+    HTTP.head = function head(url) {
+      return this.call('HEAD', url);
     };
 
-    HTTP.post = function post(url, headers, data) {
-      return this.call('POST', url, headers, data);
+    HTTP.post = function post(url, data) {
+      return this.call('POST', url, data);
     };
 
-    HTTP.put = function put(url, headers, data) {
-      return this.call('PUT', url, headers, data);
+    HTTP.put = function put(url, data) {
+      return this.call('PUT', url, data);
     };
 
-    HTTP.delete = function _delete(url, headers) {
-      return this.call('DELETE', url, headers);
+    HTTP.delete = function _delete(url) {
+      return this.call('DELETE', url);
     };
 
-    HTTP.connect = function connect(url, headers) {
-      return this.call('CONNECT', url, headers);
+    HTTP.connect = function connect(url) {
+      return this.call('CONNECT', url);
     };
 
-    HTTP.options = function options(url, headers) {
-      return this.call('OPTIONS', url, headers);
+    HTTP.options = function options(url) {
+      return this.call('OPTIONS', url);
     };
 
-    HTTP.trace = function trace(url, headers) {
-      return this.call('TRACE', url, headers);
+    HTTP.trace = function trace(url) {
+      return this.call('TRACE', url);
     };
 
-    HTTP.patch = function patch(url, headers, data) {
-      return this.call('PATCH', url, headers, data);
+    HTTP.patch = function patch(url, data) {
+      return this.call('PATCH', url, data);
     };
 
-    HTTP.setHeaders = function setHeaders(headers) {
+    HTTP.setHeader = function setHeader(headers) {
       for (var property in headers) {
         if (headers.hasOwnProperty(property)) {
           this.headers[property] = headers[property];
@@ -468,11 +468,7 @@ var Aias = (function (exports) {
       }
     };
 
-    HTTP.setBase64 = function setBase64(boolean) {
-      this.base64 = boolean ? true : false;
-    };
-
-    HTTP.call = function call(method, url, headers, data) {
+    HTTP.call = function call(method, url, data) {
       var _this = this;
 
       return new Promise(function (resolve, reject) {
@@ -480,10 +476,6 @@ var Aias = (function (exports) {
         var http = new XMLHttpRequest();
         url += _this.noCache ? '?cache=' + new Date().getTime() : '';
         http.open(method, url, _this.async);
-
-        if (headers) {
-          _this.setHeaders(headers);
-        }
 
         _this.setRequestHeaders(http);
 
@@ -499,16 +491,8 @@ var Aias = (function (exports) {
           }
         };
 
-        if (data != undefined && data != null) {
-          if (_this.headers['Content-Type'] === 'application/x-www-form-urlencoded' && Is.string(data)) {
-            data = encodeURIComponent(data);
-          } else if (Is.object(data)) {
-            data = JSON.stringify(data);
-          }
-
-          if (Is.string(data) && _this.base64) {
-            data = btoa(data);
-          }
+        if (Is.object(data)) {
+          data = JSON.stringify(data);
         }
 
         http.send(data || null);
@@ -529,9 +513,7 @@ var Aias = (function (exports) {
   HTTP.async = true;
   HTTP.noCache = false;
   HTTP.base64 = false;
-  HTTP.headers = {
-    'Content-Type': 'application/x-www-form-urlencoded'
-  };
+  HTTP.headers = {};
 
   exports.HTTP = HTTP;
 

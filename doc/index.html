@@ -83,7 +83,7 @@
 };
 
 HTTP.post(<span class="hljs-string">"url"</span>, data)
-    .then(<span class="hljs-function"><span class="hljs-params">val</span> =&gt;</span> { <span class="hljs-built_in">console</span>.log(val); })
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> { <span class="hljs-built_in">console</span>.log(response); })
     .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'error'</span>, err.message); });</code></pre>
 				<h3 id="iife">IIFE</h3>
 				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node-modules/@lcluber/aiasjs/dist/aias.iife.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
@@ -95,7 +95,7 @@ HTTP.post(<span class="hljs-string">"url"</span>, data)
 };
 
 Aias.HTTP.post(<span class="hljs-string">"url"</span>, data)
-         .then(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">val</span>) </span>{ <span class="hljs-built_in">console</span>.log(val); })
+         .then(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">response</span>) </span>{ <span class="hljs-built_in">console</span>.log(response); })
          .catch(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err</span>) </span>{ <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'error'</span>, err.message); });</code></pre>
 				<h2 id="api-reference">API Reference</h2>
 				<p>Read the documentation <strong><a href="http://aiasjs.lcluber.com/doc/">here</a></strong>.</p>
