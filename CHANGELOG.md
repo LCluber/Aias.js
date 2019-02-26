@@ -1,3 +1,7 @@
+Version 0.1.11 (February 25th 2019)
+-----------------------------
+ * Replaced HTTP.setHeader() method by HTTP.setHeaders()
+
 Version 0.1.10 (February 24th 2019)
 -----------------------------
  * Improved logger messages

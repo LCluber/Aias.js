@@ -53,8 +53,8 @@ export class HTTP {
     return this.call('PATCH', url, data);
   }
 
-  public static setHeader(headers: HTTPHeaders): void {
-    for(const property in headers){
+  public static setHeaders(headers: HTTPHeaders): void {
+    for(const property in headers) {
       if (headers.hasOwnProperty(property)) {
         this.headers[property] = headers[property];
       }
