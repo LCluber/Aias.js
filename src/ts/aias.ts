@@ -25,11 +25,11 @@ export class HTTP {
     return this.call('HEAD', url);
   }
 
-  public static post( url: string, data: DataTypes ): Promise<string> {
+  public static post( url: string, data: DataTypes|Object ): Promise<string> {
     return this.call('POST', url, data);
   }
 
-  public static put( url: string, data: DataTypes ): Promise<string> {
+  public static put( url: string, data: DataTypes|Object ): Promise<string> {
     return this.call('PUT', url, data);
   }
 
@@ -49,7 +49,7 @@ export class HTTP {
     return this.call('TRACE', url);
   }
 
-  public static patch( url: string, data: DataTypes ): Promise<string> {
+  public static patch( url: string, data: DataTypes|Object ): Promise<string> {
     return this.call('PATCH', url, data);
   }
 

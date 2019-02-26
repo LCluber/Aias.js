@@ -1,3 +1,7 @@
+Version 0.1.12 (February 26th 2019)
+-----------------------------
+ * Fixed available data types
+ 
 Version 0.1.11 (February 25th 2019)
 -----------------------------
  * Replaced HTTP.setHeader() method by HTTP.setHeaders()
