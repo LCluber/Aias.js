@@ -54,7 +54,7 @@ class HTTP {
     static patch(url, data) {
         return this.call('PATCH', url, data);
     }
-    static setHeader(headers) {
+    static setHeaders(headers) {
         for (const property in headers) {
             if (headers.hasOwnProperty(property)) {
                 this.headers[property] = headers[property];

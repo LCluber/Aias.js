@@ -460,7 +460,7 @@ var Aias = (function (exports) {
       return this.call('PATCH', url, data);
     };
 
-    HTTP.setHeader = function setHeader(headers) {
+    HTTP.setHeaders = function setHeaders(headers) {
       for (var property in headers) {
         if (headers.hasOwnProperty(property)) {
           this.headers[property] = headers[property];

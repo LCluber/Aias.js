@@ -4,7 +4,7 @@ import { Logger } from '@lcluber/mouettejs';
 import { HTTPHeaders } from './httpheaders';
 
 export type HTTPRequestMethods = 'GET'|'HEAD'|'POST'|'PUT'|'DELETE'|'CONNECT'|'OPTIONS'|'TRACE'|'PATCH';
-export type dataTypes = string|Document|Blob|BufferSource|FormData|ArrayBufferView|ArrayBuffer|FormData|URLSearchParams|ReadableStream|null;
+export type DataTypes = string|Document|Blob|BufferSource|FormData|ArrayBufferView|ArrayBuffer|FormData|URLSearchParams|ReadableStream|null;
 
 export class HTTP {
 
@@ -25,11 +25,11 @@ export class HTTP {
     return this.call('HEAD', url);
   }
 
-  public static post( url: string, data: dataTypes ): Promise<string> {
+  public static post( url: string, data: DataTypes ): Promise<string> {
     return this.call('POST', url, data);
   }
 
-  public static put( url: string, data: dataTypes ): Promise<string> {
+  public static put( url: string, data: DataTypes ): Promise<string> {
     return this.call('PUT', url, data);
   }
 
@@ -49,7 +49,7 @@ export class HTTP {
     return this.call('TRACE', url);
   }
 
-  public static patch( url: string, data: dataTypes ): Promise<string> {
+  public static patch( url: string, data: DataTypes ): Promise<string> {
     return this.call('PATCH', url, data);
   }
 
@@ -61,7 +61,7 @@ export class HTTP {
     }
   }
 
-  private static call( method: HTTPRequestMethods, url: string, data?: dataTypes): Promise<string> {
+  private static call( method: HTTPRequestMethods, url: string, data?: DataTypes|Object): Promise<string> {
     return new Promise((resolve: Function, reject: Function) => {
 
       let msg = ['Aias xhr ', ' ('+ method +':' + url + ')'];
@@ -89,7 +89,7 @@ export class HTTP {
         data = JSON.stringify(data);
       }
 
-      http.send(data || null);
+      http.send(<DataTypes>data || null);
       Logger.info(msg[0] + 'sent' + msg[1]);
 
     });
