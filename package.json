@@ -1,6 +1,6 @@
 {
   "name": "@lcluber/aiasjs",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "HTTP client (Ajax) library",
   "keywords": [
     "ajax",

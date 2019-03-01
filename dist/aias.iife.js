@@ -468,6 +468,10 @@ var Aias = (function (exports) {
       }
     };
 
+    HTTP.setResponseType = function setResponseType(responseType) {
+      this.responseType = responseType;
+    };
+
     HTTP.call = function call(method, url, data) {
       var _this = this;
 
@@ -476,6 +480,7 @@ var Aias = (function (exports) {
         var http = new XMLHttpRequest();
         url += _this.noCache ? '?cache=' + new Date().getTime() : '';
         http.open(method, url, _this.async);
+        http.responseType = _this.responseType;
 
         _this.setRequestHeaders(http);
 
@@ -512,7 +517,7 @@ var Aias = (function (exports) {
   }();
   HTTP.async = true;
   HTTP.noCache = false;
-  HTTP.base64 = false;
+  HTTP.responseType = 'text';
   HTTP.headers = {};
 
   exports.HTTP = HTTP;

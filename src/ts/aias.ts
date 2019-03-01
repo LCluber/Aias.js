@@ -2,17 +2,14 @@
 import { Is } from '@lcluber/chjs';
 import { Logger } from '@lcluber/mouettejs';
 import { HTTPHeaders } from './httpheaders';
-
-export type HTTPRequestMethods = 'GET'|'HEAD'|'POST'|'PUT'|'DELETE'|'CONNECT'|'OPTIONS'|'TRACE'|'PATCH';
-export type DataTypes = string|Document|Blob|BufferSource|FormData|ArrayBufferView|ArrayBuffer|FormData|URLSearchParams|ReadableStream|null;
-
+import { HTTPRequestMethods, DataTypes, ResponseTypes } from './types';
 export class HTTP {
 
   // static url: string;
   // static method: HTTPRequestMethods;
   static async: boolean = true;
   static noCache: boolean = false;
-  static base64: boolean = false;
+  static responseType: ResponseTypes = 'text';
   static headers: HTTPHeaders = {
     //'Content-Type': 'application/x-www-form-urlencoded'//'application/json'
   };
@@ -61,16 +58,20 @@ export class HTTP {
     }
   }
 
+  public static setResponseType(responseType: ResponseTypes): void {
+    this.responseType = responseType;
+  }
+
   private static call( method: HTTPRequestMethods, url: string, data?: DataTypes|Object): Promise<string> {
     return new Promise((resolve: Function, reject: Function) => {
 
       let msg = ['Aias xhr ', ' ('+ method +':' + url + ')'];
       let http = new XMLHttpRequest();
-      
+
       url += this.noCache ? '?cache=' + (new Date()).getTime() : '';
 
       http.open(method, url, this.async);
-      
+      http.responseType = this.responseType;
       this.setRequestHeaders(http);
 
       http.onreadystatechange = () => {
@@ -94,7 +95,7 @@ export class HTTP {
 
     });
   }
-  
+
   private static setRequestHeaders(http: XMLHttpRequest): void {
     for (let property in this.headers) {
       if (this.headers.hasOwnProperty(property)) {
@@ -102,5 +103,5 @@ export class HTTP {
       }
     }
   }
-  
+
 }

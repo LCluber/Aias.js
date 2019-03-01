@@ -61,12 +61,16 @@ class HTTP {
             }
         }
     }
+    static setResponseType(responseType) {
+        this.responseType = responseType;
+    }
     static call(method, url, data) {
         return new Promise((resolve, reject) => {
             let msg = ['Aias xhr ', ' (' + method + ':' + url + ')'];
             let http = new XMLHttpRequest();
             url += this.noCache ? '?cache=' + (new Date()).getTime() : '';
             http.open(method, url, this.async);
+            http.responseType = this.responseType;
             this.setRequestHeaders(http);
             http.onreadystatechange = () => {
                 if (http.readyState == 4) {
@@ -97,7 +101,7 @@ class HTTP {
 }
 HTTP.async = true;
 HTTP.noCache = false;
-HTTP.base64 = false;
+HTTP.responseType = 'text';
 HTTP.headers = {};
 
 export { HTTP };

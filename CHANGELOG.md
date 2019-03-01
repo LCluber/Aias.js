@@ -1,7 +1,11 @@
+Version 0.1.13 (March 02nd 2019)
+-----------------------------
+ * Added setResponseType() method
+
 Version 0.1.12 (February 26th 2019)
 -----------------------------
  * Fixed available data types
- 
+
 Version 0.1.11 (February 25th 2019)
 -----------------------------
  * Replaced HTTP.setHeader() method by HTTP.setHeaders()
@@ -10,7 +14,7 @@ Version 0.1.10 (February 24th 2019)
 -----------------------------
  * Improved logger messages
  * Updated Mouette.js dependency to version 0.2.9
- 
+
 Version 0.1.9 (December 24th 2018)
 -----------------------------
  * Library is lighter

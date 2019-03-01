@@ -23,12 +23,11 @@
 * http://aiasjs.lcluber.com
 */
 
-export declare type HTTPRequestMethods = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'CONNECT' | 'OPTIONS' | 'TRACE' | 'PATCH';
-export declare type DataTypes = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null;
+
 export declare class HTTP {
     static async: boolean;
     static noCache: boolean;
-    static base64: boolean;
+    static responseType: ResponseTypes;
     static headers: HTTPHeaders;
     static get(url: string): Promise<string>;
     static head(url: string): Promise<string>;
@@ -40,6 +39,7 @@ export declare class HTTP {
     static trace(url: string): Promise<string>;
     static patch(url: string, data: DataTypes | Object): Promise<string>;
     static setHeaders(headers: HTTPHeaders): void;
+    static setResponseType(responseType: ResponseTypes): void;
     private static call;
     private static setRequestHeaders;
 }
@@ -82,3 +82,6 @@ export interface HTTPHeaders {
     Via?: string;
     Warning?: string;
 }
+export declare type HTTPRequestMethods = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'CONNECT' | 'OPTIONS' | 'TRACE' | 'PATCH';
+export declare type DataTypes = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null;
+export declare type ResponseTypes = 'arraybuffer' | 'blob' | 'document' | 'json' | 'text' | '';
