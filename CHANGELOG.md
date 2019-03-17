@@ -1,3 +1,7 @@
+Version 0.1.14 (March 17th 2019)
+-----------------------------
+ * Improved typings
+
 Version 0.1.13 (March 02nd 2019)
 -----------------------------
  * Added setResponseType() method

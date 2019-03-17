@@ -37,5 +37,5 @@ export interface HTTPHeaders {
   Upgrade?: string;
   Via?: string;
   Warning?: string;
+  [key: string]: string | number | undefined;
 }
-
