@@ -8,13 +8,13 @@ The main purpose of this library is to provide a simple tool for sending asynchr
 
 ## Installation
 
-###NPM
+### NPM
 
 ```bash
 $ npm install @lcluber/aiasjs
 ```
 
-###Yarn
+### Yarn
 ```bash
 $ yarn add @lcluber/aiasjs
 ```
