@@ -33,6 +33,7 @@ var data = {
   died:1642
 };
 
+HTTP.setHeader({'Content-Type': 'application/json'});
 HTTP.post("url", data)
     .then(response => { console.log(response); })
     .catch(err => { console.log('error', err.message); });
@@ -52,6 +53,7 @@ var data = {
   died:1642
 };
 
+Aias.HTTP.setHeader({'Content-Type': 'application/json'});
 Aias.HTTP.post("url", data)
          .then(function (response) { console.log(response); })
          .catch(function (err) { console.log('error', err.message); });
