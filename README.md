@@ -1,6 +1,6 @@
 ## Synopsis
 
-[Aias.js](http://aiasjs.lcluber.com) is an open source HTTP client using Ajax and promises written in TypeScript.
+Aias.js is an open source HTTP client using Ajax and promises written in TypeScript.
 
 ## Motivation
 
@@ -8,10 +8,16 @@ The main purpose of this library is to provide a simple tool for sending asynchr
 
 ## Installation
 
+###NPM
+
 ```bash
 $ npm install @lcluber/aiasjs
 ```
-Or download it **[here](http://aiasjs.lcluber.com/#download)**.
+
+###Yarn
+```bash
+$ yarn add @lcluber/aiasjs
+```
 
 ## Usage
 
@@ -53,7 +59,44 @@ Aias.HTTP.post("url", data)
 
 ## API Reference
 
-Read the documentation **[here](http://aiasjs.lcluber.com/doc/)**.
+```javascript
+
+type DataTypes = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null;
+
+type ResponseTypes = 'arraybuffer' | 'blob' | 'document' | 'json' | 'text' | '';
+
+interface HTTPHeaders {
+  'A-IM'?: string;
+  Accept?: string;
+  'Accept-Charset'?: string;
+  'Accept-Encoding'?: string;
+  'Accept-Language'?: string;
+  'Accept-Datetime'?: string;
+  'Access-Control-Request-Method'?: string;
+  'Access-Control-Request-Headers'?: string;
+  Authorization?: string;
+  'Cache-Control'?: string;
+  Connection?: string;
+  'Content-Length'?: number;
+  'Content-MD5'?: string;
+  'Content-Type'?: string;
+  ....
+}
+
+static HTTP.get( url: string ): Promise<DataTypes> {}
+static HTTP.head( url: string ): Promise<DataTypes> {}
+static HTTP.post( url: string, data: DataTypes|Object ): Promise<DataTypes> {}
+static HTTP.put( url: string, data: DataTypes|Object ): Promise<DataTypes> {}
+static HTTP.delete( url: string ): Promise<DataTypes> {}
+static HTTP.connect( url: string ): Promise<DataTypes> {}
+static HTTP.options( url: string ): Promise<DataTypes> {}
+static HTTP.trace( url: string ): Promise<DataTypes> {}
+static HTTP.patch( url: string, data: DataTypes|Object ): Promise<DataTypes> {}
+
+static HTTP.setHeaders(headers: HTTPHeaders): void {}
+static HTTP.setResponseType(responseType: ResponseTypes): void {}
+
+```
 
 ## Tests
 

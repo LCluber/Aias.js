@@ -100,7 +100,7 @@ export class HTTP {
   private static setRequestHeaders(http: XMLHttpRequest): void {
     for (let property in this.headers) {
       if (this.headers.hasOwnProperty(property)) {
-        http.setRequestHeader(property, this.headers[property]);
+        http.setRequestHeader(property, <string>this.headers[property]);
       }
     }
   }

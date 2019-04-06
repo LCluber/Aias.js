@@ -65,12 +65,14 @@
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
 				<h2 id="synopsis">Synopsis</h2>
-				<p><a href="http://aiasjs.lcluber.com">Aias.js</a> is an open source HTTP client using Ajax and promises written in TypeScript.</p>
+				<p>Aias.js is an open source HTTP client using Ajax and promises written in TypeScript.</p>
 				<h2 id="motivation">Motivation</h2>
 				<p>The main purpose of this library is to provide a simple tool for sending asynchronous HTTP (Ajax) request.</p>
 				<h2 id="installation">Installation</h2>
+				<p>###NPM</p>
 				<pre><code class="language-bash">$ npm install @lcluber/aiasjs</code></pre>
-				<p>Or download it <strong><a href="http://aiasjs.lcluber.com/#download">here</a></strong>.</p>
+				<p>###Yarn</p>
+				<pre><code class="language-bash">$ yarn add @lcluber/aiasjs</code></pre>
 				<h2 id="usage">Usage</h2>
 				<h3 id="es6">ES6</h3>
 				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { HTTP } <span class="hljs-keyword">from</span> <span class="hljs-string">'@lcluber/aiasjs'</span>;
@@ -98,7 +100,42 @@ Aias.HTTP.post(<span class="hljs-string">"url"</span>, data)
          .then(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">response</span>) </span>{ <span class="hljs-built_in">console</span>.log(response); })
          .catch(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err</span>) </span>{ <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'error'</span>, err.message); });</code></pre>
 				<h2 id="api-reference">API Reference</h2>
-				<p>Read the documentation <strong><a href="http://aiasjs.lcluber.com/doc/">here</a></strong>.</p>
+				<pre><code class="language-javascript">
+type DataTypes = string | Document | Blob | BufferSource | FormData | ArrayBufferView | <span class="hljs-built_in">ArrayBuffer</span> | FormData | URLSearchParams | ReadableStream | <span class="hljs-literal">null</span>;
+
+type ResponseTypes = <span class="hljs-string">'arraybuffer'</span> | <span class="hljs-string">'blob'</span> | <span class="hljs-string">'document'</span> | <span class="hljs-string">'json'</span> | <span class="hljs-string">'text'</span> | <span class="hljs-string">''</span>;
+
+interface HTTPHeaders {
+  <span class="hljs-string">'A-IM'</span>?: string;
+  Accept?: string;
+  <span class="hljs-string">'Accept-Charset'</span>?: string;
+  <span class="hljs-string">'Accept-Encoding'</span>?: string;
+  <span class="hljs-string">'Accept-Language'</span>?: string;
+  <span class="hljs-string">'Accept-Datetime'</span>?: string;
+  <span class="hljs-string">'Access-Control-Request-Method'</span>?: string;
+  <span class="hljs-string">'Access-Control-Request-Headers'</span>?: string;
+  Authorization?: string;
+  <span class="hljs-string">'Cache-Control'</span>?: string;
+  Connection?: string;
+  <span class="hljs-string">'Content-Length'</span>?: number;
+  <span class="hljs-string">'Content-MD5'</span>?: string;
+  <span class="hljs-string">'Content-Type'</span>?: string;
+  ....
+}
+
+<span class="hljs-keyword">static</span> HTTP.get( url: string ): <span class="hljs-built_in">Promise</span>&lt;DataTypes&gt; {}
+<span class="hljs-keyword">static</span> HTTP.head( url: string ): <span class="hljs-built_in">Promise</span>&lt;DataTypes&gt; {}
+<span class="hljs-keyword">static</span> HTTP.post( url: string, <span class="hljs-attr">data</span>: DataTypes|<span class="hljs-built_in">Object</span> ): <span class="hljs-built_in">Promise</span>&lt;DataTypes&gt; {}
+<span class="hljs-keyword">static</span> HTTP.put( url: string, <span class="hljs-attr">data</span>: DataTypes|<span class="hljs-built_in">Object</span> ): <span class="hljs-built_in">Promise</span>&lt;DataTypes&gt; {}
+<span class="hljs-keyword">static</span> HTTP.delete( url: string ): <span class="hljs-built_in">Promise</span>&lt;DataTypes&gt; {}
+<span class="hljs-keyword">static</span> HTTP.connect( url: string ): <span class="hljs-built_in">Promise</span>&lt;DataTypes&gt; {}
+<span class="hljs-keyword">static</span> HTTP.options( url: string ): <span class="hljs-built_in">Promise</span>&lt;DataTypes&gt; {}
+<span class="hljs-keyword">static</span> HTTP.trace( url: string ): <span class="hljs-built_in">Promise</span>&lt;DataTypes&gt; {}
+<span class="hljs-keyword">static</span> HTTP.patch( url: string, <span class="hljs-attr">data</span>: DataTypes|<span class="hljs-built_in">Object</span> ): <span class="hljs-built_in">Promise</span>&lt;DataTypes&gt; {}
+
+<span class="hljs-keyword">static</span> HTTP.setHeaders(headers: HTTPHeaders): <span class="hljs-keyword">void</span> {}
+<span class="hljs-keyword">static</span> HTTP.setResponseType(responseType: ResponseTypes): <span class="hljs-keyword">void</span> {}
+</code></pre>
 				<h2 id="tests">Tests</h2>
 				<p>No tests to run yet</p>
 				<h2 id="contributors">Contributors</h2>

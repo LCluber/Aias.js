@@ -291,60 +291,48 @@ var Aias = (function (exports) {
   *
   * http://mouettejs.lcluber.com
   */
-  var LEVELS$1 = [{
-    id: 1,
-    name: 'info',
-    color: '#28a745'
-  }, {
-    id: 2,
-    name: 'trace',
-    color: '#17a2b8'
-  }, {
-    id: 3,
-    name: 'warn',
-    color: '#ffc107'
-  }, {
-    id: 4,
-    name: 'error',
-    color: '#dc3545'
-  }, {
-    id: 99,
-    name: 'off',
-    color: null
-  }];
+  var LEVELS$1 = {
+    info: {
+      id: 1,
+      name: 'info',
+      color: '#28a745'
+    },
+    trace: {
+      id: 2,
+      name: 'trace',
+      color: '#17a2b8'
+    },
+    warn: {
+      id: 3,
+      name: 'warn',
+      color: '#ffc107'
+    },
+    error: {
+      id: 4,
+      name: 'error',
+      color: '#dc3545'
+    },
+    off: {
+      id: 99,
+      name: 'off',
+      color: null
+    }
+  };
 
   var Message$1 =
   /*#__PURE__*/
   function () {
-    function Message(levelName, content) {
-      this.setLevel(levelName);
+    function Message(level, content) {
+      this.id = level.id;
+      this.name = level.name;
+      this.color = level.color;
       this.content = content;
     }
 
     var _proto = Message.prototype;
 
-    _proto.setLevel = function setLevel(name) {
-      this.level = this.findLevel(name);
-    };
-
-    _proto.getLevelId = function getLevelId() {
-      return this.level.id;
-    };
-
     _proto.display = function display() {
-      console[this.level.name]('%c' + this.content, 'color:' + this.level.color + ';');
-    };
-
-    _proto.findLevel = function findLevel(name) {
-      for (var _i = 0; _i < LEVELS$1.length; _i++) {
-        var level = LEVELS$1[_i];
-
-        if (level.name === name) {
-          return level;
-        }
-      }
-
-      return this.level ? this.level : LEVELS$1[0];
+      console[this.name]('%c' + this.content, 'color:' + this.color + ';');
     };
 
     return Message;
@@ -355,56 +343,36 @@ var Aias = (function (exports) {
   function () {
     function Logger() {}
 
-    Logger.info = function info(text) {
-      Logger.log('info', text);
+    Logger.info = function info(message) {
+      Logger.log(LEVELS$1.info, message);
     };
 
-    Logger.trace = function trace(text) {
-      Logger.log('trace', text);
+    Logger.trace = function trace(message) {
+      Logger.log(LEVELS$1.trace, message);
     };
 
-    Logger.time = function time(text) {
-      Logger.log('time', text);
+    Logger.warn = function warn(message) {
+      Logger.log(LEVELS$1.warn, message);
     };
 
-    Logger.warn = function warn(text) {
-      Logger.log('warn', text);
+    Logger.error = function error(message) {
+      Logger.log(LEVELS$1.error, message);
     };
 
-    Logger.error = function error(text) {
-      Logger.log('error', text);
-    };
+    Logger.log = function log(level, messageContent) {
+      var message = new Message$1(level, messageContent);
+      this.messages.push(message);
+      this.nbMessages++;
 
-    Logger.log = function log(levelName, content) {
-      Logger.addMessage(levelName, content);
-      var message = this.messages[this.nbMessages - 1];
-
-      if (this._level.id <= message.getLevelId()) {
+      if (this._level.id <= message.id) {
         message.display();
       }
-    };
-
-    Logger.addMessage = function addMessage(levelName, content) {
-      this.messages.push(new Message$1(levelName, content));
-      this.nbMessages++;
-    };
-
-    Logger.findLevel = function findLevel(name) {
-      for (var _i2 = 0; _i2 < LEVELS$1.length; _i2++) {
-        var level = LEVELS$1[_i2];
-
-        if (level.name === name) {
-          return level;
-        }
-      }
-
-      return this._level ? this._level : LEVELS$1[0];
     };
 
     _createClass(Logger, [{
       key: "level",
       set: function set(name) {
-        Logger._level = Logger.findLevel(name);
+        Logger._level = LEVELS$1.hasOwnProperty(name) ? LEVELS$1[name] : LEVELS$1.info;
       },
       get: function get() {
         return Logger._level.name;
@@ -414,10 +382,9 @@ var Aias = (function (exports) {
     return Logger;
   }();
 
-  Logger$1._level = Logger$1.findLevel(LEVELS$1[0].name);
+  Logger$1._level = LEVELS$1.info;
   Logger$1.messages = [];
   Logger$1.nbMessages = 0;
-  Logger$1.target = document.getElementById('Mouette');
 
   var HTTP =
   /*#__PURE__*/

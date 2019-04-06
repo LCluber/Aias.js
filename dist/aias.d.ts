@@ -81,6 +81,7 @@ export interface HTTPHeaders {
     Upgrade?: string;
     Via?: string;
     Warning?: string;
+    [key: string]: string | number | undefined;
 }
 export declare type HTTPRequestMethods = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'CONNECT' | 'OPTIONS' | 'TRACE' | 'PATCH';
 export declare type DataTypes = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null;
