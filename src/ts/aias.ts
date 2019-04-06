@@ -14,39 +14,39 @@ export class HTTP {
     //'Content-Type': 'application/x-www-form-urlencoded'//'application/json'
   };
 
-  public static get( url: string ): Promise<string> {
+  public static get( url: string ): Promise<DataTypes> {
     return this.call('GET', url);
   }
 
-  public static head( url: string ): Promise<string> {
+  public static head( url: string ): Promise<DataTypes> {
     return this.call('HEAD', url);
   }
 
-  public static post( url: string, data: DataTypes|Object ): Promise<string> {
+  public static post( url: string, data: DataTypes|Object ): Promise<DataTypes> {
     return this.call('POST', url, data);
   }
 
-  public static put( url: string, data: DataTypes|Object ): Promise<string> {
+  public static put( url: string, data: DataTypes|Object ): Promise<DataTypes> {
     return this.call('PUT', url, data);
   }
 
-  public static delete( url: string ): Promise<string> {
+  public static delete( url: string ): Promise<DataTypes> {
     return this.call('DELETE', url);
   }
 
-  public static connect( url: string ): Promise<string> {
+  public static connect( url: string ): Promise<DataTypes> {
     return this.call('CONNECT', url);
   }
 
-  public static options( url: string ): Promise<string> {
+  public static options( url: string ): Promise<DataTypes> {
     return this.call('OPTIONS', url);
   }
 
-  public static trace( url: string ): Promise<string> {
+  public static trace( url: string ): Promise<DataTypes> {
     return this.call('TRACE', url);
   }
 
-  public static patch( url: string, data: DataTypes|Object ): Promise<string> {
+  public static patch( url: string, data: DataTypes|Object ): Promise<DataTypes> {
     return this.call('PATCH', url, data);
   }
 
@@ -62,7 +62,8 @@ export class HTTP {
     this.responseType = responseType;
   }
 
-  private static call( method: HTTPRequestMethods, url: string, data?: DataTypes|Object): Promise<string> {
+  private static call( method: HTTPRequestMethods, url: string, data?: DataTypes|Object): Promise<DataTypes> {
+
     return new Promise((resolve: Function, reject: Function) => {
 
       let msg = ['Aias xhr ', ' ('+ method +':' + url + ')'];
