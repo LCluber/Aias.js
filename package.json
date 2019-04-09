@@ -7,12 +7,12 @@
     "http",
     "http client"
   ],
-  "homepage": "http://aiasjs.lcluber.com",
+  "homepage": "https://github.com/LCluber/Aias.js",
   "main": "dist/aias",
   "types": "dist/aias",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LCluber/Aias.js.git"
+    "url": "https://github.com/LCluber/Aias.js"
   },
   "bugs": {
     "url": "https://github.com/LCluber/Aias.js/issues",
