@@ -69,9 +69,9 @@
 				<h2 id="motivation">Motivation</h2>
 				<p>The main purpose of this library is to provide a simple tool for sending asynchronous HTTP (Ajax) request.</p>
 				<h2 id="installation">Installation</h2>
-				<p>###NPM</p>
+				<h3 id="npm">NPM</h3>
 				<pre><code class="language-bash">$ npm install @lcluber/aiasjs</code></pre>
-				<p>###Yarn</p>
+				<h3 id="yarn">Yarn</h3>
 				<pre><code class="language-bash">$ yarn add @lcluber/aiasjs</code></pre>
 				<h2 id="usage">Usage</h2>
 				<h3 id="es6">ES6</h3>
@@ -84,6 +84,7 @@
   <span class="hljs-attr">died</span>:<span class="hljs-number">1642</span>
 };
 
+HTTP.setHeader({<span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'application/json'</span>});
 HTTP.post(<span class="hljs-string">"url"</span>, data)
     .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> { <span class="hljs-built_in">console</span>.log(response); })
     .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> { <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'error'</span>, err.message); });</code></pre>
@@ -96,6 +97,7 @@ HTTP.post(<span class="hljs-string">"url"</span>, data)
   <span class="hljs-attr">died</span>:<span class="hljs-number">1642</span>
 };
 
+Aias.HTTP.setHeader({<span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'application/json'</span>});
 Aias.HTTP.post(<span class="hljs-string">"url"</span>, data)
          .then(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">response</span>) </span>{ <span class="hljs-built_in">console</span>.log(response); })
          .catch(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err</span>) </span>{ <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'error'</span>, err.message); });</code></pre>

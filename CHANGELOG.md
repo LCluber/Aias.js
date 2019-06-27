@@ -1,3 +1,7 @@
+Version 0.1.16 (June 27th 2019)
+-----------------------------
+ * Updated Mouette logger for log groups management.
+
 Version 0.1.15 (April 06th 2019)
 -----------------------------
  * Updated README.md

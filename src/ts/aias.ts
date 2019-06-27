@@ -1,18 +1,19 @@
 
 import { Is } from '@lcluber/chjs';
-import { Logger } from '@lcluber/mouettejs';
+import { Logger, Group } from '@lcluber/mouettejs';
 import { HTTPHeaders } from './httpheaders';
 import { HTTPRequestMethods, DataTypes, ResponseTypes } from './types';
 export class HTTP {
 
   // static url: string;
   // static method: HTTPRequestMethods;
-  static async: boolean = true;
-  static noCache: boolean = false;
-  static responseType: ResponseTypes = 'text';
-  static headers: HTTPHeaders = {
+  private static async: boolean = true;
+  private static noCache: boolean = false;
+  private static responseType: ResponseTypes = 'text';
+  private static headers: HTTPHeaders = {
     //'Content-Type': 'application/x-www-form-urlencoded'//'application/json'
   };
+  private static log : Group = Logger.getGroup('Aias') || Logger.addGroup('Aias');
 
   public static get( url: string ): Promise<DataTypes> {
     return this.call('GET', url);
@@ -78,10 +79,10 @@ export class HTTP {
       http.onreadystatechange = () => {
         if(http.readyState == 4) {
           if(http.status == 200) {
-            Logger.info(msg[0] + 'successful' + msg[1]);
+            this.log.info(msg[0] + 'successful' + msg[1]);
             resolve(http.responseText);
           } else {
-            Logger.error(msg[0] + 'failed' + msg[1]);
+            this.log.error(msg[0] + 'failed' + msg[1]);
             reject(http.status);
           }
         }
@@ -92,7 +93,7 @@ export class HTTP {
       }
 
       http.send(<DataTypes>data || null);
-      Logger.info(msg[0] + 'sent' + msg[1]);
+      this.log.info(msg[0] + 'sent' + msg[1]);
 
     });
   }

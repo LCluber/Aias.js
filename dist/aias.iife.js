@@ -319,6 +319,17 @@ var Aias = (function (exports) {
     }
   };
 
+  function addZero(value) {
+    return value < 10 ? '0' + value : value;
+  }
+
+  function formatDate() {
+    var now = new Date();
+    var date = [addZero(now.getMonth() + 1), addZero(now.getDate()), now.getFullYear().toString().substr(-2)];
+    var time = [addZero(now.getHours()), addZero(now.getMinutes()), addZero(now.getSeconds())];
+    return date.join("/") + " " + time.join(":");
+  }
+
   var Message$1 =
   /*#__PURE__*/
   function () {
@@ -327,15 +338,66 @@ var Aias = (function (exports) {
       this.name = level.name;
       this.color = level.color;
       this.content = content;
+      this.date = formatDate();
     }
 
     var _proto = Message.prototype;
 
-    _proto.display = function display() {
-      console[this.name]('%c' + this.content, 'color:' + this.color + ';');
+    _proto.display = function display(groupName) {
+      console[this.name]('%c[' + groupName + '] ' + this.date + ' : ', 'color:' + this.color + ';', this.content);
     };
 
     return Message;
+  }();
+
+  var Group =
+  /*#__PURE__*/
+  function () {
+    function Group(name, level) {
+      this.messages = [];
+      this.name = name;
+      this.messages = [];
+      this._level = level;
+    }
+
+    var _proto2 = Group.prototype;
+
+    _proto2.info = function info(message) {
+      this.log(LEVELS$1.info, message);
+    };
+
+    _proto2.trace = function trace(message) {
+      this.log(LEVELS$1.trace, message);
+    };
+
+    _proto2.warn = function warn(message) {
+      this.log(LEVELS$1.warn, message);
+    };
+
+    _proto2.error = function error(message) {
+      this.log(LEVELS$1.error, message);
+    };
+
+    _proto2.log = function log(level, messageContent) {
+      var message = new Message$1(level, messageContent);
+      this.messages.push(message);
+
+      if (this._level.id <= message.id) {
+        message.display(this.name);
+      }
+    };
+
+    _createClass(Group, [{
+      key: "level",
+      set: function set(name) {
+        this._level = LEVELS$1.hasOwnProperty(name) ? LEVELS$1[name] : this._level;
+      },
+      get: function get() {
+        return this._level.name;
+      }
+    }]);
+
+    return Group;
   }();
 
   var Logger$1 =
@@ -343,48 +405,68 @@ var Aias = (function (exports) {
   function () {
     function Logger() {}
 
-    Logger.info = function info(message) {
-      Logger.log(LEVELS$1.info, message);
-    };
+    Logger.setLevel = function setLevel(name) {
+      Logger.level = LEVELS$1.hasOwnProperty(name) ? LEVELS$1[name] : Logger.level;
 
-    Logger.trace = function trace(message) {
-      Logger.log(LEVELS$1.trace, message);
-    };
+      for (var _iterator = Logger.groups, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+        var _ref;
 
-    Logger.warn = function warn(message) {
-      Logger.log(LEVELS$1.warn, message);
-    };
+        if (_isArray) {
+          if (_i >= _iterator.length) break;
+          _ref = _iterator[_i++];
+        } else {
+          _i = _iterator.next();
+          if (_i.done) break;
+          _ref = _i.value;
+        }
 
-    Logger.error = function error(message) {
-      Logger.log(LEVELS$1.error, message);
-    };
-
-    Logger.log = function log(level, messageContent) {
-      var message = new Message$1(level, messageContent);
-      this.messages.push(message);
-      this.nbMessages++;
-
-      if (this._level.id <= message.id) {
-        message.display();
+        var group = _ref;
+        group.level = Logger.level.name;
       }
     };
 
-    _createClass(Logger, [{
-      key: "level",
-      set: function set(name) {
-        Logger._level = LEVELS$1.hasOwnProperty(name) ? LEVELS$1[name] : LEVELS$1.info;
-      },
-      get: function get() {
-        return Logger._level.name;
+    Logger.getLevel = function getLevel() {
+      return Logger.level.name;
+    };
+
+    Logger.getGroup = function getGroup(name) {
+      for (var _iterator2 = Logger.groups, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+        var _ref2;
+
+        if (_isArray2) {
+          if (_i2 >= _iterator2.length) break;
+          _ref2 = _iterator2[_i2++];
+        } else {
+          _i2 = _iterator2.next();
+          if (_i2.done) break;
+          _ref2 = _i2.value;
+        }
+
+        var group = _ref2;
+
+        if (group.name === name) {
+          return group;
+        }
       }
-    }]);
+
+      return null;
+    };
+
+    Logger.addGroup = function addGroup(name) {
+      return this.getGroup(name) || this.pushGroup(name);
+    };
+
+    Logger.pushGroup = function pushGroup(name) {
+      var group = new Group(name, Logger.level);
+      Logger.groups.push(group);
+      return group;
+    };
 
     return Logger;
   }();
 
-  Logger$1._level = LEVELS$1.info;
-  Logger$1.messages = [];
-  Logger$1.nbMessages = 0;
+  Logger$1.level = LEVELS$1.error;
+  Logger$1.groups = [];
 
   var HTTP =
   /*#__PURE__*/
@@ -454,10 +536,12 @@ var Aias = (function (exports) {
         http.onreadystatechange = function () {
           if (http.readyState == 4) {
             if (http.status == 200) {
-              Logger$1.info(msg[0] + 'successful' + msg[1]);
+              _this.log.info(msg[0] + 'successful' + msg[1]);
+
               resolve(http.responseText);
             } else {
-              Logger$1.error(msg[0] + 'failed' + msg[1]);
+              _this.log.error(msg[0] + 'failed' + msg[1]);
+
               reject(http.status);
             }
           }
@@ -468,7 +552,8 @@ var Aias = (function (exports) {
         }
 
         http.send(data || null);
-        Logger$1.info(msg[0] + 'sent' + msg[1]);
+
+        _this.log.info(msg[0] + 'sent' + msg[1]);
       });
     };
 
@@ -486,6 +571,7 @@ var Aias = (function (exports) {
   HTTP.noCache = false;
   HTTP.responseType = 'text';
   HTTP.headers = {};
+  HTTP.log = Logger$1.getGroup('Aias') || Logger$1.addGroup('Aias');
 
   exports.HTTP = HTTP;
 

@@ -25,10 +25,11 @@
 
 
 export declare class HTTP {
-    static async: boolean;
-    static noCache: boolean;
-    static responseType: ResponseTypes;
-    static headers: HTTPHeaders;
+    private static async;
+    private static noCache;
+    private static responseType;
+    private static headers;
+    private static log;
     static get(url: string): Promise<DataTypes>;
     static head(url: string): Promise<DataTypes>;
     static post(url: string, data: DataTypes | Object): Promise<DataTypes>;

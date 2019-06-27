@@ -75,11 +75,11 @@ class HTTP {
             http.onreadystatechange = () => {
                 if (http.readyState == 4) {
                     if (http.status == 200) {
-                        Logger.info(msg[0] + 'successful' + msg[1]);
+                        this.log.info(msg[0] + 'successful' + msg[1]);
                         resolve(http.responseText);
                     }
                     else {
-                        Logger.error(msg[0] + 'failed' + msg[1]);
+                        this.log.error(msg[0] + 'failed' + msg[1]);
                         reject(http.status);
                     }
                 }
@@ -88,7 +88,7 @@ class HTTP {
                 data = JSON.stringify(data);
             }
             http.send(data || null);
-            Logger.info(msg[0] + 'sent' + msg[1]);
+            this.log.info(msg[0] + 'sent' + msg[1]);
         });
     }
     static setRequestHeaders(http) {
@@ -103,5 +103,6 @@ HTTP.async = true;
 HTTP.noCache = false;
 HTTP.responseType = 'text';
 HTTP.headers = {};
+HTTP.log = Logger.getGroup('Aias') || Logger.addGroup('Aias');
 
 export { HTTP };
