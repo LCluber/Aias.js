@@ -111,7 +111,7 @@ interface HTTPHeaders {
   'Content-Length'?: number;
   'Content-MD5'?: string;
   'Content-Type'?: string;
-  ....
+  ...
 }
 
 static HTTP.GET( url: string ): Promise<DataType> {}
