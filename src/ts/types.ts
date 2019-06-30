@@ -1,6 +1,31 @@
+export type HTTPRequestMethod =
+  | "GET"
+  | "HEAD"
+  | "POST"
+  | "PUT"
+  | "DELETE"
+  | "CONNECT"
+  | "OPTIONS"
+  | "TRACE"
+  | "PATCH";
 
-export type HTTPRequestMethods = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'CONNECT' | 'OPTIONS' | 'TRACE' | 'PATCH';
+export type DataType =
+  | string
+  | Document
+  | Blob
+  | BufferSource
+  | FormData
+  | ArrayBufferView
+  | ArrayBuffer
+  | FormData
+  | URLSearchParams
+  | ReadableStream
+  | null;
 
-export type DataTypes = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null;
-
-export type ResponseTypes = 'arraybuffer' | 'blob' | 'document' | 'json' | 'text' | '';
+export type ResponseType =
+  | "arraybuffer"
+  | "blob"
+  | "document"
+  | "json"
+  | "text"
+  | "";

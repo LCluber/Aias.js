@@ -4,7 +4,7 @@ node_js:
 
 branches:
   only:
-  - master
+    - master
 
 services:
   - docker
@@ -21,7 +21,5 @@ before_script:
 
 script:
   - grunt lib
-  - grunt website
-  - grunt doc
 
 after_script:

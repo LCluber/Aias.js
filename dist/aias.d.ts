@@ -22,27 +22,26 @@
 *
 * http://aiasjs.lcluber.com
 */
-
-
+import { DataType } from "./types";
 export declare class HTTP {
-    private static async;
-    private static noCache;
-    private static responseType;
-    private static headers;
-    private static log;
-    static get(url: string): Promise<DataTypes>;
-    static head(url: string): Promise<DataTypes>;
-    static post(url: string, data: DataTypes | Object): Promise<DataTypes>;
-    static put(url: string, data: DataTypes | Object): Promise<DataTypes>;
-    static delete(url: string): Promise<DataTypes>;
-    static connect(url: string): Promise<DataTypes>;
-    static options(url: string): Promise<DataTypes>;
-    static trace(url: string): Promise<DataTypes>;
-    static patch(url: string, data: DataTypes | Object): Promise<DataTypes>;
-    static setHeaders(headers: HTTPHeaders): void;
-    static setResponseType(responseType: ResponseTypes): void;
-    private static call;
-    private static setRequestHeaders;
+    private static get;
+    private static head;
+    private static post;
+    private static put;
+    private static delete;
+    private static connect;
+    private static options;
+    private static trace;
+    private static patch;
+    static GET(url: string): Promise<DataType>;
+    static HEAD(url: string): Promise<DataType>;
+    static POST(url: string, data: DataType | Object): Promise<DataType>;
+    static PUT(url: string, data: DataType | Object): Promise<DataType>;
+    static DELETE(url: string): Promise<DataType>;
+    static CONNECT(url: string): Promise<DataType>;
+    static OPTIONS(url: string): Promise<DataType>;
+    static TRACE(url: string): Promise<DataType>;
+    static PATCH(url: string, data: DataType | Object): Promise<DataType>;
 }
 export interface HTTPHeaders {
     'A-IM'?: string;
@@ -84,6 +83,23 @@ export interface HTTPHeaders {
     Warning?: string;
     [key: string]: string | number | undefined;
 }
-export declare type HTTPRequestMethods = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'CONNECT' | 'OPTIONS' | 'TRACE' | 'PATCH';
-export declare type DataTypes = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null;
-export declare type ResponseTypes = 'arraybuffer' | 'blob' | 'document' | 'json' | 'text' | '';
+import { HTTPHeaders } from "./httpheaders";
+import { HTTPRequestMethod, DataType, ResponseType } from "./types";
+export declare class Method {
+    private method;
+    private async;
+    private noCache;
+    private responseType;
+    private headers;
+    private log;
+    constructor(method: HTTPRequestMethod, defaultHeaders: HTTPHeaders);
+    setHeaders(headers: HTTPHeaders): void;
+    getHeaders(): HTTPHeaders;
+    setResponseType(responseType: ResponseType): void;
+    getResponseType(): ResponseType;
+    call(url: string, data?: DataType | Object): Promise<DataType>;
+    private setRequestHeaders;
+}
+export declare type HTTPRequestMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
+export declare type DataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null;
+export declare type ResponseType = "arraybuffer" | "blob" | "document" | "json" | "text" | "";

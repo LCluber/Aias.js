@@ -26,60 +26,47 @@
 import { Is } from '@lcluber/chjs';
 import { Logger } from '@lcluber/mouettejs';
 
-class HTTP {
-    static get(url) {
-        return this.call('GET', url);
+class Method {
+    constructor(method, defaultHeaders) {
+        this.log = Logger.addGroup("Aias");
+        this.method = method;
+        this.async = true;
+        this.noCache = false;
+        this.responseType = "text";
+        this.headers = defaultHeaders;
     }
-    static head(url) {
-        return this.call('HEAD', url);
-    }
-    static post(url, data) {
-        return this.call('POST', url, data);
-    }
-    static put(url, data) {
-        return this.call('PUT', url, data);
-    }
-    static delete(url) {
-        return this.call('DELETE', url);
-    }
-    static connect(url) {
-        return this.call('CONNECT', url);
-    }
-    static options(url) {
-        return this.call('OPTIONS', url);
-    }
-    static trace(url) {
-        return this.call('TRACE', url);
-    }
-    static patch(url, data) {
-        return this.call('PATCH', url, data);
-    }
-    static setHeaders(headers) {
+    setHeaders(headers) {
         for (const property in headers) {
             if (headers.hasOwnProperty(property)) {
                 this.headers[property] = headers[property];
             }
         }
     }
-    static setResponseType(responseType) {
+    getHeaders() {
+        return this.headers;
+    }
+    setResponseType(responseType) {
         this.responseType = responseType;
     }
-    static call(method, url, data) {
+    getResponseType() {
+        return this.responseType;
+    }
+    call(url, data) {
         return new Promise((resolve, reject) => {
-            let msg = ['Aias xhr ', ' (' + method + ':' + url + ')'];
-            let http = new XMLHttpRequest();
-            url += this.noCache ? '?cache=' + (new Date()).getTime() : '';
-            http.open(method, url, this.async);
+            const msg = ["Aias xhr ", " (" + this.method + ":" + url + ")"];
+            const http = new XMLHttpRequest();
+            url += this.noCache ? "?cache=" + new Date().getTime() : "";
+            http.open(this.method, url, this.async);
             http.responseType = this.responseType;
             this.setRequestHeaders(http);
             http.onreadystatechange = () => {
                 if (http.readyState == 4) {
                     if (http.status == 200) {
-                        this.log.info(msg[0] + 'successful' + msg[1]);
+                        this.log.info(msg[0] + "successful" + msg[1]);
                         resolve(http.responseText);
                     }
                     else {
-                        this.log.error(msg[0] + 'failed' + msg[1]);
+                        this.log.error(msg[0] + "failed" + msg[1]);
                         reject(http.status);
                     }
                 }
@@ -88,21 +75,73 @@ class HTTP {
                 data = JSON.stringify(data);
             }
             http.send(data || null);
-            this.log.info(msg[0] + 'sent' + msg[1]);
+            this.log.info(msg[0] + "sent" + msg[1]);
         });
     }
-    static setRequestHeaders(http) {
-        for (let property in this.headers) {
+    setRequestHeaders(http) {
+        for (const property in this.headers) {
             if (this.headers.hasOwnProperty(property)) {
                 http.setRequestHeader(property, this.headers[property]);
             }
         }
     }
 }
-HTTP.async = true;
-HTTP.noCache = false;
-HTTP.responseType = 'text';
-HTTP.headers = {};
-HTTP.log = Logger.getGroup('Aias') || Logger.addGroup('Aias');
+
+class HTTP {
+    static GET(url) {
+        return this.get.call(url);
+    }
+    static HEAD(url) {
+        return this.head.call(url);
+    }
+    static POST(url, data) {
+        return this.post.call(url, data);
+    }
+    static PUT(url, data) {
+        return this.put.call(url, data);
+    }
+    static DELETE(url) {
+        return this.delete.call(url);
+    }
+    static CONNECT(url) {
+        return this.connect.call(url);
+    }
+    static OPTIONS(url) {
+        return this.options.call(url);
+    }
+    static TRACE(url) {
+        return this.trace.call(url);
+    }
+    static PATCH(url, data) {
+        return this.patch.call(url, data);
+    }
+}
+HTTP.get = new Method("GET", {
+    "Content-Type": "application/x-www-form-urlencoded"
+});
+HTTP.head = new Method("HEAD", {
+    "Content-Type": "application/x-www-form-urlencoded"
+});
+HTTP.post = new Method("POST", {
+    "Content-Type": "application/json"
+});
+HTTP.put = new Method("PUT", {
+    "Content-Type": "application/json"
+});
+HTTP.delete = new Method("DELETE", {
+    "Content-Type": "application/x-www-form-urlencoded"
+});
+HTTP.connect = new Method("CONNECT", {
+    "Content-Type": "application/x-www-form-urlencoded"
+});
+HTTP.options = new Method("OPTIONS", {
+    "Content-Type": "application/x-www-form-urlencoded"
+});
+HTTP.trace = new Method("TRACE", {
+    "Content-Type": "application/x-www-form-urlencoded"
+});
+HTTP.patch = new Method("PATCH", {
+    "Content-Type": "application/json"
+});
 
 export { HTTP };

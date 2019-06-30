@@ -1,7 +1,7 @@
 {
   "name": "@lcluber/aiasjs",
-  "version": "0.1.16",
-  "description": "HTTP client (Ajax) library",
+  "version": "1.0.0",
+  "description": "Promise based HTTP client (Ajax) library",
   "keywords": [
     "ajax",
     "http",
@@ -26,57 +26,51 @@
   },
   "contributors": [],
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "grunt build",
+    "pretty": "prettier --check 'src/ts/*.ts' --write",
+    "commit": "git-cz"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-push": ""
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "files": [
     "dist/"
   ],
   "dependencies": {
-    "body-parser": "1.18.2",
-    "cookie-parser": "1.4.3",
-    "debug": "3.1.0",
-    "express": "4.16.3",
-    "i18next": "11.2.3",
-    "i18next-express-middleware": "1.1.1",
-    "i18next-node-fs-backend": "1.0.0",
-    "morgan": "1.9.0",
-    "pug": "2.0.3",
-    "serve-favicon": "2.5.0",
     "@lcluber/chjs": "0.1.1",
     "@lcluber/mouettejs": "0.3.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "8.0.0",
+    "@commitlint/config-conventional": "8.0.0",
+    "@commitlint/prompt": "8.0.0",
     "@babel/core": "7.2.2",
     "@babel/preset-env": "7.2.3",
-    "@fortawesome/fontawesome-free": "5.5.0",
-    "bootstrap": "3.3.7",
-    "connect-livereload": "0.6.0",
+    "cz-conventional-changelog": "2.1.0",
     "grunt": "1.0.2",
-    "grunt-concurrent": "2.3.1",
     "grunt-contrib-clean": "1.1.0",
     "grunt-contrib-concat": "1.0.1",
     "grunt-contrib-copy": "1.0.0",
-    "grunt-contrib-csslint": "2.0.0",
-    "grunt-contrib-cssmin": "2.2.1",
-    "grunt-contrib-htmlmin": "2.4.0",
-    "grunt-contrib-jshint": "1.1.0",
     "grunt-contrib-uglify": "3.3.0",
-    "grunt-contrib-watch": "1.0.1",
-    "grunt-nodemon": "0.4.2",
-    "grunt-open": "0.2.3",
     "grunt-rollup": "9.0.0",
-    "grunt-sass": "3.0.1",
     "grunt-strip-code": "1.0.6",
     "grunt-ts": "6.0.0-beta.19",
-    "grunt-typedoc": "0.2.4",
-    "jquery": "3.2.1",
-    "jquery-easing": "0.0.1",
-    "node-sass": "4.11.0",
+    "husky": "2.7.0",
+    "prettier": "1.18.2",
+    "pretty-quick": "1.11.1",
     "rollup-plugin-babel": "4.1.0",
     "rollup-plugin-node-resolve": "4.0.0",
     "time-grunt": "1.4.0",
     "tslint": "5.9.1",
-    "typedoc": "0.13.0",
     "typescript": "3.2.2"
   }
 }

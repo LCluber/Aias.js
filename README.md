@@ -1,10 +1,10 @@
 ## Synopsis
 
-Aias.js is an open source HTTP client using Ajax and promises written in TypeScript.
+Aias.js is an open source promise based HTTP client using written in TypeScript.
 
 ## Motivation
 
-The main purpose of this library is to provide a simple tool for sending asynchronous HTTP (Ajax) request.
+The main purpose of this library is to provide a simple tool for sending asynchronous HTTP (Ajax) requests.
 
 ## Installation
 
@@ -15,6 +15,7 @@ $ npm install @lcluber/aiasjs
 ```
 
 ### Yarn
+
 ```bash
 $ yarn add @lcluber/aiasjs
 ```
@@ -24,19 +25,32 @@ $ yarn add @lcluber/aiasjs
 ### ES6
 
 ```javascript
-import { HTTP } from '@lcluber/aiasjs';
+import { HTTP } from "@lcluber/aiasjs";
 
-var data = {
-  firstname:'Galileo',
-  lastname:'Galilei',
-  born:1564,
-  died:1642
+const scientist = {
+  firstname: "Galileo",
+  lastname: "Galilei",
+  born: 1564,
+  died: 1642
 };
 
-HTTP.setHeader({'Content-Type': 'application/json'});
-HTTP.post("url", data)
-    .then(response => { console.log(response); })
-    .catch(err => { console.log('error', err.message); });
+HTTP.post.setHeaders({ "Content-Type": "application/json" }); // this is the default setting for POST requests
+HTTP.POST("http://url.com/api/scientist", scientist)
+  .then(response => {
+    console.log(response);
+  })
+  .catch(err => {
+    console.log("error", err.message);
+  });
+
+HTTP.get.setHeaders({ "Content-Type": "application/x-www-form-urlencoded" }); // this is the default setting for GET requests
+HTTP.GET("http://url.com/api/scientist/2")
+  .then(response => {
+    console.log(response);
+  })
+  .catch(err => {
+    console.log("error", err.message);
+  });
 ```
 
 ### IIFE
@@ -46,26 +60,41 @@ HTTP.post("url", data)
 ```
 
 ```javascript
-var data = {
-  firstname:'Galileo',
-  lastname:'Galilei',
-  born:1564,
-  died:1642
+var scientist = {
+  firstname: "Galileo",
+  lastname: "Galilei",
+  born: 1564,
+  died: 1642
 };
 
-Aias.HTTP.setHeader({'Content-Type': 'application/json'});
-Aias.HTTP.post("url", data)
-         .then(function (response) { console.log(response); })
-         .catch(function (err) { console.log('error', err.message); });
+Aias.HTTP.post.setHeaders({ "Content-Type": "application/json" }); // this is the default setting for POST requests
+Aias.HTTP.POST("http://url.com/api/scientist", scientist)
+  .then(function(response) {
+    console.log(response);
+  })
+  .catch(function(err) {
+    console.log("error", err.message);
+  });
+
+Aias.HTTP.get.setHeaders({
+  "Content-Type": "application/x-www-form-urlencoded"
+}); // this is the default setting for GET requests
+Aias.HTTP.GET("http://url.com/api/scientist/2")
+  .then(response => {
+    console.log(response);
+  })
+  .catch(err => {
+    console.log("error", err.message);
+  });
 ```
 
 ## API Reference
 
 ```javascript
 
-type DataTypes = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null;
+type DataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null;
 
-type ResponseTypes = 'arraybuffer' | 'blob' | 'document' | 'json' | 'text' | '';
+type ResponseType = 'arraybuffer' | 'blob' | 'document' | 'json' | 'text' | '';
 
 interface HTTPHeaders {
   'A-IM'?: string;
@@ -85,19 +114,60 @@ interface HTTPHeaders {
   ....
 }
 
-static HTTP.get( url: string ): Promise<DataTypes> {}
-static HTTP.head( url: string ): Promise<DataTypes> {}
-static HTTP.post( url: string, data: DataTypes|Object ): Promise<DataTypes> {}
-static HTTP.put( url: string, data: DataTypes|Object ): Promise<DataTypes> {}
-static HTTP.delete( url: string ): Promise<DataTypes> {}
-static HTTP.connect( url: string ): Promise<DataTypes> {}
-static HTTP.options( url: string ): Promise<DataTypes> {}
-static HTTP.trace( url: string ): Promise<DataTypes> {}
-static HTTP.patch( url: string, data: DataTypes|Object ): Promise<DataTypes> {}
+static HTTP.GET( url: string ): Promise<DataType> {}
+static HTTP.HEAD( url: string ): Promise<DataType> {}
+static HTTP.POST( url: string, data: DataType|Object ): Promise<DataType> {}
+static HTTP.PUT( url: string, data: DataType|Object ): Promise<DataType> {}
+static HTTP.DELETE( url: string ): Promise<DataType> {}
+static HTTP.CONNECT( url: string ): Promise<DataType> {}
+static HTTP.OPTIONS( url: string ): Promise<DataType> {}
+static HTTP.TRACE( url: string ): Promise<DataType> {}
+static HTTP.PATCH( url: string, data: DataType|Object ): Promise<DataType> {}
 
-static HTTP.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.setResponseType(responseType: ResponseTypes): void {}
+static HTTP.get.setHeaders(headers: HTTPHeaders): void {}
+static HTTP.get.setResponseType(responseType: ResponseType): void {}
+static HTTP.get.getHeaders(): HTTPHeaders {}
+static HTTP.get.getResponseType(): ResponseType {}
 
+static HTTP.head.setHeaders(headers: HTTPHeaders): void {}
+static HTTP.head.setResponseType(responseType: ResponseType): void {}
+static HTTP.head.getHeaders(): HTTPHeaders {}
+static HTTP.head.getResponseType(): ResponseType {}
+
+static HTTP.post.setHeaders(headers: HTTPHeaders): void {}
+static HTTP.post.setResponseType(responseType: ResponseType): void {}
+static HTTP.post.getHeaders(): HTTPHeaders {}
+static HTTP.post.getResponseType(): ResponseType {}
+
+static HTTP.put.setHeaders(headers: HTTPHeaders): void {}
+static HTTP.put.setResponseType(responseType: ResponseType): void {}
+static HTTP.put.getHeaders(): HTTPHeaders {}
+static HTTP.put.getResponseType(): ResponseType {}
+
+static HTTP.delete.setHeaders(headers: HTTPHeaders): void {}
+static HTTP.delete.setResponseType(responseType: ResponseType): void {}
+static HTTP.delete.getHeaders(): HTTPHeaders {}
+static HTTP.delete.getResponseType(): ResponseType {}
+
+static HTTP.connect.setHeaders(headers: HTTPHeaders): void {}
+static HTTP.connect.setResponseType(responseType: ResponseType): void {}
+static HTTP.connect.getHeaders(): HTTPHeaders {}
+static HTTP.connect.getResponseType(): ResponseType {}
+
+static HTTP.options.setHeaders(headers: HTTPHeaders): void {}
+static HTTP.options.setResponseType(responseType: ResponseType): void {}
+static HTTP.options.getHeaders(): HTTPHeaders {}
+static HTTP.options.getResponseType(): ResponseType {}
+
+static HTTP.trace.setHeaders(headers: HTTPHeaders): void {}
+static HTTP.trace.setResponseType(responseType: ResponseType): void {}
+static HTTP.trace.getHeaders(): HTTPHeaders {}
+static HTTP.trace.getResponseType(): ResponseType {}
+
+static HTTP.patch.setHeaders(headers: HTTPHeaders): void {}
+static HTTP.patch.setResponseType(responseType: ResponseType): void {}
+static HTTP.patch.getHeaders(): HTTPHeaders {}
+static HTTP.patch.getResponseType(): ResponseType {}
 ```
 
 ## Tests

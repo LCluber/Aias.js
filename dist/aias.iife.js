@@ -468,48 +468,21 @@ var Aias = (function (exports) {
   Logger$1.level = LEVELS$1.error;
   Logger$1.groups = [];
 
-  var HTTP =
+  var Method =
   /*#__PURE__*/
   function () {
-    function HTTP() {}
+    function Method(method, defaultHeaders) {
+      this.log = Logger$1.addGroup("Aias");
+      this.method = method;
+      this.async = true;
+      this.noCache = false;
+      this.responseType = "text";
+      this.headers = defaultHeaders;
+    }
 
-    HTTP.get = function get(url) {
-      return this.call('GET', url);
-    };
+    var _proto = Method.prototype;
 
-    HTTP.head = function head(url) {
-      return this.call('HEAD', url);
-    };
-
-    HTTP.post = function post(url, data) {
-      return this.call('POST', url, data);
-    };
-
-    HTTP.put = function put(url, data) {
-      return this.call('PUT', url, data);
-    };
-
-    HTTP.delete = function _delete(url) {
-      return this.call('DELETE', url);
-    };
-
-    HTTP.connect = function connect(url) {
-      return this.call('CONNECT', url);
-    };
-
-    HTTP.options = function options(url) {
-      return this.call('OPTIONS', url);
-    };
-
-    HTTP.trace = function trace(url) {
-      return this.call('TRACE', url);
-    };
-
-    HTTP.patch = function patch(url, data) {
-      return this.call('PATCH', url, data);
-    };
-
-    HTTP.setHeaders = function setHeaders(headers) {
+    _proto.setHeaders = function setHeaders(headers) {
       for (var property in headers) {
         if (headers.hasOwnProperty(property)) {
           this.headers[property] = headers[property];
@@ -517,18 +490,26 @@ var Aias = (function (exports) {
       }
     };
 
-    HTTP.setResponseType = function setResponseType(responseType) {
+    _proto.getHeaders = function getHeaders() {
+      return this.headers;
+    };
+
+    _proto.setResponseType = function setResponseType(responseType) {
       this.responseType = responseType;
     };
 
-    HTTP.call = function call(method, url, data) {
+    _proto.getResponseType = function getResponseType() {
+      return this.responseType;
+    };
+
+    _proto.call = function call(url, data) {
       var _this = this;
 
       return new Promise(function (resolve, reject) {
-        var msg = ['Aias xhr ', ' (' + method + ':' + url + ')'];
+        var msg = ["Aias xhr ", " (" + _this.method + ":" + url + ")"];
         var http = new XMLHttpRequest();
-        url += _this.noCache ? '?cache=' + new Date().getTime() : '';
-        http.open(method, url, _this.async);
+        url += _this.noCache ? "?cache=" + new Date().getTime() : "";
+        http.open(_this.method, url, _this.async);
         http.responseType = _this.responseType;
 
         _this.setRequestHeaders(http);
@@ -536,11 +517,11 @@ var Aias = (function (exports) {
         http.onreadystatechange = function () {
           if (http.readyState == 4) {
             if (http.status == 200) {
-              _this.log.info(msg[0] + 'successful' + msg[1]);
+              _this.log.info(msg[0] + "successful" + msg[1]);
 
               resolve(http.responseText);
             } else {
-              _this.log.error(msg[0] + 'failed' + msg[1]);
+              _this.log.error(msg[0] + "failed" + msg[1]);
 
               reject(http.status);
             }
@@ -553,11 +534,11 @@ var Aias = (function (exports) {
 
         http.send(data || null);
 
-        _this.log.info(msg[0] + 'sent' + msg[1]);
+        _this.log.info(msg[0] + "sent" + msg[1]);
       });
     };
 
-    HTTP.setRequestHeaders = function setRequestHeaders(http) {
+    _proto.setRequestHeaders = function setRequestHeaders(http) {
       for (var property in this.headers) {
         if (this.headers.hasOwnProperty(property)) {
           http.setRequestHeader(property, this.headers[property]);
@@ -565,13 +546,79 @@ var Aias = (function (exports) {
       }
     };
 
+    return Method;
+  }();
+
+  var HTTP =
+  /*#__PURE__*/
+  function () {
+    function HTTP() {}
+
+    HTTP.GET = function GET(url) {
+      return this.get.call(url);
+    };
+
+    HTTP.HEAD = function HEAD(url) {
+      return this.head.call(url);
+    };
+
+    HTTP.POST = function POST(url, data) {
+      return this.post.call(url, data);
+    };
+
+    HTTP.PUT = function PUT(url, data) {
+      return this.put.call(url, data);
+    };
+
+    HTTP.DELETE = function DELETE(url) {
+      return this.delete.call(url);
+    };
+
+    HTTP.CONNECT = function CONNECT(url) {
+      return this.connect.call(url);
+    };
+
+    HTTP.OPTIONS = function OPTIONS(url) {
+      return this.options.call(url);
+    };
+
+    HTTP.TRACE = function TRACE(url) {
+      return this.trace.call(url);
+    };
+
+    HTTP.PATCH = function PATCH(url, data) {
+      return this.patch.call(url, data);
+    };
+
     return HTTP;
   }();
-  HTTP.async = true;
-  HTTP.noCache = false;
-  HTTP.responseType = 'text';
-  HTTP.headers = {};
-  HTTP.log = Logger$1.getGroup('Aias') || Logger$1.addGroup('Aias');
+  HTTP.get = new Method("GET", {
+    "Content-Type": "application/x-www-form-urlencoded"
+  });
+  HTTP.head = new Method("HEAD", {
+    "Content-Type": "application/x-www-form-urlencoded"
+  });
+  HTTP.post = new Method("POST", {
+    "Content-Type": "application/json"
+  });
+  HTTP.put = new Method("PUT", {
+    "Content-Type": "application/json"
+  });
+  HTTP.delete = new Method("DELETE", {
+    "Content-Type": "application/x-www-form-urlencoded"
+  });
+  HTTP.connect = new Method("CONNECT", {
+    "Content-Type": "application/x-www-form-urlencoded"
+  });
+  HTTP.options = new Method("OPTIONS", {
+    "Content-Type": "application/x-www-form-urlencoded"
+  });
+  HTTP.trace = new Method("TRACE", {
+    "Content-Type": "application/x-www-form-urlencoded"
+  });
+  HTTP.patch = new Method("PATCH", {
+    "Content-Type": "application/json"
+  });
 
   exports.HTTP = HTTP;
 
