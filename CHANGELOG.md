@@ -1,3 +1,7 @@
+## Version 1.0.1 (July 1st 2019)
+
+- Fixed declaration file
+
 ## Version 1.0.0 (June 30th 2019)
 
 - Call methods are now in uppercase (HTTP.GET(), HTTP.POST() ...)
