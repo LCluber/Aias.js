@@ -22,7 +22,7 @@
 *
 * http://aiasjs.lcluber.com
 */
-import { DataType } from "./types";
+
 export declare class HTTP {
     private static get;
     private static head;
@@ -83,8 +83,8 @@ export interface HTTPHeaders {
     Warning?: string;
     [key: string]: string | number | undefined;
 }
-import { HTTPHeaders } from "./httpheaders";
-import { HTTPRequestMethod, DataType, ResponseType } from "./types";
+
+
 export declare class Method {
     private method;
     private async;
