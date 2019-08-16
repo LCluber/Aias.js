@@ -1,4 +1,4 @@
-import { Is } from "@lcluber/chjs";
+import { isObject } from "@lcluber/chjs";
 import { Logger, Group } from "@lcluber/mouettejs";
 import { HTTPHeaders } from "./httpheaders";
 import { HTTPRequestMethod, DataType, ResponseType } from "./types";
@@ -62,7 +62,7 @@ export class Method {
         }
       };
 
-      if (Is.object(data)) {
+      if (isObject(data)) {
         data = JSON.stringify(data);
       }
 

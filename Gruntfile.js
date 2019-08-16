@@ -37,9 +37,7 @@ module.exports = function(grunt) {
     "* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n" +
     "* SOFTWARE.\n" +
     "*\n" +
-    "* http://" +
-    projectNameLC +
-    "js.lcluber.com\n" +
+    "* https://github.com/LCluber/Aias.js\n" +
     "*/\n";
 
   grunt.option("stack", true);

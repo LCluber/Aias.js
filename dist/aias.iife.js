@@ -20,11 +20,31 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 *
-* http://aiasjs.lcluber.com
+* https://github.com/LCluber/Aias.js
 */
 
 var Aias = (function (exports) {
   'use strict';
+
+  /* MIT License
+
+  Copyright (c) 2009 Ludovic CLUBER
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+  https://github.com/LCluber/Ch.js
+  */
+  function isObject(object) {
+    return object !== null && typeof object === "object" && !isArray(object);
+  }
+
+  function isArray(array) {
+    return array !== null && array.constructor === Array;
+  }
 
   function _defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
@@ -66,261 +86,36 @@ var Aias = (function (exports) {
   *
   * http://mouettejs.lcluber.com
   */
-  var LEVELS = [{
-    id: 1,
-    name: 'info'
-  }, {
-    id: 2,
-    name: 'trace'
-  }, {
-    id: 3,
-    name: 'warn'
-  }, {
-    id: 4,
-    name: 'error'
-  }, {
-    id: 99,
-    name: 'off'
-  }];
-
-  var Message =
-  /*#__PURE__*/
-  function () {
-    function Message(levelName, content) {
-      this.setLevel(levelName);
-      this.content = content;
-    }
-
-    var _proto = Message.prototype;
-
-    _proto.setLevel = function setLevel(name) {
-      this.level = this.findLevel(name);
-    };
-
-    _proto.getLevelId = function getLevelId() {
-      return this.level.id;
-    };
-
-    _proto.display = function display() {
-      console[this.level.name](this.content);
-    };
-
-    _proto.findLevel = function findLevel(name) {
-      for (var _i = 0; _i < LEVELS.length; _i++) {
-        var level = LEVELS[_i];
-
-        if (level.name === name) {
-          return level;
-        }
-      }
-
-      return this.level ? this.level : LEVELS[0];
-    };
-
-    return Message;
-  }();
-
-  var Logger =
-  /*#__PURE__*/
-  function () {
-    function Logger() {}
-
-    Logger.info = function info(text) {
-      Logger.log('info', text);
-    };
-
-    Logger.trace = function trace(text) {
-      Logger.log('trace', text);
-    };
-
-    Logger.time = function time(text) {
-      Logger.log('time', text);
-    };
-
-    Logger.warn = function warn(text) {
-      Logger.log('warn', text);
-    };
-
-    Logger.error = function error(text) {
-      Logger.log('error', text);
-    };
-
-    Logger.log = function log(levelName, content) {
-      Logger.addMessage(levelName, content);
-      var message = this.messages[this.nbMessages - 1];
-
-      if (this._level.id <= message.getLevelId()) {
-        message.display();
-      }
-    };
-
-    Logger.addMessage = function addMessage(levelName, content) {
-      this.messages.push(new Message(levelName, content));
-      this.nbMessages++;
-    };
-
-    Logger.findLevel = function findLevel(name) {
-      for (var _i2 = 0; _i2 < LEVELS.length; _i2++) {
-        var level = LEVELS[_i2];
-
-        if (level.name === name) {
-          return level;
-        }
-      }
-
-      return this._level ? this._level : LEVELS[0];
-    };
-
-    _createClass(Logger, [{
-      key: "level",
-      set: function set(name) {
-        Logger._level = Logger.findLevel(name);
-      },
-      get: function get() {
-        return Logger._level.name;
-      }
-    }]);
-
-    return Logger;
-  }();
-
-  Logger._level = Logger.findLevel(LEVELS[0].name);
-  Logger.messages = [];
-  Logger.nbMessages = 0;
-  Logger.target = document.getElementById('Mouette');
-
-  /** MIT License
-  * 
-  * Copyright (c) 2018 Ludovic CLUBER 
-  * 
-  * Permission is hereby granted, free of charge, to any person obtaining a copy
-  * of this software and associated documentation files (the "Software"), to deal
-  * in the Software without restriction, including without limitation the rights
-  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  * copies of the Software, and to permit persons to whom the Software is
-  * furnished to do so, subject to the following conditions:
-  *
-  * The above copyright notice and this permission notice shall be included in all
-  * copies or substantial portions of the Software.
-  *
-  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  * SOFTWARE.
-  *
-  * http://chjs.lcluber.com
-  */
-  var Is =
-  /*#__PURE__*/
-  function () {
-    function Is() {}
-
-    Is.json = function json(str) {
-      if (!this.string(str)) {
-        return false;
-      }
-
-      var json = str.replace(/(\r\n|\n|\r|\t)/gm, '');
-
-      try {
-        json = JSON.parse(str);
-      } catch (e) {
-        Logger.error(e);
-        return false;
-      }
-
-      return json;
-    };
-
-    Is.function = function _function(func) {
-      var getType = {};
-      return func && getType.toString.call(func) === '[object Function]';
-    };
-
-    Is.object = function object(_object) {
-      return _object !== null && typeof _object === 'object';
-    };
-
-    Is.array = function array(_array) {
-      return _array !== null && _array.constructor === Array;
-    };
-
-    Is.ascii = function ascii(code, extended) {
-      return (extended ? /^[\x00-\xFF]*$/ : /^[\x00-\x7F]*$/).test(code);
-    };
-
-    Is.integer = function integer(value) {
-      return value === parseInt(value, 10);
-    };
-
-    Is.float = function float(value) {
-      return Number(value) === value && value % 1 !== 0;
-    };
-
-    Is.string = function string(str) {
-      return typeof str === 'string';
-    };
-
-    return Is;
-  }();
-
-  /** MIT License
-  * 
-  * Copyright (c) 2015 Ludovic CLUBER 
-  * 
-  * Permission is hereby granted, free of charge, to any person obtaining a copy
-  * of this software and associated documentation files (the "Software"), to deal
-  * in the Software without restriction, including without limitation the rights
-  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  * copies of the Software, and to permit persons to whom the Software is
-  * furnished to do so, subject to the following conditions:
-  *
-  * The above copyright notice and this permission notice shall be included in all
-  * copies or substantial portions of the Software.
-  *
-  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  * SOFTWARE.
-  *
-  * http://mouettejs.lcluber.com
-  */
-  var LEVELS$1 = {
+  var LEVELS = {
     info: {
       id: 1,
-      name: 'info',
-      color: '#28a745'
+      name: "info",
+      color: "#28a745"
     },
     trace: {
       id: 2,
-      name: 'trace',
-      color: '#17a2b8'
+      name: "trace",
+      color: "#17a2b8"
     },
     warn: {
       id: 3,
-      name: 'warn',
-      color: '#ffc107'
+      name: "warn",
+      color: "#ffc107"
     },
     error: {
       id: 4,
-      name: 'error',
-      color: '#dc3545'
+      name: "error",
+      color: "#dc3545"
     },
     off: {
       id: 99,
-      name: 'off',
+      name: "off",
       color: null
     }
   };
 
   function addZero(value) {
-    return value < 10 ? '0' + value : value;
+    return value < 10 ? "0" + value : value;
   }
 
   function formatDate() {
@@ -330,7 +125,7 @@ var Aias = (function (exports) {
     return date.join("/") + " " + time.join(":");
   }
 
-  var Message$1 =
+  var Message =
   /*#__PURE__*/
   function () {
     function Message(level, content) {
@@ -344,7 +139,7 @@ var Aias = (function (exports) {
     var _proto = Message.prototype;
 
     _proto.display = function display(groupName) {
-      console[this.name]('%c[' + groupName + '] ' + this.date + ' : ', 'color:' + this.color + ';', this.content);
+      console[this.name]("%c[" + groupName + "] " + this.date + " : ", "color:" + this.color + ";", this.content);
     };
 
     return Message;
@@ -363,23 +158,23 @@ var Aias = (function (exports) {
     var _proto2 = Group.prototype;
 
     _proto2.info = function info(message) {
-      this.log(LEVELS$1.info, message);
+      this.log(LEVELS.info, message);
     };
 
     _proto2.trace = function trace(message) {
-      this.log(LEVELS$1.trace, message);
+      this.log(LEVELS.trace, message);
     };
 
     _proto2.warn = function warn(message) {
-      this.log(LEVELS$1.warn, message);
+      this.log(LEVELS.warn, message);
     };
 
     _proto2.error = function error(message) {
-      this.log(LEVELS$1.error, message);
+      this.log(LEVELS.error, message);
     };
 
     _proto2.log = function log(level, messageContent) {
-      var message = new Message$1(level, messageContent);
+      var message = new Message(level, messageContent);
       this.messages.push(message);
 
       if (this._level.id <= message.id) {
@@ -390,7 +185,7 @@ var Aias = (function (exports) {
     _createClass(Group, [{
       key: "level",
       set: function set(name) {
-        this._level = LEVELS$1.hasOwnProperty(name) ? LEVELS$1[name] : this._level;
+        this._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._level;
       },
       get: function get() {
         return this._level.name;
@@ -400,13 +195,13 @@ var Aias = (function (exports) {
     return Group;
   }();
 
-  var Logger$1 =
+  var Logger =
   /*#__PURE__*/
   function () {
     function Logger() {}
 
     Logger.setLevel = function setLevel(name) {
-      Logger.level = LEVELS$1.hasOwnProperty(name) ? LEVELS$1[name] : Logger.level;
+      Logger.level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : Logger.level;
 
       for (var _iterator = Logger.groups, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
         var _ref;
@@ -423,6 +218,8 @@ var Aias = (function (exports) {
         var group = _ref;
         group.level = Logger.level.name;
       }
+
+      return Logger.getLevel();
     };
 
     Logger.getLevel = function getLevel() {
@@ -465,14 +262,14 @@ var Aias = (function (exports) {
     return Logger;
   }();
 
-  Logger$1.level = LEVELS$1.error;
-  Logger$1.groups = [];
+  Logger.level = LEVELS.error;
+  Logger.groups = [];
 
   var Method =
   /*#__PURE__*/
   function () {
     function Method(method, defaultHeaders) {
-      this.log = Logger$1.addGroup("Aias");
+      this.log = Logger.addGroup("Aias");
       this.method = method;
       this.async = true;
       this.noCache = false;
@@ -528,7 +325,7 @@ var Aias = (function (exports) {
           }
         };
 
-        if (Is.object(data)) {
+        if (isObject(data)) {
           data = JSON.stringify(data);
         }
 

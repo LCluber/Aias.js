@@ -20,10 +20,10 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 *
-* http://aiasjs.lcluber.com
+* https://github.com/LCluber/Aias.js
 */
 
-import { Is } from '@lcluber/chjs';
+import { isObject } from '@lcluber/chjs';
 import { Logger } from '@lcluber/mouettejs';
 
 class Method {
@@ -71,7 +71,7 @@ class Method {
                     }
                 }
             };
-            if (Is.object(data)) {
+            if (isObject(data)) {
                 data = JSON.stringify(data);
             }
             http.send(data || null);

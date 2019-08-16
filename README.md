@@ -1,6 +1,6 @@
 ## Synopsis
 
-Aias.js is an open source promise based HTTP client using written in TypeScript.
+Aias.js is an open source promise based HTTP client written in TypeScript.
 
 ## Motivation
 
@@ -35,7 +35,7 @@ const scientist = {
 };
 
 HTTP.post.setHeaders({ "Content-Type": "application/json" }); // this is the default setting for POST requests
-HTTP.POST("http://url.com/api/scientist", scientist)
+HTTP.POST("http://url.com/api/scientists", scientist)
   .then(response => {
     console.log(response);
   })
@@ -44,7 +44,7 @@ HTTP.POST("http://url.com/api/scientist", scientist)
   });
 
 HTTP.get.setHeaders({ "Content-Type": "application/x-www-form-urlencoded" }); // this is the default setting for GET requests
-HTTP.GET("http://url.com/api/scientist/2")
+HTTP.GET("http://url.com/api/scientists/2")
   .then(response => {
     console.log(response);
   })
@@ -68,7 +68,7 @@ var scientist = {
 };
 
 Aias.HTTP.post.setHeaders({ "Content-Type": "application/json" }); // this is the default setting for POST requests
-Aias.HTTP.POST("http://url.com/api/scientist", scientist)
+Aias.HTTP.POST("http://url.com/api/scientists", scientist)
   .then(function(response) {
     console.log(response);
   })
@@ -79,7 +79,7 @@ Aias.HTTP.POST("http://url.com/api/scientist", scientist)
 Aias.HTTP.get.setHeaders({
   "Content-Type": "application/x-www-form-urlencoded"
 }); // this is the default setting for GET requests
-Aias.HTTP.GET("http://url.com/api/scientist/2")
+Aias.HTTP.GET("http://url.com/api/scientists/2")
   .then(response => {
     console.log(response);
   })
