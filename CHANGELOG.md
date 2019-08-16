@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/LCluber/Aias.js/compare/v1.0.1...v1.0.2) (2019-08-16)
+
+
+### Bug Fixes
+
+* **dependencies:** updated dependencies ([c5675a7](https://github.com/LCluber/Aias.js/commit/c5675a7))
+
 ## Version 1.0.1 (July 1st 2019)
 
 - Fixed declaration file
