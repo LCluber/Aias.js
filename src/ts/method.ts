@@ -7,7 +7,7 @@ export class Method {
   private method: HTTPRequestMethod;
   private async: boolean;
   private noCache: boolean;
-  private responseType: ResponseType;
+  // private responseType: ResponseType;
   private headers: HTTPHeaders;
   private log: Group = Logger.addGroup("Aias");
 
@@ -15,7 +15,7 @@ export class Method {
     this.method = method;
     this.async = true;
     this.noCache = false;
-    this.responseType = "text";
+    //this.responseType = "text";
     this.headers = defaultHeaders;
   }
 
@@ -31,15 +31,11 @@ export class Method {
     return this.headers;
   }
 
-  public setResponseType(responseType: ResponseType): void {
-    this.responseType = responseType;
-  }
-
-  public getResponseType(): ResponseType {
-    return this.responseType;
-  }
-
-  public call(url: string, data?: DataType | Object): Promise<DataType> {
+  public call(
+    url: string,
+    responseType: ResponseType | "text",
+    data?: DataType | Object
+  ): Promise<DataType> {
     return new Promise((resolve: Function, reject: Function) => {
       const msg = ["Aias xhr ", " (" + this.method + ":" + url + ")"];
       const http = new XMLHttpRequest();
@@ -47,20 +43,43 @@ export class Method {
       url += this.noCache ? "?cache=" + new Date().getTime() : "";
 
       http.open(this.method, url, this.async);
-      http.responseType = this.responseType;
+      http.responseType = responseType;
       this.setRequestHeaders(http);
 
-      http.onreadystatechange = () => {
-        if (http.readyState == 4) {
-          if (http.status == 200) {
-            this.log.info(msg[0] + "successful" + msg[1]);
-            resolve(http.responseText);
-          } else {
-            this.log.error(msg[0] + "failed" + msg[1]);
-            reject(http.status);
-          }
-        }
-      };
+      switch (http.responseType) {
+        case "arraybuffer":
+          http.onload = () => {
+            let arrayBuffer = http.response;
+            if (arrayBuffer) {
+              resolve(arrayBuffer);
+            } else {
+              reject(http.status);
+            }
+          };
+          break;
+        case "blob":
+          http.onload = () => {
+            let blob = http.response;
+            if (blob) {
+              resolve(blob);
+            } else {
+              reject(http.status);
+            }
+          };
+          break;
+        default:
+          http.onreadystatechange = () => {
+            if (http.readyState == 4) {
+              if (http.status == 200) {
+                this.log.info(msg[0] + "successful" + msg[1]);
+                resolve(http.responseText);
+              } else {
+                this.log.error(msg[0] + "failed" + msg[1]);
+                reject(http.status);
+              }
+            }
+          };
+      }
 
       if (isObject(data)) {
         data = JSON.stringify(data);

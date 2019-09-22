@@ -32,7 +32,6 @@ class Method {
         this.method = method;
         this.async = true;
         this.noCache = false;
-        this.responseType = "text";
         this.headers = defaultHeaders;
     }
     setHeaders(headers) {
@@ -45,32 +44,51 @@ class Method {
     getHeaders() {
         return this.headers;
     }
-    setResponseType(responseType) {
-        this.responseType = responseType;
-    }
-    getResponseType() {
-        return this.responseType;
-    }
-    call(url, data) {
+    call(url, responseType, data) {
         return new Promise((resolve, reject) => {
             const msg = ["Aias xhr ", " (" + this.method + ":" + url + ")"];
             const http = new XMLHttpRequest();
             url += this.noCache ? "?cache=" + new Date().getTime() : "";
             http.open(this.method, url, this.async);
-            http.responseType = this.responseType;
+            http.responseType = responseType;
             this.setRequestHeaders(http);
-            http.onreadystatechange = () => {
-                if (http.readyState == 4) {
-                    if (http.status == 200) {
-                        this.log.info(msg[0] + "successful" + msg[1]);
-                        resolve(http.responseText);
-                    }
-                    else {
-                        this.log.error(msg[0] + "failed" + msg[1]);
-                        reject(http.status);
-                    }
-                }
-            };
+            switch (http.responseType) {
+                case "arraybuffer":
+                    http.onload = () => {
+                        let arrayBuffer = http.response;
+                        if (arrayBuffer) {
+                            resolve(arrayBuffer);
+                        }
+                        else {
+                            reject(http.status);
+                        }
+                    };
+                    break;
+                case "blob":
+                    http.onload = () => {
+                        let blob = http.response;
+                        if (blob) {
+                            resolve(blob);
+                        }
+                        else {
+                            reject(http.status);
+                        }
+                    };
+                    break;
+                default:
+                    http.onreadystatechange = () => {
+                        if (http.readyState == 4) {
+                            if (http.status == 200) {
+                                this.log.info(msg[0] + "successful" + msg[1]);
+                                resolve(http.responseText);
+                            }
+                            else {
+                                this.log.error(msg[0] + "failed" + msg[1]);
+                                reject(http.status);
+                            }
+                        }
+                    };
+            }
             if (isObject(data)) {
                 data = JSON.stringify(data);
             }
@@ -88,32 +106,32 @@ class Method {
 }
 
 class HTTP {
-    static GET(url) {
-        return this.get.call(url);
+    static GET(url, responseType) {
+        return this.get.call(url, responseType);
     }
-    static HEAD(url) {
-        return this.head.call(url);
+    static HEAD(url, responseType) {
+        return this.head.call(url, responseType);
     }
-    static POST(url, data) {
-        return this.post.call(url, data);
+    static POST(url, responseType, data) {
+        return this.post.call(url, responseType, data);
     }
-    static PUT(url, data) {
-        return this.put.call(url, data);
+    static PUT(url, responseType, data) {
+        return this.put.call(url, responseType, data);
     }
-    static DELETE(url) {
-        return this.delete.call(url);
+    static DELETE(url, responseType) {
+        return this.delete.call(url, responseType);
     }
-    static CONNECT(url) {
-        return this.connect.call(url);
+    static CONNECT(url, responseType) {
+        return this.connect.call(url, responseType);
     }
-    static OPTIONS(url) {
-        return this.options.call(url);
+    static OPTIONS(url, responseType) {
+        return this.options.call(url, responseType);
     }
-    static TRACE(url) {
-        return this.trace.call(url);
+    static TRACE(url, responseType) {
+        return this.trace.call(url, responseType);
     }
-    static PATCH(url, data) {
-        return this.patch.call(url, data);
+    static PATCH(url, responseType, data) {
+        return this.patch.call(url, responseType, data);
     }
 }
 HTTP.get = new Method("GET", {

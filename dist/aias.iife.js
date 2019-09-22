@@ -273,7 +273,6 @@ var Aias = (function (exports) {
       this.method = method;
       this.async = true;
       this.noCache = false;
-      this.responseType = "text";
       this.headers = defaultHeaders;
     }
 
@@ -291,15 +290,7 @@ var Aias = (function (exports) {
       return this.headers;
     };
 
-    _proto.setResponseType = function setResponseType(responseType) {
-      this.responseType = responseType;
-    };
-
-    _proto.getResponseType = function getResponseType() {
-      return this.responseType;
-    };
-
-    _proto.call = function call(url, data) {
+    _proto.call = function call(url, responseType, data) {
       var _this = this;
 
       return new Promise(function (resolve, reject) {
@@ -307,23 +298,53 @@ var Aias = (function (exports) {
         var http = new XMLHttpRequest();
         url += _this.noCache ? "?cache=" + new Date().getTime() : "";
         http.open(_this.method, url, _this.async);
-        http.responseType = _this.responseType;
+        http.responseType = responseType;
 
         _this.setRequestHeaders(http);
 
-        http.onreadystatechange = function () {
-          if (http.readyState == 4) {
-            if (http.status == 200) {
-              _this.log.info(msg[0] + "successful" + msg[1]);
+        switch (http.responseType) {
+          case "arraybuffer":
+            http.onload = function () {
+              var arrayBuffer = http.response;
 
-              resolve(http.responseText);
-            } else {
-              _this.log.error(msg[0] + "failed" + msg[1]);
+              if (arrayBuffer) {
+                resolve(arrayBuffer);
+              } else {
+                reject(http.status);
+              }
+            };
 
-              reject(http.status);
-            }
-          }
-        };
+            break;
+
+          case "blob":
+            http.onload = function () {
+              var blob = http.response;
+
+              if (blob) {
+                resolve(blob);
+              } else {
+                reject(http.status);
+              }
+            };
+
+            break;
+
+          default:
+            http.onreadystatechange = function () {
+              if (http.readyState == 4) {
+                if (http.status == 200) {
+                  _this.log.info(msg[0] + "successful" + msg[1]);
+
+                  resolve(http.responseText);
+                } else {
+                  _this.log.error(msg[0] + "failed" + msg[1]);
+
+                  reject(http.status);
+                }
+              }
+            };
+
+        }
 
         if (isObject(data)) {
           data = JSON.stringify(data);
@@ -351,40 +372,40 @@ var Aias = (function (exports) {
   function () {
     function HTTP() {}
 
-    HTTP.GET = function GET(url) {
-      return this.get.call(url);
+    HTTP.GET = function GET(url, responseType) {
+      return this.get.call(url, responseType);
     };
 
-    HTTP.HEAD = function HEAD(url) {
-      return this.head.call(url);
+    HTTP.HEAD = function HEAD(url, responseType) {
+      return this.head.call(url, responseType);
     };
 
-    HTTP.POST = function POST(url, data) {
-      return this.post.call(url, data);
+    HTTP.POST = function POST(url, responseType, data) {
+      return this.post.call(url, responseType, data);
     };
 
-    HTTP.PUT = function PUT(url, data) {
-      return this.put.call(url, data);
+    HTTP.PUT = function PUT(url, responseType, data) {
+      return this.put.call(url, responseType, data);
     };
 
-    HTTP.DELETE = function DELETE(url) {
-      return this.delete.call(url);
+    HTTP.DELETE = function DELETE(url, responseType) {
+      return this.delete.call(url, responseType);
     };
 
-    HTTP.CONNECT = function CONNECT(url) {
-      return this.connect.call(url);
+    HTTP.CONNECT = function CONNECT(url, responseType) {
+      return this.connect.call(url, responseType);
     };
 
-    HTTP.OPTIONS = function OPTIONS(url) {
-      return this.options.call(url);
+    HTTP.OPTIONS = function OPTIONS(url, responseType) {
+      return this.options.call(url, responseType);
     };
 
-    HTTP.TRACE = function TRACE(url) {
-      return this.trace.call(url);
+    HTTP.TRACE = function TRACE(url, responseType) {
+      return this.trace.call(url, responseType);
     };
 
-    HTTP.PATCH = function PATCH(url, data) {
-      return this.patch.call(url, data);
+    HTTP.PATCH = function PATCH(url, responseType, data) {
+      return this.patch.call(url, responseType, data);
     };
 
     return HTTP;

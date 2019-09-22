@@ -23,25 +23,26 @@
 * https://github.com/LCluber/Aias.js
 */
 
+
 export declare class HTTP {
-    private static get;
-    private static head;
-    private static post;
-    private static put;
-    private static delete;
-    private static connect;
-    private static options;
-    private static trace;
-    private static patch;
-    static GET(url: string): Promise<DataType>;
-    static HEAD(url: string): Promise<DataType>;
-    static POST(url: string, data: DataType | Object): Promise<DataType>;
-    static PUT(url: string, data: DataType | Object): Promise<DataType>;
-    static DELETE(url: string): Promise<DataType>;
-    static CONNECT(url: string): Promise<DataType>;
-    static OPTIONS(url: string): Promise<DataType>;
-    static TRACE(url: string): Promise<DataType>;
-    static PATCH(url: string, data: DataType | Object): Promise<DataType>;
+    static get: Method;
+    static head: Method;
+    static post: Method;
+    static put: Method;
+    static delete: Method;
+    static connect: Method;
+    static options: Method;
+    static trace: Method;
+    static patch: Method;
+    static GET(url: string, responseType: ResponseType | "text"): Promise<DataType>;
+    static HEAD(url: string, responseType: ResponseType | "text"): Promise<DataType>;
+    static POST(url: string, responseType: ResponseType | "text", data: DataType | Object): Promise<DataType>;
+    static PUT(url: string, responseType: ResponseType | "text", data: DataType | Object): Promise<DataType>;
+    static DELETE(url: string, responseType: ResponseType | "text"): Promise<DataType>;
+    static CONNECT(url: string, responseType: ResponseType | "text"): Promise<DataType>;
+    static OPTIONS(url: string, responseType: ResponseType | "text"): Promise<DataType>;
+    static TRACE(url: string, responseType: ResponseType | "text"): Promise<DataType>;
+    static PATCH(url: string, responseType: ResponseType | "text", data: DataType | Object): Promise<DataType>;
 }
 export interface HTTPHeaders {
     'A-IM'?: string;
@@ -89,15 +90,12 @@ export declare class Method {
     private method;
     private async;
     private noCache;
-    private responseType;
     private headers;
     private log;
     constructor(method: HTTPRequestMethod, defaultHeaders: HTTPHeaders);
     setHeaders(headers: HTTPHeaders): void;
     getHeaders(): HTTPHeaders;
-    setResponseType(responseType: ResponseType): void;
-    getResponseType(): ResponseType;
-    call(url: string, data?: DataType | Object): Promise<DataType>;
+    call(url: string, responseType: ResponseType | "text", data?: DataType | Object): Promise<DataType>;
     private setRequestHeaders;
 }
 export declare type HTTPRequestMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
