@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/LCluber/Aias.js/compare/v1.0.2...v2.0.0) (2019-09-22)
+
+
+### Features
+
+* **responsetype:** added arraybuffer and blob response type ([cdd651b](https://github.com/LCluber/Aias.js/commit/cdd651b))
+
+
+### BREAKING CHANGES
+
+* **responsetype:** added responsetype as a second argument in call method
+
 ## [1.0.2](https://github.com/LCluber/Aias.js/compare/v1.0.1...v1.0.2) (2019-08-16)
 
 
