@@ -32,21 +32,21 @@ export class HTTP {
 
   public static GET(
     url: string,
-    responseType: ResponseType | "text"
+    responseType: ResponseType
   ): Promise<DataType> {
     return this.get.call(url, responseType);
   }
 
   public static HEAD(
     url: string,
-    responseType: ResponseType | "text"
+    responseType: ResponseType
   ): Promise<DataType> {
     return this.head.call(url, responseType);
   }
 
   public static POST(
     url: string,
-    responseType: ResponseType | "text",
+    responseType: ResponseType,
     data: DataType | Object
   ): Promise<DataType> {
     return this.post.call(url, responseType, data);
@@ -54,7 +54,7 @@ export class HTTP {
 
   public static PUT(
     url: string,
-    responseType: ResponseType | "text",
+    responseType: ResponseType,
     data: DataType | Object
   ): Promise<DataType> {
     return this.put.call(url, responseType, data);
@@ -62,35 +62,35 @@ export class HTTP {
 
   public static DELETE(
     url: string,
-    responseType: ResponseType | "text"
+    responseType: ResponseType
   ): Promise<DataType> {
     return this.delete.call(url, responseType);
   }
 
   public static CONNECT(
     url: string,
-    responseType: ResponseType | "text"
+    responseType: ResponseType
   ): Promise<DataType> {
     return this.connect.call(url, responseType);
   }
 
   public static OPTIONS(
     url: string,
-    responseType: ResponseType | "text"
+    responseType: ResponseType
   ): Promise<DataType> {
     return this.options.call(url, responseType);
   }
 
   public static TRACE(
     url: string,
-    responseType: ResponseType | "text"
+    responseType: ResponseType
   ): Promise<DataType> {
     return this.trace.call(url, responseType);
   }
 
   public static PATCH(
     url: string,
-    responseType: ResponseType | "text",
+    responseType: ResponseType,
     data: DataType | Object
   ): Promise<DataType> {
     return this.patch.call(url, responseType, data);

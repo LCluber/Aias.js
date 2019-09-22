@@ -7,7 +7,6 @@ export class Method {
   private method: HTTPRequestMethod;
   private async: boolean;
   private noCache: boolean;
-  // private responseType: ResponseType;
   private headers: HTTPHeaders;
   private log: Group = Logger.addGroup("Aias");
 
@@ -15,7 +14,6 @@ export class Method {
     this.method = method;
     this.async = true;
     this.noCache = false;
-    //this.responseType = "text";
     this.headers = defaultHeaders;
   }
 
@@ -33,7 +31,7 @@ export class Method {
 
   public call(
     url: string,
-    responseType: ResponseType | "text",
+    responseType: ResponseType,
     data?: DataType | Object
   ): Promise<DataType> {
     return new Promise((resolve: Function, reject: Function) => {

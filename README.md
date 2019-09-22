@@ -35,7 +35,7 @@ const scientist = {
 };
 
 HTTP.post.setHeaders({ "Content-Type": "application/json" }); // this is the default setting for POST requests
-HTTP.POST("http://url.com/api/scientists", scientist)
+HTTP.POST("http://url.com/api/scientists", "json", scientist)
   .then(response => {
     console.log(response);
   })
@@ -44,7 +44,7 @@ HTTP.POST("http://url.com/api/scientists", scientist)
   });
 
 HTTP.get.setHeaders({ "Content-Type": "application/x-www-form-urlencoded" }); // this is the default setting for GET requests
-HTTP.GET("http://url.com/api/scientists/2")
+HTTP.GET("http://url.com/api/scientists/2", "json")
   .then(response => {
     console.log(response);
   })
@@ -68,7 +68,7 @@ var scientist = {
 };
 
 Aias.HTTP.post.setHeaders({ "Content-Type": "application/json" }); // this is the default setting for POST requests
-Aias.HTTP.POST("http://url.com/api/scientists", scientist)
+Aias.HTTP.POST("http://url.com/api/scientists", "json", scientist)
   .then(function(response) {
     console.log(response);
   })
@@ -79,7 +79,7 @@ Aias.HTTP.POST("http://url.com/api/scientists", scientist)
 Aias.HTTP.get.setHeaders({
   "Content-Type": "application/x-www-form-urlencoded"
 }); // this is the default setting for GET requests
-Aias.HTTP.GET("http://url.com/api/scientists/2")
+Aias.HTTP.GET("http://url.com/api/scientists/2", "json")
   .then(response => {
     console.log(response);
   })
@@ -114,60 +114,42 @@ interface HTTPHeaders {
   ...
 }
 
-static HTTP.GET( url: string ): Promise<DataType> {}
-static HTTP.HEAD( url: string ): Promise<DataType> {}
-static HTTP.POST( url: string, data: DataType|Object ): Promise<DataType> {}
-static HTTP.PUT( url: string, data: DataType|Object ): Promise<DataType> {}
-static HTTP.DELETE( url: string ): Promise<DataType> {}
-static HTTP.CONNECT( url: string ): Promise<DataType> {}
-static HTTP.OPTIONS( url: string ): Promise<DataType> {}
-static HTTP.TRACE( url: string ): Promise<DataType> {}
-static HTTP.PATCH( url: string, data: DataType|Object ): Promise<DataType> {}
+static HTTP.GET( url: string, responseType: ResponseType ): Promise<DataType> {}
+static HTTP.HEAD( url: string, responseType: ResponseType ): Promise<DataType> {}
+static HTTP.POST( url: string, responseType: ResponseType, data: DataType|Object ): Promise<DataType> {}
+static HTTP.PUT( url: string, responseType: ResponseType, data: DataType|Object ): Promise<DataType> {}
+static HTTP.DELETE( url: string, responseType: ResponseType ): Promise<DataType> {}
+static HTTP.CONNECT( url: string, responseType: ResponseType ): Promise<DataType> {}
+static HTTP.OPTIONS( url: string, responseType: ResponseType ): Promise<DataType> {}
+static HTTP.TRACE( url: string, responseType: ResponseType ): Promise<DataType> {}
+static HTTP.PATCH( url: string, responseType: ResponseType, data: DataType|Object ): Promise<DataType> {}
 
 static HTTP.get.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.get.setResponseType(responseType: ResponseType): void {}
 static HTTP.get.getHeaders(): HTTPHeaders {}
-static HTTP.get.getResponseType(): ResponseType {}
 
 static HTTP.head.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.head.setResponseType(responseType: ResponseType): void {}
 static HTTP.head.getHeaders(): HTTPHeaders {}
-static HTTP.head.getResponseType(): ResponseType {}
 
 static HTTP.post.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.post.setResponseType(responseType: ResponseType): void {}
 static HTTP.post.getHeaders(): HTTPHeaders {}
-static HTTP.post.getResponseType(): ResponseType {}
 
 static HTTP.put.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.put.setResponseType(responseType: ResponseType): void {}
 static HTTP.put.getHeaders(): HTTPHeaders {}
-static HTTP.put.getResponseType(): ResponseType {}
 
 static HTTP.delete.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.delete.setResponseType(responseType: ResponseType): void {}
 static HTTP.delete.getHeaders(): HTTPHeaders {}
-static HTTP.delete.getResponseType(): ResponseType {}
 
 static HTTP.connect.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.connect.setResponseType(responseType: ResponseType): void {}
 static HTTP.connect.getHeaders(): HTTPHeaders {}
-static HTTP.connect.getResponseType(): ResponseType {}
 
 static HTTP.options.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.options.setResponseType(responseType: ResponseType): void {}
 static HTTP.options.getHeaders(): HTTPHeaders {}
-static HTTP.options.getResponseType(): ResponseType {}
 
 static HTTP.trace.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.trace.setResponseType(responseType: ResponseType): void {}
 static HTTP.trace.getHeaders(): HTTPHeaders {}
-static HTTP.trace.getResponseType(): ResponseType {}
 
 static HTTP.patch.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.patch.setResponseType(responseType: ResponseType): void {}
 static HTTP.patch.getHeaders(): HTTPHeaders {}
-static HTTP.patch.getResponseType(): ResponseType {}
 ```
 
 ## Tests
