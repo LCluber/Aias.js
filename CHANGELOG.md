@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/LCluber/Aias.js/compare/v2.0.0...v2.1.0) (2019-09-23)
+
+
+### Features
+
+* **errors:** improved error handling ([7b77617](https://github.com/LCluber/Aias.js/commit/7b77617))
+
 # [2.0.0](https://github.com/LCluber/Aias.js/compare/v1.0.2...v2.0.0) (2019-09-22)
 
 ### Features
