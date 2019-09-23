@@ -35,7 +35,6 @@ export class Method {
     data?: DataType | Object
   ): Promise<DataType> {
     return new Promise((resolve: Function, reject: Function) => {
-      const msg = ["Aias xhr ", " (" + this.method + ":" + url + ")"];
       const http = new XMLHttpRequest();
 
       url += this.noCache ? "?cache=" + new Date().getTime() : "";
@@ -49,9 +48,14 @@ export class Method {
           http.onload = () => {
             let arrayBuffer = http.response;
             if (arrayBuffer) {
+              this.logInfo(url, http.status, http.statusText);
               resolve(arrayBuffer);
             } else {
-              reject(http.status);
+              this.logError(url, http.status, http.statusText);
+              reject({
+                status: http.status,
+                statusText: http.statusText
+              });
             }
           };
           break;
@@ -59,9 +63,14 @@ export class Method {
           http.onload = () => {
             let blob = http.response;
             if (blob) {
+              this.logInfo(url, http.status, http.statusText);
               resolve(blob);
             } else {
-              reject(http.status);
+              this.logError(url, http.status, http.statusText);
+              reject({
+                status: http.status,
+                statusText: http.statusText
+              });
             }
           };
           break;
@@ -69,11 +78,14 @@ export class Method {
           http.onreadystatechange = () => {
             if (http.readyState == 4) {
               if (http.status == 200) {
-                this.log.info(msg[0] + "successful" + msg[1]);
+                this.logInfo(url, http.status, http.statusText);
                 resolve(http.responseText);
               } else {
-                this.log.error(msg[0] + "failed" + msg[1]);
-                reject(http.status);
+                this.logError(url, http.status, http.statusText);
+                reject({
+                  status: http.status,
+                  statusText: http.statusText
+                });
               }
             }
           };
@@ -84,7 +96,7 @@ export class Method {
       }
 
       http.send(<DataType>data || null);
-      this.log.info(msg[0] + "sent" + msg[1]);
+      this.log.info("xhr (" + this.method + ":" + url + ")" + "sent");
     });
   }
 
@@ -94,5 +106,31 @@ export class Method {
         http.setRequestHeader(property, <string>this.headers[property]);
       }
     }
+  }
+
+  private logInfo(url: string, status: number, statusText: string): void {
+    this.log.info(
+      "xhr (" +
+        this.method +
+        ":" +
+        url +
+        ") done with status " +
+        status +
+        " " +
+        statusText
+    );
+  }
+
+  private logError(url: string, status: number, statusText: string): void {
+    this.log.error(
+      "xhr (" +
+        this.method +
+        ":" +
+        url +
+        ") failed with status " +
+        status +
+        " " +
+        statusText
+    );
   }
 }

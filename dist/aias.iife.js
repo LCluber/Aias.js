@@ -294,7 +294,6 @@ var Aias = (function (exports) {
       var _this = this;
 
       return new Promise(function (resolve, reject) {
-        var msg = ["Aias xhr ", " (" + _this.method + ":" + url + ")"];
         var http = new XMLHttpRequest();
         url += _this.noCache ? "?cache=" + new Date().getTime() : "";
         http.open(_this.method, url, _this.async);
@@ -308,9 +307,16 @@ var Aias = (function (exports) {
               var arrayBuffer = http.response;
 
               if (arrayBuffer) {
+                _this.logInfo(url, http.status, http.statusText);
+
                 resolve(arrayBuffer);
               } else {
-                reject(http.status);
+                _this.logError(url, http.status, http.statusText);
+
+                reject({
+                  status: http.status,
+                  statusText: http.statusText
+                });
               }
             };
 
@@ -321,9 +327,16 @@ var Aias = (function (exports) {
               var blob = http.response;
 
               if (blob) {
+                _this.logInfo(url, http.status, http.statusText);
+
                 resolve(blob);
               } else {
-                reject(http.status);
+                _this.logError(url, http.status, http.statusText);
+
+                reject({
+                  status: http.status,
+                  statusText: http.statusText
+                });
               }
             };
 
@@ -333,13 +346,16 @@ var Aias = (function (exports) {
             http.onreadystatechange = function () {
               if (http.readyState == 4) {
                 if (http.status == 200) {
-                  _this.log.info(msg[0] + "successful" + msg[1]);
+                  _this.logInfo(url, http.status, http.statusText);
 
                   resolve(http.responseText);
                 } else {
-                  _this.log.error(msg[0] + "failed" + msg[1]);
+                  _this.logError(url, http.status, http.statusText);
 
-                  reject(http.status);
+                  reject({
+                    status: http.status,
+                    statusText: http.statusText
+                  });
                 }
               }
             };
@@ -352,7 +368,7 @@ var Aias = (function (exports) {
 
         http.send(data || null);
 
-        _this.log.info(msg[0] + "sent" + msg[1]);
+        _this.log.info("xhr (" + _this.method + ":" + url + ")" + "sent");
       });
     };
 
@@ -362,6 +378,14 @@ var Aias = (function (exports) {
           http.setRequestHeader(property, this.headers[property]);
         }
       }
+    };
+
+    _proto.logInfo = function logInfo(url, status, statusText) {
+      this.log.info("xhr (" + this.method + ":" + url + ") done with status " + status + " " + statusText);
+    };
+
+    _proto.logError = function logError(url, status, statusText) {
+      this.log.error("xhr (" + this.method + ":" + url + ") failed with status " + status + " " + statusText);
     };
 
     return Method;

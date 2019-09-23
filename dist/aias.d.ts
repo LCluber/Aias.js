@@ -97,6 +97,8 @@ export declare class Method {
     getHeaders(): HTTPHeaders;
     call(url: string, responseType: ResponseType, data?: DataType | Object): Promise<DataType>;
     private setRequestHeaders;
+    private logInfo;
+    private logError;
 }
 export declare type HTTPRequestMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
 export declare type DataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null;

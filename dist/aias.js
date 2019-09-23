@@ -46,7 +46,6 @@ class Method {
     }
     call(url, responseType, data) {
         return new Promise((resolve, reject) => {
-            const msg = ["Aias xhr ", " (" + this.method + ":" + url + ")"];
             const http = new XMLHttpRequest();
             url += this.noCache ? "?cache=" + new Date().getTime() : "";
             http.open(this.method, url, this.async);
@@ -57,10 +56,15 @@ class Method {
                     http.onload = () => {
                         let arrayBuffer = http.response;
                         if (arrayBuffer) {
+                            this.logInfo(url, http.status, http.statusText);
                             resolve(arrayBuffer);
                         }
                         else {
-                            reject(http.status);
+                            this.logError(url, http.status, http.statusText);
+                            reject({
+                                status: http.status,
+                                statusText: http.statusText
+                            });
                         }
                     };
                     break;
@@ -68,10 +72,15 @@ class Method {
                     http.onload = () => {
                         let blob = http.response;
                         if (blob) {
+                            this.logInfo(url, http.status, http.statusText);
                             resolve(blob);
                         }
                         else {
-                            reject(http.status);
+                            this.logError(url, http.status, http.statusText);
+                            reject({
+                                status: http.status,
+                                statusText: http.statusText
+                            });
                         }
                     };
                     break;
@@ -79,12 +88,15 @@ class Method {
                     http.onreadystatechange = () => {
                         if (http.readyState == 4) {
                             if (http.status == 200) {
-                                this.log.info(msg[0] + "successful" + msg[1]);
+                                this.logInfo(url, http.status, http.statusText);
                                 resolve(http.responseText);
                             }
                             else {
-                                this.log.error(msg[0] + "failed" + msg[1]);
-                                reject(http.status);
+                                this.logError(url, http.status, http.statusText);
+                                reject({
+                                    status: http.status,
+                                    statusText: http.statusText
+                                });
                             }
                         }
                     };
@@ -93,7 +105,7 @@ class Method {
                 data = JSON.stringify(data);
             }
             http.send(data || null);
-            this.log.info(msg[0] + "sent" + msg[1]);
+            this.log.info("xhr (" + this.method + ":" + url + ")" + "sent");
         });
     }
     setRequestHeaders(http) {
@@ -102,6 +114,12 @@ class Method {
                 http.setRequestHeader(property, this.headers[property]);
             }
         }
+    }
+    logInfo(url, status, statusText) {
+        this.log.info("xhr (" + this.method + ":" + url + ") done with status " + status + " " + statusText);
+    }
+    logError(url, status, statusText) {
+        this.log.error("xhr (" + this.method + ":" + url + ") failed with status " + status + " " + statusText);
     }
 }
 
