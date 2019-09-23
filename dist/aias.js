@@ -52,28 +52,14 @@ class Method {
             http.responseType = responseType;
             this.setRequestHeaders(http);
             switch (http.responseType) {
+                case "json":
                 case "arraybuffer":
-                    http.onload = () => {
-                        let arrayBuffer = http.response;
-                        if (arrayBuffer) {
-                            this.logInfo(url, http.status, http.statusText);
-                            resolve(arrayBuffer);
-                        }
-                        else {
-                            this.logError(url, http.status, http.statusText);
-                            reject({
-                                status: http.status,
-                                statusText: http.statusText
-                            });
-                        }
-                    };
-                    break;
                 case "blob":
                     http.onload = () => {
-                        let blob = http.response;
-                        if (blob) {
+                        let response = http.response;
+                        if (response) {
                             this.logInfo(url, http.status, http.statusText);
-                            resolve(blob);
+                            resolve(response);
                         }
                         else {
                             this.logError(url, http.status, http.statusText);
@@ -116,10 +102,24 @@ class Method {
         }
     }
     logInfo(url, status, statusText) {
-        this.log.info("xhr (" + this.method + ":" + url + ") done with status " + status + " " + statusText);
+        this.log.info("xhr (" +
+            this.method +
+            ":" +
+            url +
+            ") done with status " +
+            status +
+            " " +
+            statusText);
     }
     logError(url, status, statusText) {
-        this.log.error("xhr (" + this.method + ":" + url + ") failed with status " + status + " " + statusText);
+        this.log.error("xhr (" +
+            this.method +
+            ":" +
+            url +
+            ") failed with status " +
+            status +
+            " " +
+            statusText);
     }
 }
 

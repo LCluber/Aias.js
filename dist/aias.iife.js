@@ -302,34 +302,16 @@ var Aias = (function (exports) {
         _this.setRequestHeaders(http);
 
         switch (http.responseType) {
+          case "json":
           case "arraybuffer":
-            http.onload = function () {
-              var arrayBuffer = http.response;
-
-              if (arrayBuffer) {
-                _this.logInfo(url, http.status, http.statusText);
-
-                resolve(arrayBuffer);
-              } else {
-                _this.logError(url, http.status, http.statusText);
-
-                reject({
-                  status: http.status,
-                  statusText: http.statusText
-                });
-              }
-            };
-
-            break;
-
           case "blob":
             http.onload = function () {
-              var blob = http.response;
+              var response = http.response;
 
-              if (blob) {
+              if (response) {
                 _this.logInfo(url, http.status, http.statusText);
 
-                resolve(blob);
+                resolve(response);
               } else {
                 _this.logError(url, http.status, http.statusText);
 
