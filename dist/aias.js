@@ -49,11 +49,12 @@ class Method {
             const http = new XMLHttpRequest();
             url += this.noCache ? "?cache=" + new Date().getTime() : "";
             http.open(this.method, url, this.async);
-            http.responseType = responseType;
+            http.responseType = (responseType === "audiobuffer") ? "arraybuffer" : responseType;
             this.setRequestHeaders(http);
-            switch (http.responseType) {
+            switch (responseType) {
                 case "json":
                 case "arraybuffer":
+                case "audiobuffer":
                 case "blob":
                     http.onload = () => {
                         if (http.readyState == 4) {
@@ -61,7 +62,25 @@ class Method {
                                 const response = http.response;
                                 if (response) {
                                     this.logInfo(url, http.status, http.statusText);
-                                    resolve(response);
+                                    if (responseType === "audiobuffer") {
+                                        let context = new AudioContext();
+                                        context.decodeAudioData(response, (buffer) => {
+                                            resolve(buffer);
+                                        }, (error) => {
+                                            this.log.error("xhr (" +
+                                                this.method +
+                                                ":" +
+                                                url +
+                                                ") failed with decodeAudioData error : " + error.message);
+                                            reject({
+                                                status: error.name,
+                                                statusText: error.message
+                                            });
+                                        });
+                                    }
+                                    else {
+                                        resolve(response);
+                                    }
                                 }
                                 else {
                                     this.logError(url, http.status, http.statusText);

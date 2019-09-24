@@ -1,5 +1,5 @@
 import { Method } from "./method";
-import { DataType, ResponseType } from "./types";
+import { DataType, ResponseDataType, ResponseType } from "./types";
 
 export class HTTP {
   public static get: Method = new Method("GET", {
@@ -33,66 +33,66 @@ export class HTTP {
   public static GET(
     url: string,
     responseType: ResponseType
-  ): Promise<DataType> {
+  ): Promise<ResponseDataType> {
     return this.get.call(url, responseType);
   }
 
   public static HEAD(
     url: string,
     responseType: ResponseType
-  ): Promise<DataType> {
+  ): Promise<ResponseDataType> {
     return this.head.call(url, responseType);
   }
 
   public static POST(
     url: string,
     responseType: ResponseType,
-    data: DataType | Object
-  ): Promise<DataType> {
+    data: DataType
+  ): Promise<ResponseDataType> {
     return this.post.call(url, responseType, data);
   }
 
   public static PUT(
     url: string,
     responseType: ResponseType,
-    data: DataType | Object
-  ): Promise<DataType> {
+    data: DataType
+  ): Promise<ResponseDataType> {
     return this.put.call(url, responseType, data);
   }
 
   public static DELETE(
     url: string,
     responseType: ResponseType
-  ): Promise<DataType> {
+  ): Promise<ResponseDataType> {
     return this.delete.call(url, responseType);
   }
 
   public static CONNECT(
     url: string,
     responseType: ResponseType
-  ): Promise<DataType> {
+  ): Promise<ResponseDataType> {
     return this.connect.call(url, responseType);
   }
 
   public static OPTIONS(
     url: string,
     responseType: ResponseType
-  ): Promise<DataType> {
+  ): Promise<ResponseDataType> {
     return this.options.call(url, responseType);
   }
 
   public static TRACE(
     url: string,
     responseType: ResponseType
-  ): Promise<DataType> {
+  ): Promise<ResponseDataType> {
     return this.trace.call(url, responseType);
   }
 
   public static PATCH(
     url: string,
     responseType: ResponseType,
-    data: DataType | Object
-  ): Promise<DataType> {
+    data: DataType
+  ): Promise<ResponseDataType> {
     return this.patch.call(url, responseType, data);
   }
 }

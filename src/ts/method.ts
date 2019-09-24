@@ -1,7 +1,13 @@
 import { isObject } from "@lcluber/chjs";
 import { Logger, Group } from "@lcluber/mouettejs";
 import { HTTPHeaders } from "./httpheaders";
-import { HTTPRequestMethod, DataType, ResponseType } from "./types";
+import {
+  HTTPRequestMethod,
+  DataType,
+  SendDataType,
+  ResponseDataType,
+  ResponseType
+} from "./types";
 
 export class Method {
   private method: HTTPRequestMethod;
@@ -32,20 +38,22 @@ export class Method {
   public call(
     url: string,
     responseType: ResponseType,
-    data?: DataType | Object
-  ): Promise<DataType> {
+    data?: DataType
+  ): Promise<ResponseDataType> {
     return new Promise((resolve: Function, reject: Function) => {
       const http = new XMLHttpRequest();
 
       url += this.noCache ? "?cache=" + new Date().getTime() : "";
 
       http.open(this.method, url, this.async);
-      http.responseType = responseType;
+      http.responseType =
+        responseType === "audiobuffer" ? "arraybuffer" : responseType;
       this.setRequestHeaders(http);
 
-      switch (http.responseType) {
+      switch (responseType) {
         case "json":
         case "arraybuffer":
+        case "audiobuffer":
         case "blob":
           http.onload = () => {
             if (http.readyState == 4) {
@@ -53,7 +61,31 @@ export class Method {
                 const response = http.response;
                 if (response) {
                   this.logInfo(url, http.status, http.statusText);
-                  resolve(response);
+                  if (responseType === "audiobuffer") {
+                    let context = new AudioContext();
+                    context.decodeAudioData(
+                      response,
+                      buffer => {
+                        resolve(buffer);
+                      },
+                      (error: DOMException) => {
+                        this.log.error(
+                          "xhr (" +
+                            this.method +
+                            ":" +
+                            url +
+                            ") failed with decodeAudioData error : " +
+                            error.message
+                        );
+                        reject({
+                          status: error.name,
+                          statusText: error.message
+                        });
+                      }
+                    );
+                  } else {
+                    resolve(response);
+                  }
                 } else {
                   this.logError(url, http.status, http.statusText);
                   reject({
@@ -92,7 +124,7 @@ export class Method {
         data = JSON.stringify(data);
       }
 
-      http.send(<DataType>data || null);
+      http.send(<SendDataType>data || null);
       this.log.info("xhr (" + this.method + ":" + url + ")" + "sent");
     });
   }

@@ -9,6 +9,18 @@ export type HTTPRequestMethod =
   | "TRACE"
   | "PATCH";
 
+export type SendDataType =
+  | string
+  | Document
+  | Blob
+  | BufferSource
+  | FormData
+  | ArrayBufferView
+  | ArrayBuffer
+  | URLSearchParams
+  | ReadableStream
+  | null;
+
 export type DataType =
   | string
   | Document
@@ -17,13 +29,28 @@ export type DataType =
   | FormData
   | ArrayBufferView
   | ArrayBuffer
-  | FormData
   | URLSearchParams
   | ReadableStream
+  | Object
+  | null;
+
+export type ResponseDataType =
+  | string
+  | Document
+  | Blob
+  | BufferSource
+  | FormData
+  | ArrayBufferView
+  | ArrayBuffer
+  | AudioBuffer
+  | URLSearchParams
+  | ReadableStream
+  | Object
   | null;
 
 export type ResponseType =
   | "arraybuffer"
+  | "audiobuffer"
   | "blob"
   | "document"
   | "json"
