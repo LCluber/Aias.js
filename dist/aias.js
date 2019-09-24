@@ -49,7 +49,8 @@ class Method {
             const http = new XMLHttpRequest();
             url += this.noCache ? "?cache=" + new Date().getTime() : "";
             http.open(this.method, url, this.async);
-            http.responseType = (responseType === "audiobuffer") ? "arraybuffer" : responseType;
+            http.responseType =
+                responseType === "audiobuffer" ? "arraybuffer" : responseType;
             this.setRequestHeaders(http);
             switch (responseType) {
                 case "json":
@@ -64,14 +65,15 @@ class Method {
                                     this.logInfo(url, http.status, http.statusText);
                                     if (responseType === "audiobuffer") {
                                         let context = new AudioContext();
-                                        context.decodeAudioData(response, (buffer) => {
+                                        context.decodeAudioData(response, buffer => {
                                             resolve(buffer);
                                         }, (error) => {
                                             this.log.error("xhr (" +
                                                 this.method +
                                                 ":" +
                                                 url +
-                                                ") failed with decodeAudioData error : " + error.message);
+                                                ") failed with decodeAudioData error : " +
+                                                error.message);
                                             reject({
                                                 status: error.name,
                                                 statusText: error.message
