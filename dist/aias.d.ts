@@ -34,15 +34,15 @@ export declare class HTTP {
     static options: Method;
     static trace: Method;
     static patch: Method;
-    static GET(url: string, responseType: ResponseType): Promise<DataType>;
-    static HEAD(url: string, responseType: ResponseType): Promise<DataType>;
-    static POST(url: string, responseType: ResponseType, data: DataType | Object): Promise<DataType>;
-    static PUT(url: string, responseType: ResponseType, data: DataType | Object): Promise<DataType>;
-    static DELETE(url: string, responseType: ResponseType): Promise<DataType>;
-    static CONNECT(url: string, responseType: ResponseType): Promise<DataType>;
-    static OPTIONS(url: string, responseType: ResponseType): Promise<DataType>;
-    static TRACE(url: string, responseType: ResponseType): Promise<DataType>;
-    static PATCH(url: string, responseType: ResponseType, data: DataType | Object): Promise<DataType>;
+    static GET(url: string, responseType: ResponseType): Promise<ResponseDataType>;
+    static HEAD(url: string, responseType: ResponseType): Promise<ResponseDataType>;
+    static POST(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType>;
+    static PUT(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType>;
+    static DELETE(url: string, responseType: ResponseType): Promise<ResponseDataType>;
+    static CONNECT(url: string, responseType: ResponseType): Promise<ResponseDataType>;
+    static OPTIONS(url: string, responseType: ResponseType): Promise<ResponseDataType>;
+    static TRACE(url: string, responseType: ResponseType): Promise<ResponseDataType>;
+    static PATCH(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType>;
 }
 export interface HTTPHeaders {
     'A-IM'?: string;
@@ -95,11 +95,13 @@ export declare class Method {
     constructor(method: HTTPRequestMethod, defaultHeaders: HTTPHeaders);
     setHeaders(headers: HTTPHeaders): void;
     getHeaders(): HTTPHeaders;
-    call(url: string, responseType: ResponseType, data?: DataType | Object): Promise<DataType>;
+    call(url: string, responseType: ResponseType, data?: DataType): Promise<ResponseDataType>;
     private setRequestHeaders;
     private logInfo;
     private logError;
 }
 export declare type HTTPRequestMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
-export declare type DataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null;
-export declare type ResponseType = "arraybuffer" | "blob" | "document" | "json" | "text" | "";
+export declare type SendDataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | URLSearchParams | ReadableStream | null;
+export declare type DataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | URLSearchParams | ReadableStream | Object | null;
+export declare type ResponseDataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | AudioBuffer | URLSearchParams | ReadableStream | Object | null;
+export declare type ResponseType = "arraybuffer" | "audiobuffer" | "blob" | "document" | "json" | "text" | "";

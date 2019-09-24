@@ -1,6 +1,7 @@
 ## Synopsis
 
 Aias.js is an open source promise based HTTP client written in TypeScript.
+It adds features like "audiobuffer" response type, comprehensive error handling and logging.
 
 ## Motivation
 
@@ -92,9 +93,11 @@ Aias.HTTP.GET("http://url.com/api/scientists/2", "json")
 
 ```javascript
 
-type DataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | null;
+type DataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | Object | null;
 
-type ResponseType = 'arraybuffer' | 'blob' | 'document' | 'json' | 'text' | '';
+type ResponseDataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | AudioBuffer | FormData | URLSearchParams | ReadableStream | Object | null;
+
+type ResponseType = 'arraybuffer' | 'audiobuffer' | 'blob' | 'document' | 'json' | 'text' | '';
 
 interface HTTPHeaders {
   'A-IM'?: string;
@@ -114,15 +117,15 @@ interface HTTPHeaders {
   ...
 }
 
-static HTTP.GET( url: string, responseType: ResponseType ): Promise<DataType> {}
-static HTTP.HEAD( url: string, responseType: ResponseType ): Promise<DataType> {}
-static HTTP.POST( url: string, responseType: ResponseType, data: DataType|Object ): Promise<DataType> {}
-static HTTP.PUT( url: string, responseType: ResponseType, data: DataType|Object ): Promise<DataType> {}
-static HTTP.DELETE( url: string, responseType: ResponseType ): Promise<DataType> {}
-static HTTP.CONNECT( url: string, responseType: ResponseType ): Promise<DataType> {}
-static HTTP.OPTIONS( url: string, responseType: ResponseType ): Promise<DataType> {}
-static HTTP.TRACE( url: string, responseType: ResponseType ): Promise<DataType> {}
-static HTTP.PATCH( url: string, responseType: ResponseType, data: DataType|Object ): Promise<DataType> {}
+static HTTP.GET( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
+static HTTP.HEAD( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
+static HTTP.POST( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> {}
+static HTTP.PUT( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> {}
+static HTTP.DELETE( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
+static HTTP.CONNECT( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
+static HTTP.OPTIONS( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
+static HTTP.TRACE( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
+static HTTP.PATCH( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> {}
 
 static HTTP.get.setHeaders(headers: HTTPHeaders): void {}
 static HTTP.get.getHeaders(): HTTPHeaders {}

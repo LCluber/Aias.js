@@ -297,46 +297,54 @@ var Aias = (function (exports) {
         var http = new XMLHttpRequest();
         url += _this.noCache ? "?cache=" + new Date().getTime() : "";
         http.open(_this.method, url, _this.async);
-        http.responseType = responseType;
+        http.responseType = responseType === "audiobuffer" ? "arraybuffer" : responseType;
 
         _this.setRequestHeaders(http);
 
-        switch (http.responseType) {
+        switch (responseType) {
+          case "json":
           case "arraybuffer":
-            http.onload = function () {
-              var arrayBuffer = http.response;
-
-              if (arrayBuffer) {
-                _this.logInfo(url, http.status, http.statusText);
-
-                resolve(arrayBuffer);
-              } else {
-                _this.logError(url, http.status, http.statusText);
-
-                reject({
-                  status: http.status,
-                  statusText: http.statusText
-                });
-              }
-            };
-
-            break;
-
+          case "audiobuffer":
           case "blob":
             http.onload = function () {
-              var blob = http.response;
+              if (http.readyState == 4) {
+                if (http.status == 200) {
+                  var response = http.response;
 
-              if (blob) {
-                _this.logInfo(url, http.status, http.statusText);
+                  if (response) {
+                    _this.logInfo(url, http.status, http.statusText);
 
-                resolve(blob);
-              } else {
-                _this.logError(url, http.status, http.statusText);
+                    if (responseType === "audiobuffer") {
+                      var context = new AudioContext();
+                      context.decodeAudioData(response, function (buffer) {
+                        resolve(buffer);
+                      }, function (error) {
+                        _this.log.error("xhr (" + _this.method + ":" + url + ") failed with decodeAudioData error : " + error.message);
 
-                reject({
-                  status: http.status,
-                  statusText: http.statusText
-                });
+                        reject({
+                          status: error.name,
+                          statusText: error.message
+                        });
+                      });
+                    } else {
+                      resolve(response);
+                    }
+                  } else {
+                    _this.logError(url, http.status, http.statusText);
+
+                    reject({
+                      status: http.status,
+                      statusText: http.statusText
+                    });
+                  }
+                } else {
+                  _this.logError(url, http.status, http.statusText);
+
+                  reject({
+                    status: http.status,
+                    statusText: http.statusText
+                  });
+                }
               }
             };
 
