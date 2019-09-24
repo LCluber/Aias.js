@@ -306,19 +306,30 @@ var Aias = (function (exports) {
           case "arraybuffer":
           case "blob":
             http.onload = function () {
-              var response = http.response;
+              if (http.readyState == 4) {
+                if (http.status == 200) {
+                  var response = http.response;
 
-              if (response) {
-                _this.logInfo(url, http.status, http.statusText);
+                  if (response) {
+                    _this.logInfo(url, http.status, http.statusText);
 
-                resolve(response);
-              } else {
-                _this.logError(url, http.status, http.statusText);
+                    resolve(response);
+                  } else {
+                    _this.logError(url, http.status, http.statusText);
 
-                reject({
-                  status: http.status,
-                  statusText: http.statusText
-                });
+                    reject({
+                      status: http.status,
+                      statusText: http.statusText
+                    });
+                  }
+                } else {
+                  _this.logError(url, http.status, http.statusText);
+
+                  reject({
+                    status: http.status,
+                    statusText: http.statusText
+                  });
+                }
               }
             };
 

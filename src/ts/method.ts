@@ -48,16 +48,26 @@ export class Method {
         case "arraybuffer":
         case "blob":
           http.onload = () => {
-            let response = http.response;
-            if (response) {
-              this.logInfo(url, http.status, http.statusText);
-              resolve(response);
-            } else {
-              this.logError(url, http.status, http.statusText);
-              reject({
-                status: http.status,
-                statusText: http.statusText
-              });
+            if (http.readyState == 4) {
+              if (http.status == 200) {
+                const response = http.response;
+                if (response) {
+                  this.logInfo(url, http.status, http.statusText);
+                  resolve(response);
+                } else {
+                  this.logError(url, http.status, http.statusText);
+                  reject({
+                    status: http.status,
+                    statusText: http.statusText
+                  });
+                }
+              } else {
+                this.logError(url, http.status, http.statusText);
+                reject({
+                  status: http.status,
+                  statusText: http.statusText
+                });
+              }
             }
           };
           break;
