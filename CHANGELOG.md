@@ -1,3 +1,16 @@
+# [2.2.0](https://github.com/LCluber/Aias.js/compare/v2.1.0...v2.2.0) (2019-09-24)
+
+
+### Bug Fixes
+
+* **json:** better json type handling ([586cb8a](https://github.com/LCluber/Aias.js/commit/586cb8a))
+* **json:** fixed json response type handling ([6ec5eb7](https://github.com/LCluber/Aias.js/commit/6ec5eb7))
+
+
+### Features
+
+* **audiobuffer:** added audiobuffer response type ([aae002c](https://github.com/LCluber/Aias.js/commit/aae002c))
+
 # [2.1.0](https://github.com/LCluber/Aias.js/compare/v2.0.0...v2.1.0) (2019-09-23)
 
 
