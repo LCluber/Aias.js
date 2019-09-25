@@ -23,8 +23,8 @@
 * https://github.com/LCluber/Aias.js
 */
 
-import { isObject } from '@lcluber/chjs';
 import { Logger } from '@lcluber/mouettejs';
+import { isObject } from '@lcluber/chjs';
 
 class Method {
     constructor(method, defaultHeaders) {
@@ -156,6 +156,12 @@ class Method {
 }
 
 class HTTP {
+    static setLogLevel(name) {
+        return this.log.setLevel(name);
+    }
+    static getLogLevel() {
+        return this.log.getLevel();
+    }
     static GET(url, responseType) {
         return this.get.call(url, responseType);
     }
@@ -184,6 +190,7 @@ class HTTP {
         return this.patch.call(url, responseType, data);
     }
 }
+HTTP.log = Logger.addGroup("Aias");
 HTTP.get = new Method("GET", {
     "Content-Type": "application/x-www-form-urlencoded"
 });

@@ -22,9 +22,13 @@
 *
 * https://github.com/LCluber/Aias.js
 */
+import { LevelName } from "@lcluber/mouettejs";
 
 
 export declare class HTTP {
+    private static log;
+    static setLogLevel(name: LevelName): LevelName;
+    static getLogLevel(): LevelName;
     static get: Method;
     static head: Method;
     static post: Method;

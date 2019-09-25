@@ -26,42 +26,6 @@
 var Aias = (function (exports) {
   'use strict';
 
-  /* MIT License
-
-  Copyright (c) 2009 Ludovic CLUBER
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-  https://github.com/LCluber/Ch.js
-  */
-  function isObject(object) {
-    return object !== null && typeof object === "object" && !isArray(object);
-  }
-
-  function isArray(array) {
-    return array !== null && array.constructor === Array;
-  }
-
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-  }
-
   /** MIT License
   * 
   * Copyright (c) 2015 Ludovic CLUBER 
@@ -152,10 +116,19 @@ var Aias = (function (exports) {
       this.messages = [];
       this.name = name;
       this.messages = [];
-      this._level = level;
+      this.level = level;
     }
 
     var _proto2 = Group.prototype;
+
+    _proto2.setLevel = function setLevel(name) {
+      this.level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this.level;
+      return this.getLevel();
+    };
+
+    _proto2.getLevel = function getLevel() {
+      return this.level.name;
+    };
 
     _proto2.info = function info(message) {
       this.log(LEVELS.info, message);
@@ -177,20 +150,10 @@ var Aias = (function (exports) {
       var message = new Message(level, messageContent);
       this.messages.push(message);
 
-      if (this._level.id <= message.id) {
+      if (this.level.id <= message.id) {
         message.display(this.name);
       }
     };
-
-    _createClass(Group, [{
-      key: "level",
-      set: function set(name) {
-        this._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._level;
-      },
-      get: function get() {
-        return this._level.name;
-      }
-    }]);
 
     return Group;
   }();
@@ -216,7 +179,7 @@ var Aias = (function (exports) {
         }
 
         var group = _ref;
-        group.level = Logger.level.name;
+        group.setLevel(Logger.level.name);
       }
 
       return Logger.getLevel();
@@ -264,6 +227,26 @@ var Aias = (function (exports) {
 
   Logger.level = LEVELS.error;
   Logger.groups = [];
+
+  /* MIT License
+
+  Copyright (c) 2009 Ludovic CLUBER
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+  https://github.com/LCluber/Ch.js
+  */
+  function isObject(object) {
+    return object !== null && typeof object === "object" && !isArray(object);
+  }
+
+  function isArray(array) {
+    return array !== null && array.constructor === Array;
+  }
 
   var Method =
   /*#__PURE__*/
@@ -404,6 +387,14 @@ var Aias = (function (exports) {
   function () {
     function HTTP() {}
 
+    HTTP.setLogLevel = function setLogLevel(name) {
+      return this.log.setLevel(name);
+    };
+
+    HTTP.getLogLevel = function getLogLevel() {
+      return this.log.getLevel();
+    };
+
     HTTP.GET = function GET(url, responseType) {
       return this.get.call(url, responseType);
     };
@@ -442,6 +433,7 @@ var Aias = (function (exports) {
 
     return HTTP;
   }();
+  HTTP.log = Logger.addGroup("Aias");
   HTTP.get = new Method("GET", {
     "Content-Type": "application/x-www-form-urlencoded"
   });

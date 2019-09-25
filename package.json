@@ -48,7 +48,7 @@
   ],
   "dependencies": {
     "@lcluber/chjs": "2.6.2",
-    "@lcluber/mouettejs": "2.1.0"
+    "@lcluber/mouettejs": "2.2.1"
   },
   "devDependencies": {
     "@commitlint/cli": "8.0.0",

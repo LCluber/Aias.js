@@ -1,7 +1,18 @@
+import { Logger, Group, LevelName } from "@lcluber/mouettejs";
 import { Method } from "./method";
 import { DataType, ResponseDataType, ResponseType } from "./types";
 
 export class HTTP {
+  private static log: Group = Logger.addGroup("Aias");
+
+  public static setLogLevel(name: LevelName): LevelName {
+    return this.log.setLevel(name);
+  }
+
+  public static getLogLevel(): LevelName {
+    return this.log.getLevel();
+  }
+
   public static get: Method = new Method("GET", {
     "Content-Type": "application/x-www-form-urlencoded"
   });

@@ -127,6 +127,11 @@ static HTTP.OPTIONS( url: string, responseType: ResponseType ): Promise<Response
 static HTTP.TRACE( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
 static HTTP.PATCH( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> {}
 
+// Log levels from @lcluber Mouette.js dependency
+type LevelName = "info" | "trace" | "warn" | "error" | "off";
+static HTTP.setLogLevel(name: LevelName): LevelName {}
+static HTTP.getLogLevel(): LevelName {}
+
 static HTTP.get.setHeaders(headers: HTTPHeaders): void {}
 static HTTP.get.getHeaders(): HTTPHeaders {}
 
