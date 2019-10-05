@@ -1,6 +1,6 @@
 {
   "name": "@lcluber/aiasjs",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Promise based HTTP client (Ajax) library",
   "keywords": [
     "ajax",
