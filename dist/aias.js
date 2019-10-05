@@ -64,21 +64,38 @@ class Method {
                                 if (response) {
                                     this.logInfo(url, http.status, http.statusText);
                                     if (responseType === "audiobuffer") {
-                                        let context = new AudioContext();
-                                        context.decodeAudioData(response, buffer => {
-                                            resolve(buffer);
-                                        }, (error) => {
+                                        const AudioContext = window.AudioContext ||
+                                            window.webkitAudioContext ||
+                                            false;
+                                        if (AudioContext) {
+                                            const context = new AudioContext();
+                                            context.decodeAudioData(response, buffer => {
+                                                resolve(buffer);
+                                            }, (error) => {
+                                                this.log.error("xhr (" +
+                                                    this.method +
+                                                    ":" +
+                                                    url +
+                                                    ") failed with decodeAudioData error : " +
+                                                    error.message);
+                                                reject({
+                                                    status: error.name,
+                                                    statusText: error.message
+                                                });
+                                            });
+                                        }
+                                        else {
                                             this.log.error("xhr (" +
                                                 this.method +
                                                 ":" +
                                                 url +
-                                                ") failed with decodeAudioData error : " +
-                                                error.message);
+                                                ") failed with error : " +
+                                                "Web Audio API is not supported by your browser.");
                                             reject({
-                                                status: error.name,
-                                                statusText: error.message
+                                                status: "Web Audio API not supported by your browser",
+                                                statusText: "Web Audio API is not supported by your browser"
                                             });
-                                        });
+                                        }
                                     }
                                     else {
                                         resolve(response);

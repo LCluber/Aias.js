@@ -298,17 +298,28 @@ var Aias = (function (exports) {
                     _this.logInfo(url, http.status, http.statusText);
 
                     if (responseType === "audiobuffer") {
-                      var context = new AudioContext();
-                      context.decodeAudioData(response, function (buffer) {
-                        resolve(buffer);
-                      }, function (error) {
-                        _this.log.error("xhr (" + _this.method + ":" + url + ") failed with decodeAudioData error : " + error.message);
+                      var AudioContext = window.AudioContext || window.webkitAudioContext || false;
+
+                      if (AudioContext) {
+                        var context = new AudioContext();
+                        context.decodeAudioData(response, function (buffer) {
+                          resolve(buffer);
+                        }, function (error) {
+                          _this.log.error("xhr (" + _this.method + ":" + url + ") failed with decodeAudioData error : " + error.message);
+
+                          reject({
+                            status: error.name,
+                            statusText: error.message
+                          });
+                        });
+                      } else {
+                        _this.log.error("xhr (" + _this.method + ":" + url + ") failed with error : " + "Web Audio API is not supported by your browser.");
 
                         reject({
-                          status: error.name,
-                          statusText: error.message
+                          status: "Web Audio API not supported by your browser",
+                          statusText: "Web Audio API is not supported by your browser"
                         });
-                      });
+                      }
                     } else {
                       resolve(response);
                     }
