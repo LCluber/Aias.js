@@ -9,6 +9,11 @@ import {
   ResponseType
 } from "./types";
 
+const AudioContext =
+  window.AudioContext || // Default
+  (<any>window).webkitAudioContext || // Safari and old versions of Chrome
+  false;
+
 export class Method {
   private method: HTTPRequestMethod;
   private async: boolean;
@@ -62,15 +67,12 @@ export class Method {
                 if (response) {
                   this.logInfo(url, http.status, http.statusText);
                   if (responseType === "audiobuffer") {
-                    const AudioContext =
-                      window.AudioContext || // Default
-                      (<any>window).webkitAudioContext || // Safari and old versions of Chrome
-                      false;
                     if (AudioContext) {
-                      const context = new AudioContext();
-                      context.decodeAudioData(
+                      const audioContext = new AudioContext();
+                      audioContext.decodeAudioData(
                         response,
                         buffer => {
+                          audioContext.close();
                           resolve(buffer);
                         },
                         (error: DOMException) => {
@@ -82,6 +84,7 @@ export class Method {
                               ") failed with decodeAudioData error : " +
                               error.message
                           );
+                          audioContext.close();
                           reject({
                             status: error.name,
                             statusText: error.message

@@ -26,6 +26,9 @@
 import { Logger } from '@lcluber/mouettejs';
 import { isObject } from '@lcluber/chjs';
 
+const AudioContext = window.AudioContext ||
+    window.webkitAudioContext ||
+    false;
 class Method {
     constructor(method, defaultHeaders) {
         this.log = Logger.addGroup("Aias");
@@ -64,12 +67,10 @@ class Method {
                                 if (response) {
                                     this.logInfo(url, http.status, http.statusText);
                                     if (responseType === "audiobuffer") {
-                                        const AudioContext = window.AudioContext ||
-                                            window.webkitAudioContext ||
-                                            false;
                                         if (AudioContext) {
-                                            const context = new AudioContext();
-                                            context.decodeAudioData(response, buffer => {
+                                            const audioContext = new AudioContext();
+                                            audioContext.decodeAudioData(response, buffer => {
+                                                audioContext.close();
                                                 resolve(buffer);
                                             }, (error) => {
                                                 this.log.error("xhr (" +
@@ -78,6 +79,7 @@ class Method {
                                                     url +
                                                     ") failed with decodeAudioData error : " +
                                                     error.message);
+                                                audioContext.close();
                                                 reject({
                                                     status: error.name,
                                                     statusText: error.message
