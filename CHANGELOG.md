@@ -1,3 +1,10 @@
+## [2.3.1](https://github.com/LCluber/Aias.js/compare/v2.3.0...v2.3.1) (2019-10-05)
+
+
+### Bug Fixes
+
+* **audiobuffer:** polyfill for webaudioapi on safari ([63f47a8](https://github.com/LCluber/Aias.js/commit/63f47a8))
+
 # [2.3.0](https://github.com/LCluber/Aias.js/compare/v2.2.0...v2.3.0) (2019-09-25)
 
 
