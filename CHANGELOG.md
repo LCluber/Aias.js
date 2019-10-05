@@ -1,3 +1,10 @@
+## [2.3.2](https://github.com/LCluber/Aias.js/compare/v2.3.1...v2.3.2) (2019-10-05)
+
+
+### Bug Fixes
+
+* **audiocontext:** improved audio context handling ([a681252](https://github.com/LCluber/Aias.js/commit/a681252))
+
 ## [2.3.1](https://github.com/LCluber/Aias.js/compare/v2.3.0...v2.3.1) (2019-10-05)
 
 
