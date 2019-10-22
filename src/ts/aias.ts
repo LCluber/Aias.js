@@ -14,7 +14,7 @@ export class HTTP {
     return this.log.getLevel();
   }
 
-  private static mockup(): Promise<ResponseDataType> {
+  public static getMockupData(): Promise<ResponseDataType> {
     return new Promise((resolve: Function, reject: Function) => {
       this.mockupData ? resolve(this.mockupData) : reject(null);
     });
@@ -56,14 +56,18 @@ export class HTTP {
     url: string,
     responseType: ResponseType
   ): Promise<ResponseDataType> {
-    return this.mockupData ? this.mockup() : this.get.call(url, responseType);
+    return this.mockupData
+      ? this.getMockupData()
+      : this.get.call(url, responseType);
   }
 
   public static HEAD(
     url: string,
     responseType: ResponseType
   ): Promise<ResponseDataType> {
-    return this.mockupData ? this.mockup() : this.head.call(url, responseType);
+    return this.mockupData
+      ? this.getMockupData()
+      : this.head.call(url, responseType);
   }
 
   public static POST(
@@ -72,7 +76,7 @@ export class HTTP {
     data: DataType
   ): Promise<ResponseDataType> {
     return this.mockupData
-      ? this.mockup()
+      ? this.getMockupData()
       : this.post.call(url, responseType, data);
   }
 
@@ -82,7 +86,7 @@ export class HTTP {
     data: DataType
   ): Promise<ResponseDataType> {
     return this.mockupData
-      ? this.mockup()
+      ? this.getMockupData()
       : this.put.call(url, responseType, data);
   }
 
@@ -91,7 +95,7 @@ export class HTTP {
     responseType: ResponseType
   ): Promise<ResponseDataType> {
     return this.mockupData
-      ? this.mockup()
+      ? this.getMockupData()
       : this.delete.call(url, responseType);
   }
 
@@ -100,7 +104,7 @@ export class HTTP {
     responseType: ResponseType
   ): Promise<ResponseDataType> {
     return this.mockupData
-      ? this.mockup()
+      ? this.getMockupData()
       : this.connect.call(url, responseType);
   }
 
@@ -109,7 +113,7 @@ export class HTTP {
     responseType: ResponseType
   ): Promise<ResponseDataType> {
     return this.mockupData
-      ? this.mockup()
+      ? this.getMockupData()
       : this.options.call(url, responseType);
   }
 
@@ -117,7 +121,9 @@ export class HTTP {
     url: string,
     responseType: ResponseType
   ): Promise<ResponseDataType> {
-    return this.mockupData ? this.mockup() : this.trace.call(url, responseType);
+    return this.mockupData
+      ? this.getMockupData()
+      : this.trace.call(url, responseType);
   }
 
   public static PATCH(
@@ -126,7 +132,7 @@ export class HTTP {
     data: DataType
   ): Promise<ResponseDataType> {
     return this.mockupData
-      ? this.mockup()
+      ? this.getMockupData()
       : this.patch.call(url, responseType, data);
   }
 }
