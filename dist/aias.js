@@ -181,35 +181,62 @@ class HTTP {
     static getLogLevel() {
         return this.log.getLevel();
     }
+    static getMockupData() {
+        return new Promise((resolve, reject) => {
+            this.mockupData ? resolve(this.mockupData) : reject(null);
+        });
+    }
+    static setMockupData(mockupData) {
+        this.mockupData = mockupData;
+    }
     static GET(url, responseType) {
-        return this.get.call(url, responseType);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.get.call(url, responseType);
     }
     static HEAD(url, responseType) {
-        return this.head.call(url, responseType);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.head.call(url, responseType);
     }
     static POST(url, responseType, data) {
-        return this.post.call(url, responseType, data);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.post.call(url, responseType, data);
     }
     static PUT(url, responseType, data) {
-        return this.put.call(url, responseType, data);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.put.call(url, responseType, data);
     }
     static DELETE(url, responseType) {
-        return this.delete.call(url, responseType);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.delete.call(url, responseType);
     }
     static CONNECT(url, responseType) {
-        return this.connect.call(url, responseType);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.connect.call(url, responseType);
     }
     static OPTIONS(url, responseType) {
-        return this.options.call(url, responseType);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.options.call(url, responseType);
     }
     static TRACE(url, responseType) {
-        return this.trace.call(url, responseType);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.trace.call(url, responseType);
     }
     static PATCH(url, responseType, data) {
-        return this.patch.call(url, responseType, data);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.patch.call(url, responseType, data);
     }
 }
 HTTP.log = Logger.addGroup("Aias");
+HTTP.mockupData = null;
 HTTP.get = new Method("GET", {
     "Content-Type": "application/x-www-form-urlencoded"
 });

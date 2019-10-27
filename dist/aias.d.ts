@@ -27,8 +27,11 @@ import { LevelName } from "@lcluber/mouettejs";
 
 export declare class HTTP {
     private static log;
+    private static mockupData;
     static setLogLevel(name: LevelName): LevelName;
     static getLogLevel(): LevelName;
+    static getMockupData(): Promise<ResponseDataType>;
+    static setMockupData(mockupData: ResponseDataType): void;
     static get: Method;
     static head: Method;
     static post: Method;
