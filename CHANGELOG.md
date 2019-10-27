@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/LCluber/Aias.js/compare/v2.3.2...v2.4.0) (2019-10-27)
+
+
+### Features
+
+* **mockup:** add mockup data for testing ([b18ef4e](https://github.com/LCluber/Aias.js/commit/b18ef4e))
+
 ## [2.3.2](https://github.com/LCluber/Aias.js/compare/v2.3.1...v2.3.2) (2019-10-05)
 
 
