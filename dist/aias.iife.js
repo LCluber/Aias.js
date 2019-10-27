@@ -228,18 +228,31 @@ var Aias = (function (exports) {
   Logger.level = LEVELS.error;
   Logger.groups = [];
 
-  /* MIT License
-
-  Copyright (c) 2009 Ludovic CLUBER
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-  https://github.com/LCluber/Ch.js
-  */
+  /** MIT License
+   *
+   * Copyright (c) 2009 Ludovic CLUBER
+   *
+   * Permission is hereby granted, free of charge, to any person obtaining a copy
+   * of this software and associated documentation files (the "Software"), to deal
+   * in the Software without restriction, including without limitation the rights
+   * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   * copies of the Software, and to permit persons to whom the Software is
+   * furnished to do so, subject to the following conditions:
+   *
+   * The above copyright notice and this permission notice (including the next
+   * paragraph) shall be included in all copies or substantial portions of the
+   * Software.
+   *
+   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   * SOFTWARE.
+   *
+   * https://github.com/LCluber/Ch.js
+   */
   function isObject(object) {
     return object !== null && typeof object === "object" && !isArray(object);
   }
@@ -407,45 +420,58 @@ var Aias = (function (exports) {
       return this.log.getLevel();
     };
 
+    HTTP.getMockupData = function getMockupData() {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        _this.mockupData ? resolve(_this.mockupData) : reject(null);
+      });
+    };
+
+    HTTP.setMockupData = function setMockupData(mockupData) {
+      this.mockupData = mockupData;
+    };
+
     HTTP.GET = function GET(url, responseType) {
-      return this.get.call(url, responseType);
+      return this.mockupData ? this.getMockupData() : this.get.call(url, responseType);
     };
 
     HTTP.HEAD = function HEAD(url, responseType) {
-      return this.head.call(url, responseType);
+      return this.mockupData ? this.getMockupData() : this.head.call(url, responseType);
     };
 
     HTTP.POST = function POST(url, responseType, data) {
-      return this.post.call(url, responseType, data);
+      return this.mockupData ? this.getMockupData() : this.post.call(url, responseType, data);
     };
 
     HTTP.PUT = function PUT(url, responseType, data) {
-      return this.put.call(url, responseType, data);
+      return this.mockupData ? this.getMockupData() : this.put.call(url, responseType, data);
     };
 
     HTTP.DELETE = function DELETE(url, responseType) {
-      return this.delete.call(url, responseType);
+      return this.mockupData ? this.getMockupData() : this.delete.call(url, responseType);
     };
 
     HTTP.CONNECT = function CONNECT(url, responseType) {
-      return this.connect.call(url, responseType);
+      return this.mockupData ? this.getMockupData() : this.connect.call(url, responseType);
     };
 
     HTTP.OPTIONS = function OPTIONS(url, responseType) {
-      return this.options.call(url, responseType);
+      return this.mockupData ? this.getMockupData() : this.options.call(url, responseType);
     };
 
     HTTP.TRACE = function TRACE(url, responseType) {
-      return this.trace.call(url, responseType);
+      return this.mockupData ? this.getMockupData() : this.trace.call(url, responseType);
     };
 
     HTTP.PATCH = function PATCH(url, responseType, data) {
-      return this.patch.call(url, responseType, data);
+      return this.mockupData ? this.getMockupData() : this.patch.call(url, responseType, data);
     };
 
     return HTTP;
   }();
   HTTP.log = Logger.addGroup("Aias");
+  HTTP.mockupData = null;
   HTTP.get = new Method("GET", {
     "Content-Type": "application/x-www-form-urlencoded"
   });

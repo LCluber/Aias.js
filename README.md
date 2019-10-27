@@ -89,6 +89,31 @@ Aias.HTTP.GET("http://url.com/api/scientists/2", "json")
   });
 ```
 
+### Mockup
+
+You can simulate HTTP requests without actually sending them to test your application by using setMockupData() method.
+
+```javascript
+import { HTTP } from "@lcluber/aiasjs";
+
+const scientist = {
+  firstname: "Galileo",
+  lastname: "Galilei",
+  born: 1564,
+  died: 1642
+};
+
+HTTP.setMockupData(scientist);
+HTTP.get.setHeaders({ "Content-Type": "application/x-www-form-urlencoded" }); // this is the default setting for GET requests
+HTTP.GET("http://url.com/api/scientists/2", "json")
+  .then(response => {
+    console.log(response); //scientist
+  })
+  .catch(err => {
+    console.log("error", err.message);
+  });
+```
+
 ## API Reference
 
 ```javascript
@@ -131,6 +156,9 @@ static HTTP.PATCH( url: string, responseType: ResponseType, data: DataType ): Pr
 type LevelName = "info" | "trace" | "warn" | "error" | "off";
 static HTTP.setLogLevel(name: LevelName): LevelName {}
 static HTTP.getLogLevel(): LevelName {}
+
+static HTTP.getMockupData(): Promise<ResponseDataType> {}
+static HTTP.setMockupData(mockupData: ResponseDataType): void {}
 
 static HTTP.get.setHeaders(headers: HTTPHeaders): void {}
 static HTTP.get.getHeaders(): HTTPHeaders {}

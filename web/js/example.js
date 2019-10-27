@@ -1,4 +1,3 @@
-
 // var toto = WEE.Ajax.call('assets/shaders/shader1.txt')
 //                    .then(function (val) { console.log(val); })
 //                    .catch(function (err) { console.log('error', err.message); });
@@ -11,13 +10,16 @@
 //                        .catch(function (err) { console.log('error', err.message); });
 
 var data = {
-  firstname:'Galileo',
-  lastname:'Galilei',
-  born:1564,
-  died:1642
+  firstname: "Galileo",
+  lastname: "Galilei",
+  born: 1564,
+  died: 1642
 };
 
-var request = Aias.HTTP.post("http://httpbin.org/post", data)
-                       .then(function (response) { console.log(response); })
-                       .catch(function (err) { console.log('error', err.message); });
-
+var request = Aias.HTTP.post("http://httpbin.org/post", "json", data)
+  .then(function(response) {
+    console.log(response);
+  })
+  .catch(function(err) {
+    console.log("error", err.message);
+  });
