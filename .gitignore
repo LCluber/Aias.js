@@ -4,6 +4,7 @@ web/sass/build/
 web/js/build/
 src/build/
 src/ts/build/
+tests/coverage/
 .sass-cache/
 .tscache/
 npm-debug.log

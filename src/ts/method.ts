@@ -9,6 +9,11 @@ import {
   ResponseType
 } from "./types";
 
+const AudioContext =
+  window.AudioContext || // Default
+  (<any>window).webkitAudioContext || // Safari and old versions of Chrome
+  false;
+
 export class Method {
   private method: HTTPRequestMethod;
   private async: boolean;
@@ -62,27 +67,45 @@ export class Method {
                 if (response) {
                   this.logInfo(url, http.status, http.statusText);
                   if (responseType === "audiobuffer") {
-                    let context = new AudioContext();
-                    context.decodeAudioData(
-                      response,
-                      buffer => {
-                        resolve(buffer);
-                      },
-                      (error: DOMException) => {
-                        this.log.error(
-                          "xhr (" +
-                            this.method +
-                            ":" +
-                            url +
-                            ") failed with decodeAudioData error : " +
-                            error.message
-                        );
-                        reject({
-                          status: error.name,
-                          statusText: error.message
-                        });
-                      }
-                    );
+                    if (AudioContext) {
+                      const audioContext = new AudioContext();
+                      audioContext.decodeAudioData(
+                        response,
+                        buffer => {
+                          audioContext.close();
+                          resolve(buffer);
+                        },
+                        (error: DOMException) => {
+                          this.log.error(
+                            "xhr (" +
+                              this.method +
+                              ":" +
+                              url +
+                              ") failed with decodeAudioData error : " +
+                              error.message
+                          );
+                          audioContext.close();
+                          reject({
+                            status: error.name,
+                            statusText: error.message
+                          });
+                        }
+                      );
+                    } else {
+                      this.log.error(
+                        "xhr (" +
+                          this.method +
+                          ":" +
+                          url +
+                          ") failed with error : " +
+                          "Web Audio API is not supported by your browser."
+                      );
+                      reject({
+                        status: "Web Audio API not supported by your browser",
+                        statusText:
+                          "Web Audio API is not supported by your browser"
+                      });
+                    }
                   } else {
                     resolve(response);
                   }

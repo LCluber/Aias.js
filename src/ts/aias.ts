@@ -1,7 +1,29 @@
+import { Logger, Group, LevelName } from "@lcluber/mouettejs";
 import { Method } from "./method";
 import { DataType, ResponseDataType, ResponseType } from "./types";
 
 export class HTTP {
+  private static log: Group = Logger.addGroup("Aias");
+  private static mockupData: ResponseDataType = null;
+
+  public static setLogLevel(name: LevelName): LevelName {
+    return this.log.setLevel(name);
+  }
+
+  public static getLogLevel(): LevelName {
+    return this.log.getLevel();
+  }
+
+  public static getMockupData(): Promise<ResponseDataType> {
+    return new Promise((resolve: Function, reject: Function) => {
+      this.mockupData ? resolve(this.mockupData) : reject(null);
+    });
+  }
+
+  public static setMockupData(mockupData: ResponseDataType): void {
+    this.mockupData = mockupData;
+  }
+
   public static get: Method = new Method("GET", {
     "Content-Type": "application/x-www-form-urlencoded"
   });
@@ -34,14 +56,18 @@ export class HTTP {
     url: string,
     responseType: ResponseType
   ): Promise<ResponseDataType> {
-    return this.get.call(url, responseType);
+    return this.mockupData
+      ? this.getMockupData()
+      : this.get.call(url, responseType);
   }
 
   public static HEAD(
     url: string,
     responseType: ResponseType
   ): Promise<ResponseDataType> {
-    return this.head.call(url, responseType);
+    return this.mockupData
+      ? this.getMockupData()
+      : this.head.call(url, responseType);
   }
 
   public static POST(
@@ -49,7 +75,9 @@ export class HTTP {
     responseType: ResponseType,
     data: DataType
   ): Promise<ResponseDataType> {
-    return this.post.call(url, responseType, data);
+    return this.mockupData
+      ? this.getMockupData()
+      : this.post.call(url, responseType, data);
   }
 
   public static PUT(
@@ -57,35 +85,45 @@ export class HTTP {
     responseType: ResponseType,
     data: DataType
   ): Promise<ResponseDataType> {
-    return this.put.call(url, responseType, data);
+    return this.mockupData
+      ? this.getMockupData()
+      : this.put.call(url, responseType, data);
   }
 
   public static DELETE(
     url: string,
     responseType: ResponseType
   ): Promise<ResponseDataType> {
-    return this.delete.call(url, responseType);
+    return this.mockupData
+      ? this.getMockupData()
+      : this.delete.call(url, responseType);
   }
 
   public static CONNECT(
     url: string,
     responseType: ResponseType
   ): Promise<ResponseDataType> {
-    return this.connect.call(url, responseType);
+    return this.mockupData
+      ? this.getMockupData()
+      : this.connect.call(url, responseType);
   }
 
   public static OPTIONS(
     url: string,
     responseType: ResponseType
   ): Promise<ResponseDataType> {
-    return this.options.call(url, responseType);
+    return this.mockupData
+      ? this.getMockupData()
+      : this.options.call(url, responseType);
   }
 
   public static TRACE(
     url: string,
     responseType: ResponseType
   ): Promise<ResponseDataType> {
-    return this.trace.call(url, responseType);
+    return this.mockupData
+      ? this.getMockupData()
+      : this.trace.call(url, responseType);
   }
 
   public static PATCH(
@@ -93,6 +131,8 @@ export class HTTP {
     responseType: ResponseType,
     data: DataType
   ): Promise<ResponseDataType> {
-    return this.patch.call(url, responseType, data);
+    return this.mockupData
+      ? this.getMockupData()
+      : this.patch.call(url, responseType, data);
   }
 }

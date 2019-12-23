@@ -26,42 +26,6 @@
 var Aias = (function (exports) {
   'use strict';
 
-  /* MIT License
-
-  Copyright (c) 2009 Ludovic CLUBER
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice (including the next paragraph) shall be included in all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-  https://github.com/LCluber/Ch.js
-  */
-  function isObject(object) {
-    return object !== null && typeof object === "object" && !isArray(object);
-  }
-
-  function isArray(array) {
-    return array !== null && array.constructor === Array;
-  }
-
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-  }
-
   /** MIT License
   * 
   * Copyright (c) 2015 Ludovic CLUBER 
@@ -152,10 +116,19 @@ var Aias = (function (exports) {
       this.messages = [];
       this.name = name;
       this.messages = [];
-      this._level = level;
+      this.level = level;
     }
 
     var _proto2 = Group.prototype;
+
+    _proto2.setLevel = function setLevel(name) {
+      this.level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this.level;
+      return this.getLevel();
+    };
+
+    _proto2.getLevel = function getLevel() {
+      return this.level.name;
+    };
 
     _proto2.info = function info(message) {
       this.log(LEVELS.info, message);
@@ -177,20 +150,10 @@ var Aias = (function (exports) {
       var message = new Message(level, messageContent);
       this.messages.push(message);
 
-      if (this._level.id <= message.id) {
+      if (this.level.id <= message.id) {
         message.display(this.name);
       }
     };
-
-    _createClass(Group, [{
-      key: "level",
-      set: function set(name) {
-        this._level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : this._level;
-      },
-      get: function get() {
-        return this._level.name;
-      }
-    }]);
 
     return Group;
   }();
@@ -216,7 +179,7 @@ var Aias = (function (exports) {
         }
 
         var group = _ref;
-        group.level = Logger.level.name;
+        group.setLevel(Logger.level.name);
       }
 
       return Logger.getLevel();
@@ -265,6 +228,40 @@ var Aias = (function (exports) {
   Logger.level = LEVELS.error;
   Logger.groups = [];
 
+  /** MIT License
+   *
+   * Copyright (c) 2009 Ludovic CLUBER
+   *
+   * Permission is hereby granted, free of charge, to any person obtaining a copy
+   * of this software and associated documentation files (the "Software"), to deal
+   * in the Software without restriction, including without limitation the rights
+   * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   * copies of the Software, and to permit persons to whom the Software is
+   * furnished to do so, subject to the following conditions:
+   *
+   * The above copyright notice and this permission notice (including the next
+   * paragraph) shall be included in all copies or substantial portions of the
+   * Software.
+   *
+   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   * SOFTWARE.
+   *
+   * https://github.com/LCluber/Ch.js
+   */
+  function isObject(object) {
+    return object !== null && typeof object === "object" && !isArray(object);
+  }
+
+  function isArray(array) {
+    return array !== null && array.constructor === Array;
+  }
+
+  var AudioContext = window.AudioContext || window.webkitAudioContext || false;
   var Method =
   /*#__PURE__*/
   function () {
@@ -315,17 +312,28 @@ var Aias = (function (exports) {
                     _this.logInfo(url, http.status, http.statusText);
 
                     if (responseType === "audiobuffer") {
-                      var context = new AudioContext();
-                      context.decodeAudioData(response, function (buffer) {
-                        resolve(buffer);
-                      }, function (error) {
-                        _this.log.error("xhr (" + _this.method + ":" + url + ") failed with decodeAudioData error : " + error.message);
+                      if (AudioContext) {
+                        var audioContext = new AudioContext();
+                        audioContext.decodeAudioData(response, function (buffer) {
+                          audioContext.close();
+                          resolve(buffer);
+                        }, function (error) {
+                          _this.log.error("xhr (" + _this.method + ":" + url + ") failed with decodeAudioData error : " + error.message);
+
+                          audioContext.close();
+                          reject({
+                            status: error.name,
+                            statusText: error.message
+                          });
+                        });
+                      } else {
+                        _this.log.error("xhr (" + _this.method + ":" + url + ") failed with error : " + "Web Audio API is not supported by your browser.");
 
                         reject({
-                          status: error.name,
-                          statusText: error.message
+                          status: "Web Audio API not supported by your browser",
+                          statusText: "Web Audio API is not supported by your browser"
                         });
-                      });
+                      }
                     } else {
                       resolve(response);
                     }
@@ -404,44 +412,66 @@ var Aias = (function (exports) {
   function () {
     function HTTP() {}
 
+    HTTP.setLogLevel = function setLogLevel(name) {
+      return this.log.setLevel(name);
+    };
+
+    HTTP.getLogLevel = function getLogLevel() {
+      return this.log.getLevel();
+    };
+
+    HTTP.getMockupData = function getMockupData() {
+      var _this = this;
+
+      return new Promise(function (resolve, reject) {
+        _this.mockupData ? resolve(_this.mockupData) : reject(null);
+      });
+    };
+
+    HTTP.setMockupData = function setMockupData(mockupData) {
+      this.mockupData = mockupData;
+    };
+
     HTTP.GET = function GET(url, responseType) {
-      return this.get.call(url, responseType);
+      return this.mockupData ? this.getMockupData() : this.get.call(url, responseType);
     };
 
     HTTP.HEAD = function HEAD(url, responseType) {
-      return this.head.call(url, responseType);
+      return this.mockupData ? this.getMockupData() : this.head.call(url, responseType);
     };
 
     HTTP.POST = function POST(url, responseType, data) {
-      return this.post.call(url, responseType, data);
+      return this.mockupData ? this.getMockupData() : this.post.call(url, responseType, data);
     };
 
     HTTP.PUT = function PUT(url, responseType, data) {
-      return this.put.call(url, responseType, data);
+      return this.mockupData ? this.getMockupData() : this.put.call(url, responseType, data);
     };
 
     HTTP.DELETE = function DELETE(url, responseType) {
-      return this.delete.call(url, responseType);
+      return this.mockupData ? this.getMockupData() : this.delete.call(url, responseType);
     };
 
     HTTP.CONNECT = function CONNECT(url, responseType) {
-      return this.connect.call(url, responseType);
+      return this.mockupData ? this.getMockupData() : this.connect.call(url, responseType);
     };
 
     HTTP.OPTIONS = function OPTIONS(url, responseType) {
-      return this.options.call(url, responseType);
+      return this.mockupData ? this.getMockupData() : this.options.call(url, responseType);
     };
 
     HTTP.TRACE = function TRACE(url, responseType) {
-      return this.trace.call(url, responseType);
+      return this.mockupData ? this.getMockupData() : this.trace.call(url, responseType);
     };
 
     HTTP.PATCH = function PATCH(url, responseType, data) {
-      return this.patch.call(url, responseType, data);
+      return this.mockupData ? this.getMockupData() : this.patch.call(url, responseType, data);
     };
 
     return HTTP;
   }();
+  HTTP.log = Logger.addGroup("Aias");
+  HTTP.mockupData = null;
   HTTP.get = new Method("GET", {
     "Content-Type": "application/x-www-form-urlencoded"
   });

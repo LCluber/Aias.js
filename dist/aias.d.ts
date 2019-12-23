@@ -22,9 +22,16 @@
 *
 * https://github.com/LCluber/Aias.js
 */
+import { LevelName } from "@lcluber/mouettejs";
 
 
 export declare class HTTP {
+    private static log;
+    private static mockupData;
+    static setLogLevel(name: LevelName): LevelName;
+    static getLogLevel(): LevelName;
+    static getMockupData(): Promise<ResponseDataType>;
+    static setMockupData(mockupData: ResponseDataType): void;
     static get: Method;
     static head: Method;
     static post: Method;
@@ -45,40 +52,40 @@ export declare class HTTP {
     static PATCH(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType>;
 }
 export interface HTTPHeaders {
-    'A-IM'?: string;
+    "A-IM"?: string;
     Accept?: string;
-    'Accept-Charset'?: string;
-    'Accept-Encoding'?: string;
-    'Accept-Language'?: string;
-    'Accept-Datetime'?: string;
-    'Access-Control-Request-Method'?: string;
-    'Access-Control-Request-Headers'?: string;
+    "Accept-Charset"?: string;
+    "Accept-Encoding"?: string;
+    "Accept-Language"?: string;
+    "Accept-Datetime"?: string;
+    "Access-Control-Request-Method"?: string;
+    "Access-Control-Request-Headers"?: string;
     Authorization?: string;
-    'Cache-Control'?: string;
+    "Cache-Control"?: string;
     Connection?: string;
-    'Content-Length'?: number;
-    'Content-MD5'?: string;
-    'Content-Type'?: string;
+    "Content-Length"?: number;
+    "Content-MD5"?: string;
+    "Content-Type"?: string;
     Cookie?: string;
     Date?: string;
     Expect?: string;
     Forwarded?: string;
     From?: string;
     Host?: string;
-    'HTTP2-Settings'?: string;
-    'If-Match'?: string;
-    'If-Modified-Since'?: string;
-    'If-None-Match'?: string;
-    'If-Range'?: string;
-    'If-Unmodified-Since'?: string;
-    'Max-Forwards'?: string;
+    "HTTP2-Settings"?: string;
+    "If-Match"?: string;
+    "If-Modified-Since"?: string;
+    "If-None-Match"?: string;
+    "If-Range"?: string;
+    "If-Unmodified-Since"?: string;
+    "Max-Forwards"?: string;
     Origin?: string;
     Pragma?: string;
-    'Proxy-Authorization'?: string;
+    "Proxy-Authorization"?: string;
     Range?: string;
     Referer?: string;
     TE?: string;
-    'User-Agent'?: string;
+    "User-Agent"?: string;
     Upgrade?: string;
     Via?: string;
     Warning?: string;

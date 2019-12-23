@@ -23,9 +23,12 @@
 * https://github.com/LCluber/Aias.js
 */
 
-import { isObject } from '@lcluber/chjs';
 import { Logger } from '@lcluber/mouettejs';
+import { isObject } from '@lcluber/chjs';
 
+const AudioContext = window.AudioContext ||
+    window.webkitAudioContext ||
+    false;
 class Method {
     constructor(method, defaultHeaders) {
         this.log = Logger.addGroup("Aias");
@@ -49,7 +52,8 @@ class Method {
             const http = new XMLHttpRequest();
             url += this.noCache ? "?cache=" + new Date().getTime() : "";
             http.open(this.method, url, this.async);
-            http.responseType = (responseType === "audiobuffer") ? "arraybuffer" : responseType;
+            http.responseType =
+                responseType === "audiobuffer" ? "arraybuffer" : responseType;
             this.setRequestHeaders(http);
             switch (responseType) {
                 case "json":
@@ -63,20 +67,37 @@ class Method {
                                 if (response) {
                                     this.logInfo(url, http.status, http.statusText);
                                     if (responseType === "audiobuffer") {
-                                        let context = new AudioContext();
-                                        context.decodeAudioData(response, (buffer) => {
-                                            resolve(buffer);
-                                        }, (error) => {
+                                        if (AudioContext) {
+                                            const audioContext = new AudioContext();
+                                            audioContext.decodeAudioData(response, buffer => {
+                                                audioContext.close();
+                                                resolve(buffer);
+                                            }, (error) => {
+                                                this.log.error("xhr (" +
+                                                    this.method +
+                                                    ":" +
+                                                    url +
+                                                    ") failed with decodeAudioData error : " +
+                                                    error.message);
+                                                audioContext.close();
+                                                reject({
+                                                    status: error.name,
+                                                    statusText: error.message
+                                                });
+                                            });
+                                        }
+                                        else {
                                             this.log.error("xhr (" +
                                                 this.method +
                                                 ":" +
                                                 url +
-                                                ") failed with decodeAudioData error : " + error.message);
+                                                ") failed with error : " +
+                                                "Web Audio API is not supported by your browser.");
                                             reject({
-                                                status: error.name,
-                                                statusText: error.message
+                                                status: "Web Audio API not supported by your browser",
+                                                statusText: "Web Audio API is not supported by your browser"
                                             });
-                                        });
+                                        }
                                     }
                                     else {
                                         resolve(response);
@@ -154,34 +175,68 @@ class Method {
 }
 
 class HTTP {
+    static setLogLevel(name) {
+        return this.log.setLevel(name);
+    }
+    static getLogLevel() {
+        return this.log.getLevel();
+    }
+    static getMockupData() {
+        return new Promise((resolve, reject) => {
+            this.mockupData ? resolve(this.mockupData) : reject(null);
+        });
+    }
+    static setMockupData(mockupData) {
+        this.mockupData = mockupData;
+    }
     static GET(url, responseType) {
-        return this.get.call(url, responseType);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.get.call(url, responseType);
     }
     static HEAD(url, responseType) {
-        return this.head.call(url, responseType);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.head.call(url, responseType);
     }
     static POST(url, responseType, data) {
-        return this.post.call(url, responseType, data);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.post.call(url, responseType, data);
     }
     static PUT(url, responseType, data) {
-        return this.put.call(url, responseType, data);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.put.call(url, responseType, data);
     }
     static DELETE(url, responseType) {
-        return this.delete.call(url, responseType);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.delete.call(url, responseType);
     }
     static CONNECT(url, responseType) {
-        return this.connect.call(url, responseType);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.connect.call(url, responseType);
     }
     static OPTIONS(url, responseType) {
-        return this.options.call(url, responseType);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.options.call(url, responseType);
     }
     static TRACE(url, responseType) {
-        return this.trace.call(url, responseType);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.trace.call(url, responseType);
     }
     static PATCH(url, responseType, data) {
-        return this.patch.call(url, responseType, data);
+        return this.mockupData
+            ? this.getMockupData()
+            : this.patch.call(url, responseType, data);
     }
 }
+HTTP.log = Logger.addGroup("Aias");
+HTTP.mockupData = null;
 HTTP.get = new Method("GET", {
     "Content-Type": "application/x-www-form-urlencoded"
 });
