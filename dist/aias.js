@@ -25,6 +25,7 @@
 
 import { Logger } from '@lcluber/mouettejs';
 import { isObject } from '@lcluber/chjs';
+import { Observable } from 'rxjs';
 
 const AudioContext = window.AudioContext ||
     window.webkitAudioContext ||
@@ -47,7 +48,7 @@ class Method {
     getHeaders() {
         return this.headers;
     }
-    call(url, responseType, data) {
+    usePromise(url, responseType, data) {
         return new Promise((resolve, reject) => {
             const http = new XMLHttpRequest();
             url += this.noCache ? "?cache=" + new Date().getTime() : "";
@@ -145,6 +146,121 @@ class Method {
             this.log.info("xhr (" + this.method + ":" + url + ")" + "sent");
         });
     }
+    useObservable(url, responseType, data) {
+        return new Observable(observer => {
+            const http = new XMLHttpRequest();
+            url += this.noCache ? "?cache=" + new Date().getTime() : "";
+            http.open(this.method, url, this.async);
+            http.responseType =
+                responseType === "audiobuffer" ? "arraybuffer" : responseType;
+            this.setRequestHeaders(http);
+            switch (responseType) {
+                case "json":
+                case "arraybuffer":
+                case "audiobuffer":
+                case "blob":
+                    http.onload = () => {
+                        if (http.readyState == 4) {
+                            if (http.status == 200) {
+                                const response = http.response;
+                                if (response) {
+                                    this.logInfo(url, http.status, http.statusText);
+                                    if (responseType === "audiobuffer") {
+                                        if (AudioContext) {
+                                            const audioContext = new AudioContext();
+                                            audioContext.decodeAudioData(response, buffer => {
+                                                audioContext.close();
+                                                observer.next(buffer);
+                                                observer.complete();
+                                            }, (error) => {
+                                                this.log.error("xhr (" +
+                                                    this.method +
+                                                    ":" +
+                                                    url +
+                                                    ") failed with decodeAudioData error : " +
+                                                    error.message);
+                                                audioContext.close();
+                                                observer.error({
+                                                    status: error.name,
+                                                    statusText: error.message
+                                                });
+                                                observer.complete();
+                                            });
+                                        }
+                                        else {
+                                            this.log.error("xhr (" +
+                                                this.method +
+                                                ":" +
+                                                url +
+                                                ") failed with error : " +
+                                                "Web Audio API is not supported by your browser.");
+                                            observer.error({
+                                                status: "Web Audio API not supported by your browser",
+                                                statusText: "Web Audio API is not supported by your browser"
+                                            });
+                                            observer.complete();
+                                        }
+                                    }
+                                    else {
+                                        observer.next(response);
+                                        observer.complete();
+                                    }
+                                }
+                                else {
+                                    this.logError(url, http.status, http.statusText);
+                                    observer.error({
+                                        status: http.status,
+                                        statusText: http.statusText
+                                    });
+                                    observer.complete();
+                                }
+                            }
+                            else {
+                                this.logError(url, http.status, http.statusText);
+                                observer.error({
+                                    status: http.status,
+                                    statusText: http.statusText
+                                });
+                                observer.complete();
+                            }
+                        }
+                    };
+                    break;
+                default:
+                    http.onreadystatechange = () => {
+                        if (http.readyState == 4) {
+                            if (http.status == 200) {
+                                this.logInfo(url, http.status, http.statusText);
+                                observer.next(http.responseText);
+                                observer.complete();
+                            }
+                            else {
+                                this.logError(url, http.status, http.statusText);
+                                observer.error({
+                                    status: http.status,
+                                    statusText: http.statusText
+                                });
+                                observer.complete();
+                            }
+                        }
+                    };
+            }
+            if (isObject(data)) {
+                data = JSON.stringify(data);
+            }
+            http.send(data || null);
+            this.log.info("xhr (" + this.method + ":" + url + ")" + "sent");
+        });
+    }
+    call(url, responseType, eventType, data) {
+        switch (eventType) {
+            case "observable":
+                return this.useObservable(url, responseType, data);
+                break;
+            default:
+                return this.usePromise(url, responseType, data);
+        }
+    }
     setRequestHeaders(http) {
         for (const property in this.headers) {
             if (this.headers.hasOwnProperty(property)) {
@@ -175,6 +291,12 @@ class Method {
 }
 
 class HTTP {
+    static setEventType(eventType) {
+        this.eventType = this.isOfTypeEventType(eventType) ? eventType : "promise";
+    }
+    static isOfTypeEventType(eventType) {
+        return ["promise", "observable"].includes(eventType);
+    }
     static setLogLevel(name) {
         return this.log.setLevel(name);
     }
@@ -182,9 +304,23 @@ class HTTP {
         return this.log.getLevel();
     }
     static getMockupData() {
-        return new Promise((resolve, reject) => {
-            this.mockupData ? resolve(this.mockupData) : reject(null);
-        });
+        switch (this.eventType) {
+            case "observable":
+                return new Observable(observer => {
+                    if (this.mockupData) {
+                        observer.next(this.mockupData);
+                        observer.complete();
+                    }
+                    else {
+                        observer.error(null);
+                    }
+                });
+                break;
+            default:
+                return new Promise((resolve, reject) => {
+                    this.mockupData ? resolve(this.mockupData) : reject(null);
+                });
+        }
     }
     static setMockupData(mockupData) {
         this.mockupData = mockupData;
@@ -192,51 +328,52 @@ class HTTP {
     static GET(url, responseType) {
         return this.mockupData
             ? this.getMockupData()
-            : this.get.call(url, responseType);
+            : this.get.call(url, responseType, this.eventType);
     }
     static HEAD(url, responseType) {
         return this.mockupData
             ? this.getMockupData()
-            : this.head.call(url, responseType);
+            : this.head.call(url, responseType, this.eventType);
     }
     static POST(url, responseType, data) {
         return this.mockupData
             ? this.getMockupData()
-            : this.post.call(url, responseType, data);
+            : this.post.call(url, responseType, this.eventType, data);
     }
     static PUT(url, responseType, data) {
         return this.mockupData
             ? this.getMockupData()
-            : this.put.call(url, responseType, data);
+            : this.put.call(url, responseType, this.eventType, data);
     }
     static DELETE(url, responseType) {
         return this.mockupData
             ? this.getMockupData()
-            : this.delete.call(url, responseType);
+            : this.delete.call(url, responseType, this.eventType);
     }
     static CONNECT(url, responseType) {
         return this.mockupData
             ? this.getMockupData()
-            : this.connect.call(url, responseType);
+            : this.connect.call(url, responseType, this.eventType);
     }
     static OPTIONS(url, responseType) {
         return this.mockupData
             ? this.getMockupData()
-            : this.options.call(url, responseType);
+            : this.options.call(url, responseType, this.eventType);
     }
     static TRACE(url, responseType) {
         return this.mockupData
             ? this.getMockupData()
-            : this.trace.call(url, responseType);
+            : this.trace.call(url, responseType, this.eventType);
     }
     static PATCH(url, responseType, data) {
         return this.mockupData
             ? this.getMockupData()
-            : this.patch.call(url, responseType, data);
+            : this.patch.call(url, responseType, this.eventType, data);
     }
 }
 HTTP.log = Logger.addGroup("Aias");
 HTTP.mockupData = null;
+HTTP.eventType = "promise";
 HTTP.get = new Method("GET", {
     "Content-Type": "application/x-www-form-urlencoded"
 });

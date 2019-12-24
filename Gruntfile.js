@@ -79,7 +79,12 @@ module.exports = function(grunt) {
             // //   //exclude: './node_modules/**'
             // })
           ],
-          external: ["@lcluber/weejs", "@lcluber/chjs", "@lcluber/mouettejs"]
+          external: [
+            "@lcluber/weejs",
+            "@lcluber/chjs",
+            "@lcluber/mouettejs",
+            "rxjs"
+          ]
         },
         files: [
           {
@@ -157,7 +162,7 @@ module.exports = function(grunt) {
     strip_code: {
       options: {
         patterns: [
-          /import { .* } from "\..*";/g,
+          /import { .* } from ".*";/g,
           /export { .* } from ".*";/g
           // /\/\/\/ <reference path=.*\/>/g
         ]
