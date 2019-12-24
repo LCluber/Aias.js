@@ -1,3 +1,17 @@
+# [2.5.0](https://github.com/LCluber/Aias.js/compare/v2.4.0...v2.5.0) (2019-12-24)
+
+
+### Bug Fixes
+
+* **package:** updated package.json ([0a06226](https://github.com/LCluber/Aias.js/commit/0a062264fcd94a9f64a31fd38b2a1ad4b4193cf0))
+* **readme:** updated readme ([d4182c4](https://github.com/LCluber/Aias.js/commit/d4182c431f09d3a06d8c879ebe074b90c01a8b70))
+* **readme:** updated readme file ([0b48d0a](https://github.com/LCluber/Aias.js/commit/0b48d0a0508d3850fd85499c3d075a5b77d001d1))
+
+
+### Features
+
+* **observables:** added observable event type ([3d5fbf9](https://github.com/LCluber/Aias.js/commit/3d5fbf96d00cd68a662277bff9b6bbfa6b6aa710))
+
 # [2.4.0](https://github.com/LCluber/Aias.js/compare/v2.3.2...v2.4.0) (2019-10-27)
 
 

@@ -1,11 +1,13 @@
 {
   "name": "@lcluber/aiasjs",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "Promise and observable based HTTP client (Ajax) library",
   "keywords": [
     "ajax",
     "http",
-    "http client"
+    "http client",
+    "promise",
+    "observable"
   ],
   "homepage": "https://github.com/LCluber/Aias.js",
   "main": "dist/aias",
