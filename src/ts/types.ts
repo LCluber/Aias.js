@@ -9,6 +9,8 @@ export type HTTPRequestMethod =
   | "TRACE"
   | "PATCH";
 
+export type EventType = "promise" | "observable";
+
 export type SendDataType =
   | string
   | Document

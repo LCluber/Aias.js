@@ -22,15 +22,19 @@
 *
 * https://github.com/LCluber/Aias.js
 */
-import { LevelName } from "@lcluber/mouettejs";
+
+
 
 
 export declare class HTTP {
     private static log;
     private static mockupData;
+    private static eventType;
+    static setEventType(eventType: EventType): void;
+    private static isOfTypeEventType;
     static setLogLevel(name: LevelName): LevelName;
     static getLogLevel(): LevelName;
-    static getMockupData(): Promise<ResponseDataType>;
+    static getMockupData(): Promise<ResponseDataType> | Observable<ResponseDataType>;
     static setMockupData(mockupData: ResponseDataType): void;
     static get: Method;
     static head: Method;
@@ -41,15 +45,15 @@ export declare class HTTP {
     static options: Method;
     static trace: Method;
     static patch: Method;
-    static GET(url: string, responseType: ResponseType): Promise<ResponseDataType>;
-    static HEAD(url: string, responseType: ResponseType): Promise<ResponseDataType>;
-    static POST(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType>;
-    static PUT(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType>;
-    static DELETE(url: string, responseType: ResponseType): Promise<ResponseDataType>;
-    static CONNECT(url: string, responseType: ResponseType): Promise<ResponseDataType>;
-    static OPTIONS(url: string, responseType: ResponseType): Promise<ResponseDataType>;
-    static TRACE(url: string, responseType: ResponseType): Promise<ResponseDataType>;
-    static PATCH(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType>;
+    static GET(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static HEAD(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static POST(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static PUT(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static DELETE(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static CONNECT(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static OPTIONS(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static TRACE(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static PATCH(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
 }
 export interface HTTPHeaders {
     "A-IM"?: string;
@@ -93,6 +97,7 @@ export interface HTTPHeaders {
 }
 
 
+
 export declare class Method {
     private method;
     private async;
@@ -102,12 +107,15 @@ export declare class Method {
     constructor(method: HTTPRequestMethod, defaultHeaders: HTTPHeaders);
     setHeaders(headers: HTTPHeaders): void;
     getHeaders(): HTTPHeaders;
-    call(url: string, responseType: ResponseType, data?: DataType): Promise<ResponseDataType>;
+    private usePromise;
+    private useObservable;
+    call(url: string, responseType: ResponseType, eventType: EventType, data?: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
     private setRequestHeaders;
     private logInfo;
     private logError;
 }
 export declare type HTTPRequestMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
+export declare type EventType = "promise" | "observable";
 export declare type SendDataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | URLSearchParams | ReadableStream | null;
 export declare type DataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | URLSearchParams | ReadableStream | Object | null;
 export declare type ResponseDataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | AudioBuffer | URLSearchParams | ReadableStream | Object | null;
