@@ -63,7 +63,7 @@ HTTP.GET("http://url.com/api/scientists/2", "json")
 // GET request
 HTTP.setMethod("observable");
 
-var request = HTTP.GET("http://httpbin.org/get", "json").subscribe(
+HTTP.GET("http://url.com/api/scientists/2", "json").subscribe(
   response => {
     console.log(response);
   },
@@ -115,7 +115,7 @@ Aias.HTTP.GET("http://url.com/api/scientists/2", "json")
 // GET request
 Aias.HTTP.setMethod("observable");
 
-var request = Aias.HTTP.GET("http://httpbin.org/get", "json").subscribe(
+Aias.HTTP.GET("http://url.com/api/scientists/2", "json").subscribe(
   response => {
     console.log(response);
   },
