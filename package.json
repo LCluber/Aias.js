@@ -5,7 +5,9 @@
   "keywords": [
     "ajax",
     "http",
-    "http client"
+    "http client",
+    "promise",
+    "observable"
   ],
   "homepage": "https://github.com/LCluber/Aias.js",
   "main": "dist/aias",
