@@ -1,9 +1,60 @@
-# [2.1.0](https://github.com/LCluber/Aias.js/compare/v2.0.0...v2.1.0) (2019-09-23)
+# [2.5.0](https://github.com/LCluber/Aias.js/compare/v2.4.0...v2.5.0) (2019-12-24)
+
+
+### Bug Fixes
+
+* **package:** updated package.json ([0a06226](https://github.com/LCluber/Aias.js/commit/0a062264fcd94a9f64a31fd38b2a1ad4b4193cf0))
+* **readme:** updated readme ([d4182c4](https://github.com/LCluber/Aias.js/commit/d4182c431f09d3a06d8c879ebe074b90c01a8b70))
+* **readme:** updated readme file ([0b48d0a](https://github.com/LCluber/Aias.js/commit/0b48d0a0508d3850fd85499c3d075a5b77d001d1))
 
 
 ### Features
 
-* **errors:** improved error handling ([7b77617](https://github.com/LCluber/Aias.js/commit/7b77617))
+* **observables:** added observable event type ([3d5fbf9](https://github.com/LCluber/Aias.js/commit/3d5fbf96d00cd68a662277bff9b6bbfa6b6aa710))
+
+# [2.4.0](https://github.com/LCluber/Aias.js/compare/v2.3.2...v2.4.0) (2019-10-27)
+
+
+### Features
+
+* **mockup:** add mockup data for testing ([b18ef4e](https://github.com/LCluber/Aias.js/commit/b18ef4e))
+
+## [2.3.2](https://github.com/LCluber/Aias.js/compare/v2.3.1...v2.3.2) (2019-10-05)
+
+
+### Bug Fixes
+
+* **audiocontext:** improved audio context handling ([a681252](https://github.com/LCluber/Aias.js/commit/a681252))
+
+## [2.3.1](https://github.com/LCluber/Aias.js/compare/v2.3.0...v2.3.1) (2019-10-05)
+
+
+### Bug Fixes
+
+* **audiobuffer:** polyfill for webaudioapi on safari ([63f47a8](https://github.com/LCluber/Aias.js/commit/63f47a8))
+
+# [2.3.0](https://github.com/LCluber/Aias.js/compare/v2.2.0...v2.3.0) (2019-09-25)
+
+
+### Features
+
+* **logger:** added setloglevel and getloglevel methods ([7376865](https://github.com/LCluber/Aias.js/commit/7376865))
+
+# [2.2.0](https://github.com/LCluber/Aias.js/compare/v2.1.0...v2.2.0) (2019-09-24)
+
+### Bug Fixes
+
+- **json:** better json type handling ([586cb8a](https://github.com/LCluber/Aias.js/commit/586cb8a))
+
+### Features
+
+- **audiobuffer:** added audiobuffer response type ([aae002c](https://github.com/LCluber/Aias.js/commit/aae002c))
+
+# [2.1.0](https://github.com/LCluber/Aias.js/compare/v2.0.0...v2.1.0) (2019-09-23)
+
+### Features
+
+- **errors:** improved error handling ([7b77617](https://github.com/LCluber/Aias.js/commit/7b77617))
 
 # [2.0.0](https://github.com/LCluber/Aias.js/compare/v1.0.2...v2.0.0) (2019-09-22)
 

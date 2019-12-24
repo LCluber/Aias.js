@@ -1,11 +1,13 @@
 {
   "name": "@lcluber/aiasjs",
-  "version": "2.1.0",
-  "description": "Promise based HTTP client (Ajax) library",
+  "version": "2.5.0",
+  "description": "Promise and observable based HTTP client (Ajax) library",
   "keywords": [
     "ajax",
     "http",
-    "http client"
+    "http client",
+    "promise",
+    "observable"
   ],
   "homepage": "https://github.com/LCluber/Aias.js",
   "main": "dist/aias",
@@ -28,37 +30,42 @@
   "scripts": {
     "start": "grunt build",
     "pretty": "prettier --check 'src/ts/*.ts' --write",
+    "test": "jest --coverage",
     "commit": "git-cz",
     "semantic-release": "semantic-release"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged",
+      "pre-commit": "gbvalidator && pretty-quick --staged && npm run test",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-push": "grunt build"
+      "pre-push": "gbvalidator"
     }
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+      "path": "cz-conventional-changelog"
     }
   },
   "files": [
     "dist/"
   ],
   "dependencies": {
-    "@lcluber/chjs": "2.6.2",
-    "@lcluber/mouettejs": "2.1.0"
+    "@lcluber/chjs": "2.9.0",
+    "@lcluber/mouettejs": "2.2.1",
+    "rxjs": "6.5.3"
   },
   "devDependencies": {
+    "@babel/core": "7.2.2",
+    "@babel/preset-env": "7.2.3",
     "@commitlint/cli": "8.0.0",
     "@commitlint/config-conventional": "8.0.0",
     "@commitlint/prompt": "8.0.0",
-    "@babel/core": "7.2.2",
-    "@babel/preset-env": "7.2.3",
+    "@lcluber/gitbranchvalidator": "1.3.0",
     "@semantic-release/changelog": "3.0.4",
     "@semantic-release/git": "7.0.16",
     "@semantic-release/npm": "5.1.13",
+    "babel-jest": "24.9.0",
+    "commitizen": "4.0.3",
     "cz-conventional-changelog": "2.1.0",
     "grunt": "1.0.2",
     "grunt-contrib-clean": "1.1.0",
@@ -69,13 +76,14 @@
     "grunt-strip-code": "1.0.6",
     "grunt-ts": "6.0.0-beta.19",
     "husky": "2.7.0",
+    "jest": "24.9.0",
     "prettier": "1.18.2",
     "pretty-quick": "1.11.1",
     "rollup-plugin-babel": "4.1.0",
     "rollup-plugin-node-resolve": "4.0.0",
     "semantic-release": "15.13.21",
     "time-grunt": "1.4.0",
-    "tslint": "5.9.1",
-    "typescript": "3.5.3"
+    "tslint": "5.20.1",
+    "typescript": "3.7.4"
   }
 }

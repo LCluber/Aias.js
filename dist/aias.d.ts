@@ -24,7 +24,18 @@
 */
 
 
+
+
 export declare class HTTP {
+    private static log;
+    private static mockupData;
+    private static eventType;
+    static setEventType(eventType: EventType): void;
+    private static isOfTypeEventType;
+    static setLogLevel(name: LevelName): LevelName;
+    static getLogLevel(): LevelName;
+    static getMockupData(): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static setMockupData(mockupData: ResponseDataType): void;
     static get: Method;
     static head: Method;
     static post: Method;
@@ -34,56 +45,57 @@ export declare class HTTP {
     static options: Method;
     static trace: Method;
     static patch: Method;
-    static GET(url: string, responseType: ResponseType): Promise<ResponseDataType>;
-    static HEAD(url: string, responseType: ResponseType): Promise<ResponseDataType>;
-    static POST(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType>;
-    static PUT(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType>;
-    static DELETE(url: string, responseType: ResponseType): Promise<ResponseDataType>;
-    static CONNECT(url: string, responseType: ResponseType): Promise<ResponseDataType>;
-    static OPTIONS(url: string, responseType: ResponseType): Promise<ResponseDataType>;
-    static TRACE(url: string, responseType: ResponseType): Promise<ResponseDataType>;
-    static PATCH(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType>;
+    static GET(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static HEAD(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static POST(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static PUT(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static DELETE(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static CONNECT(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static OPTIONS(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static TRACE(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static PATCH(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
 }
 export interface HTTPHeaders {
-    'A-IM'?: string;
+    "A-IM"?: string;
     Accept?: string;
-    'Accept-Charset'?: string;
-    'Accept-Encoding'?: string;
-    'Accept-Language'?: string;
-    'Accept-Datetime'?: string;
-    'Access-Control-Request-Method'?: string;
-    'Access-Control-Request-Headers'?: string;
+    "Accept-Charset"?: string;
+    "Accept-Encoding"?: string;
+    "Accept-Language"?: string;
+    "Accept-Datetime"?: string;
+    "Access-Control-Request-Method"?: string;
+    "Access-Control-Request-Headers"?: string;
     Authorization?: string;
-    'Cache-Control'?: string;
+    "Cache-Control"?: string;
     Connection?: string;
-    'Content-Length'?: number;
-    'Content-MD5'?: string;
-    'Content-Type'?: string;
+    "Content-Length"?: number;
+    "Content-MD5"?: string;
+    "Content-Type"?: string;
     Cookie?: string;
     Date?: string;
     Expect?: string;
     Forwarded?: string;
     From?: string;
     Host?: string;
-    'HTTP2-Settings'?: string;
-    'If-Match'?: string;
-    'If-Modified-Since'?: string;
-    'If-None-Match'?: string;
-    'If-Range'?: string;
-    'If-Unmodified-Since'?: string;
-    'Max-Forwards'?: string;
+    "HTTP2-Settings"?: string;
+    "If-Match"?: string;
+    "If-Modified-Since"?: string;
+    "If-None-Match"?: string;
+    "If-Range"?: string;
+    "If-Unmodified-Since"?: string;
+    "Max-Forwards"?: string;
     Origin?: string;
     Pragma?: string;
-    'Proxy-Authorization'?: string;
+    "Proxy-Authorization"?: string;
     Range?: string;
     Referer?: string;
     TE?: string;
-    'User-Agent'?: string;
+    "User-Agent"?: string;
     Upgrade?: string;
     Via?: string;
     Warning?: string;
     [key: string]: string | number | undefined;
 }
+
 
 
 export declare class Method {
@@ -95,12 +107,15 @@ export declare class Method {
     constructor(method: HTTPRequestMethod, defaultHeaders: HTTPHeaders);
     setHeaders(headers: HTTPHeaders): void;
     getHeaders(): HTTPHeaders;
-    call(url: string, responseType: ResponseType, data?: DataType): Promise<ResponseDataType>;
+    private usePromise;
+    private useObservable;
+    call(url: string, responseType: ResponseType, eventType: EventType, data?: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
     private setRequestHeaders;
     private logInfo;
     private logError;
 }
 export declare type HTTPRequestMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
+export declare type EventType = "promise" | "observable";
 export declare type SendDataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | URLSearchParams | ReadableStream | null;
 export declare type DataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | URLSearchParams | ReadableStream | Object | null;
 export declare type ResponseDataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | AudioBuffer | URLSearchParams | ReadableStream | Object | null;

@@ -1,7 +1,7 @@
 ## Synopsis
 
-Aias.js is an open source promise based HTTP client written in TypeScript.
-It adds features like "audiobuffer" response type, comprehensive error handling and logging.
+Aias.js is an open source promise and observable based HTTP client ES6 library.
+It includes features like "audiobuffer" response type, comprehensive error handling and logging.
 
 ## Motivation
 
@@ -36,22 +36,39 @@ const scientist = {
 };
 
 HTTP.post.setHeaders({ "Content-Type": "application/json" }); // this is the default setting for POST requests
+HTTP.get.setHeaders({ "Content-Type": "application/x-www-form-urlencoded" }); // this is the default setting for
+
+// Using promises
+
+// POST request
 HTTP.POST("http://url.com/api/scientists", "json", scientist)
   .then(response => {
     console.log(response);
   })
   .catch(err => {
-    console.log("error", err.message);
+    console.log("error", err);
   });
 
-HTTP.get.setHeaders({ "Content-Type": "application/x-www-form-urlencoded" }); // this is the default setting for GET requests
+// GET request
 HTTP.GET("http://url.com/api/scientists/2", "json")
   .then(response => {
     console.log(response);
   })
   .catch(err => {
-    console.log("error", err.message);
+    console.log("error", err);
   });
+
+// Using observables
+
+// GET request
+HTTP.setMethod("observable");
+
+HTTP.GET("http://url.com/api/scientists/2", "json").subscribe(
+  response => {
+    console.log(response);
+  },
+  err => console.log("error", err)
+);
 ```
 
 ### IIFE
@@ -69,29 +86,87 @@ var scientist = {
 };
 
 Aias.HTTP.post.setHeaders({ "Content-Type": "application/json" }); // this is the default setting for POST requests
+Aias.HTTP.get.setHeaders({
+  "Content-Type": "application/x-www-form-urlencoded"
+}); // this is the default setting for GET requests
+
+// Using promises
+
+// POST request
 Aias.HTTP.POST("http://url.com/api/scientists", "json", scientist)
   .then(function(response) {
     console.log(response);
   })
   .catch(function(err) {
-    console.log("error", err.message);
+    console.log("error", err);
   });
 
-Aias.HTTP.get.setHeaders({
-  "Content-Type": "application/x-www-form-urlencoded"
-}); // this is the default setting for GET requests
+// GET request
 Aias.HTTP.GET("http://url.com/api/scientists/2", "json")
   .then(response => {
     console.log(response);
   })
   .catch(err => {
-    console.log("error", err.message);
+    console.log("error", err);
   });
+
+// Using observables
+
+// GET request
+Aias.HTTP.setMethod("observable");
+
+Aias.HTTP.GET("http://url.com/api/scientists/2", "json").subscribe(
+  response => {
+    console.log(response);
+  },
+  err => console.log("error", err)
+);
+```
+
+### Mockup
+
+You can simulate HTTP requests without actually sending them to test your application by using setMockupData() method.
+
+```javascript
+import { HTTP } from "@lcluber/aiasjs";
+
+const scientist = {
+  firstname: "Galileo",
+  lastname: "Galilei",
+  born: 1564,
+  died: 1642
+};
+
+HTTP.setMockupData(scientist);
+HTTP.get.setHeaders({ "Content-Type": "application/x-www-form-urlencoded" }); // this is the default setting for GET requests
+
+// Using promises
+
+HTTP.GET("http://url.com/api/scientists/2", "json")
+  .then(response => {
+    console.log(response); //scientist
+  })
+  .catch(err => {
+    console.log("error", err);
+  });
+
+// Using observables
+
+HTTP.setMethod("observable");
+
+HTTP.GET("http://url.com/api/scientists/2", "json").subscribe(
+  response => {
+    console.log(response); //scientist
+  },
+  err => console.log("error", err)
+);
 ```
 
 ## API Reference
 
 ```javascript
+
+type EventType = "promise" | "observable";
 
 type DataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | Object | null;
 
@@ -126,6 +201,16 @@ static HTTP.CONNECT( url: string, responseType: ResponseType ): Promise<Response
 static HTTP.OPTIONS( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
 static HTTP.TRACE( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
 static HTTP.PATCH( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> {}
+
+static HTTP.setEventType(eventType: EventType): void {}
+
+// Log levels from @lcluber Mouette.js logger library
+type LevelName = "info" | "trace" | "warn" | "error" | "off";
+static HTTP.setLogLevel(name: LevelName): LevelName {}
+static HTTP.getLogLevel(): LevelName {}
+
+static HTTP.getMockupData(): Promise<ResponseDataType> {}
+static HTTP.setMockupData(mockupData: ResponseDataType): void {}
 
 static HTTP.get.setHeaders(headers: HTTPHeaders): void {}
 static HTTP.get.getHeaders(): HTTPHeaders {}
