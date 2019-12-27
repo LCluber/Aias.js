@@ -1,7 +1,7 @@
 import { HTTP } from "../dist/aias";
 
 const mockup = true;
-HTTP.setMockupData(mockup);
+HTTP.setMockup({ data: mockup });
 HTTP.setEventType("observable");
 
 const scientist = {

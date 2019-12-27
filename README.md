@@ -61,7 +61,7 @@ HTTP.GET("http://url.com/api/scientists/2", "json")
 // Using observables
 
 // GET request
-HTTP.setMethod("observable");
+HTTP.setEventType("observable");
 
 HTTP.GET("http://url.com/api/scientists/2", "json").subscribe(
   response => {
@@ -113,7 +113,7 @@ Aias.HTTP.GET("http://url.com/api/scientists/2", "json")
 // Using observables
 
 // GET request
-Aias.HTTP.setMethod("observable");
+Aias.HTTP.setEventType("observable");
 
 Aias.HTTP.GET("http://url.com/api/scientists/2", "json").subscribe(
   response => {
@@ -125,7 +125,7 @@ Aias.HTTP.GET("http://url.com/api/scientists/2", "json").subscribe(
 
 ### Mockup
 
-You can simulate HTTP requests without actually sending them to test your application by using setMockupData() method.
+You can simulate HTTP requests without actually sending them to a server in order to test your application by using setMockup() method.
 
 ```javascript
 import { HTTP } from "@lcluber/aiasjs";
@@ -137,7 +137,7 @@ const scientist = {
   died: 1642
 };
 
-HTTP.setMockupData(scientist);
+HTTP.setMockup({ data: scientist });
 HTTP.get.setHeaders({ "Content-Type": "application/x-www-form-urlencoded" }); // this is the default setting for GET requests
 
 // Using promises
@@ -152,7 +152,7 @@ HTTP.GET("http://url.com/api/scientists/2", "json")
 
 // Using observables
 
-HTTP.setMethod("observable");
+HTTP.setEventType("observable");
 
 HTTP.GET("http://url.com/api/scientists/2", "json").subscribe(
   response => {
@@ -165,6 +165,11 @@ HTTP.GET("http://url.com/api/scientists/2", "json").subscribe(
 ## API Reference
 
 ```javascript
+
+interface Mockup {
+  data: ResponseDataType;
+  delay: number;
+}
 
 type EventType = "promise" | "observable";
 
@@ -209,8 +214,7 @@ type LevelName = "info" | "trace" | "warn" | "error" | "off";
 static HTTP.setLogLevel(name: LevelName): LevelName {}
 static HTTP.getLogLevel(): LevelName {}
 
-static HTTP.getMockupData(): Promise<ResponseDataType> {}
-static HTTP.setMockupData(mockupData: ResponseDataType): void {}
+static HTTP.setMockup(mockup: Partial<Mockup> = { data: ResponseDataType, delay: number}): void {}
 
 static HTTP.get.setHeaders(headers: HTTPHeaders): void {}
 static HTTP.get.getHeaders(): HTTPHeaders {}
