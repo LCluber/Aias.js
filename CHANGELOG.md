@@ -1,3 +1,10 @@
+# [2.6.0](https://github.com/LCluber/Aias.js/compare/v2.5.0...v2.6.0) (2019-12-27)
+
+
+### Features
+
+* **mockup:** manage delay to mockup requests ([da15cbf](https://github.com/LCluber/Aias.js/commit/da15cbfa21d1b51518f5a0ec5c11c49fe217aba8))
+
 # [2.5.0](https://github.com/LCluber/Aias.js/compare/v2.4.0...v2.5.0) (2019-12-24)
 
 ### Features
