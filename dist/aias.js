@@ -303,77 +303,90 @@ class HTTP {
     static getLogLevel() {
         return this.log.getLevel();
     }
+    static setMockup(mockup) {
+        var _a, _b;
+        this.mockup.data = (_a = mockup.data, _a !== null && _a !== void 0 ? _a : this.mockup.data);
+        this.mockup.delay = (_b = mockup.delay, _b !== null && _b !== void 0 ? _b : this.mockup.delay);
+        return this.mockup;
+    }
     static getMockupData() {
         switch (this.eventType) {
             case "observable":
                 return new Observable(observer => {
-                    if (this.mockupData) {
-                        observer.next(this.mockupData);
-                        observer.complete();
-                    }
-                    else {
-                        observer.error(null);
-                    }
+                    setTimeout(() => {
+                        if (this.mockup.data) {
+                            observer.next(this.mockup.data);
+                            observer.complete();
+                        }
+                        else {
+                            observer.error(null);
+                        }
+                    }, this.mockup.delay);
                 });
                 break;
             default:
-                return new Promise((resolve, reject) => {
-                    this.mockupData ? resolve(this.mockupData) : reject(null);
+                return this.promiseTimeout().then(() => {
+                    return new Promise((resolve, reject) => {
+                        this.mockup.data ? resolve(this.mockup.data) : reject(null);
+                    });
                 });
         }
     }
-    static setMockupData(mockupData) {
-        this.mockupData = mockupData;
+    static promiseTimeout() {
+        return new Promise((resolve) => setTimeout(resolve, this.mockup.delay));
     }
     static GET(url, responseType) {
-        return this.mockupData
+        return this.mockup.data
             ? this.getMockupData()
             : this.get.call(url, responseType, this.eventType);
     }
     static HEAD(url, responseType) {
-        return this.mockupData
+        return this.mockup.data
             ? this.getMockupData()
             : this.head.call(url, responseType, this.eventType);
     }
     static POST(url, responseType, data) {
-        return this.mockupData
+        return this.mockup.data
             ? this.getMockupData()
             : this.post.call(url, responseType, this.eventType, data);
     }
     static PUT(url, responseType, data) {
-        return this.mockupData
+        return this.mockup.data
             ? this.getMockupData()
             : this.put.call(url, responseType, this.eventType, data);
     }
     static DELETE(url, responseType) {
-        return this.mockupData
+        return this.mockup.data
             ? this.getMockupData()
             : this.delete.call(url, responseType, this.eventType);
     }
     static CONNECT(url, responseType) {
-        return this.mockupData
+        return this.mockup.data
             ? this.getMockupData()
             : this.connect.call(url, responseType, this.eventType);
     }
     static OPTIONS(url, responseType) {
-        return this.mockupData
+        return this.mockup.data
             ? this.getMockupData()
             : this.options.call(url, responseType, this.eventType);
     }
     static TRACE(url, responseType) {
-        return this.mockupData
+        return this.mockup.data
             ? this.getMockupData()
             : this.trace.call(url, responseType, this.eventType);
     }
     static PATCH(url, responseType, data) {
-        return this.mockupData
+        return this.mockup.data
             ? this.getMockupData()
             : this.patch.call(url, responseType, this.eventType, data);
     }
 }
 HTTP.log = Logger.addGroup("Aias");
-HTTP.mockupData = null;
 HTTP.eventType = "promise";
+HTTP.mockup = {
+    data: null,
+    delay: 200
+};
 HTTP.get = new Method("GET", {
     "Content-Type": "application/x-www-form-urlencoded"
 });

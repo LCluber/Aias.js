@@ -1,12 +1,17 @@
 import { Logger, Group, LevelName } from "@lcluber/mouettejs";
 import { Method } from "./method";
 import { DataType, ResponseDataType, ResponseType, EventType } from "./types";
-import { Observable } from "rxjs";
+import { Mockup } from "./interfaces";
+import { Observable /*, of*/ } from "rxjs";
+import /*delay*/ "rxjs/operators";
 
 export class HTTP {
   private static log: Group = Logger.addGroup("Aias");
-  private static mockupData: ResponseDataType = null;
   private static eventType: EventType = "promise";
+  private static mockup: Mockup = {
+    data: null,
+    delay: 200
+  };
 
   public static setEventType(eventType: EventType): void {
     this.eventType = this.isOfTypeEventType(eventType) ? eventType : "promise";
@@ -24,29 +29,42 @@ export class HTTP {
     return this.log.getLevel();
   }
 
-  public static getMockupData():
+  public static setMockup(mockup: Partial<Mockup>): Mockup {
+    this.mockup.data = mockup.data ?? this.mockup.data;
+    this.mockup.delay = mockup.delay ?? this.mockup.delay;
+    return this.mockup;
+  }
+
+  private static getMockupData():
     | Promise<ResponseDataType>
     | Observable<ResponseDataType> {
     switch (this.eventType) {
       case "observable":
+        // return of(this.mockup.data).pipe(delay(this.mockup.delay));
         return new Observable(observer => {
-          if (this.mockupData) {
-            observer.next(this.mockupData);
-            observer.complete();
-          } else {
-            observer.error(null);
-          }
+          setTimeout(() => {
+            if (this.mockup.data) {
+              observer.next(this.mockup.data);
+              observer.complete();
+            } else {
+              observer.error(null);
+            }
+          }, this.mockup.delay);
         });
         break;
       default:
-        return new Promise((resolve: Function, reject: Function) => {
-          this.mockupData ? resolve(this.mockupData) : reject(null);
+        return this.promiseTimeout().then(() => {
+          return new Promise((resolve: Function, reject: Function) => {
+            this.mockup.data ? resolve(this.mockup.data) : reject(null);
+          });
         });
     }
   }
 
-  public static setMockupData(mockupData: ResponseDataType): void {
-    this.mockupData = mockupData;
+  private static promiseTimeout(): Promise<void> {
+    return new Promise((resolve: Function) =>
+      setTimeout(resolve, this.mockup.delay)
+    );
   }
 
   public static get: Method = new Method("GET", {
@@ -81,7 +99,7 @@ export class HTTP {
     url: string,
     responseType: ResponseType
   ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockupData
+    return this.mockup.data
       ? this.getMockupData()
       : this.get.call(url, responseType, this.eventType);
   }
@@ -90,7 +108,7 @@ export class HTTP {
     url: string,
     responseType: ResponseType
   ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockupData
+    return this.mockup.data
       ? this.getMockupData()
       : this.head.call(url, responseType, this.eventType);
   }
@@ -100,7 +118,7 @@ export class HTTP {
     responseType: ResponseType,
     data: DataType
   ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockupData
+    return this.mockup.data
       ? this.getMockupData()
       : this.post.call(url, responseType, this.eventType, data);
   }
@@ -110,7 +128,7 @@ export class HTTP {
     responseType: ResponseType,
     data: DataType
   ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockupData
+    return this.mockup.data
       ? this.getMockupData()
       : this.put.call(url, responseType, this.eventType, data);
   }
@@ -119,7 +137,7 @@ export class HTTP {
     url: string,
     responseType: ResponseType
   ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockupData
+    return this.mockup.data
       ? this.getMockupData()
       : this.delete.call(url, responseType, this.eventType);
   }
@@ -128,7 +146,7 @@ export class HTTP {
     url: string,
     responseType: ResponseType
   ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockupData
+    return this.mockup.data
       ? this.getMockupData()
       : this.connect.call(url, responseType, this.eventType);
   }
@@ -137,7 +155,7 @@ export class HTTP {
     url: string,
     responseType: ResponseType
   ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockupData
+    return this.mockup.data
       ? this.getMockupData()
       : this.options.call(url, responseType, this.eventType);
   }
@@ -146,7 +164,7 @@ export class HTTP {
     url: string,
     responseType: ResponseType
   ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockupData
+    return this.mockup.data
       ? this.getMockupData()
       : this.trace.call(url, responseType, this.eventType);
   }
@@ -156,7 +174,7 @@ export class HTTP {
     responseType: ResponseType,
     data: DataType
   ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockupData
+    return this.mockup.data
       ? this.getMockupData()
       : this.patch.call(url, responseType, this.eventType, data);
   }
