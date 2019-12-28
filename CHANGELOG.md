@@ -1,3 +1,10 @@
+## [2.6.1](https://github.com/LCluber/Aias.js/compare/v2.6.0...v2.6.1) (2019-12-28)
+
+
+### Bug Fixes
+
+* **declaration:** fix missing import in declaration file ([7d8ad7e](https://github.com/LCluber/Aias.js/commit/7d8ad7ee06c08f8d78e12568ca0656d07913d965))
+
 # [2.6.0](https://github.com/LCluber/Aias.js/compare/v2.5.0...v2.6.0) (2019-12-27)
 
 
