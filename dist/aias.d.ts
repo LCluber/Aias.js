@@ -22,11 +22,11 @@
 *
 * https://github.com/LCluber/Aias.js
 */
+import { LevelName } from "@lcluber/mouettejs";
 
 
 
-
-
+import { Observable } from "rxjs";
 export declare class HTTP {
     private static log;
     private static eventType;
@@ -102,8 +102,6 @@ export interface Mockup {
     data: ResponseDataType;
     delay: number;
 }
-
-
 
 export declare class Method {
     private method;

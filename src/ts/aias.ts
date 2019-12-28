@@ -2,8 +2,7 @@ import { Logger, Group, LevelName } from "@lcluber/mouettejs";
 import { Method } from "./method";
 import { DataType, ResponseDataType, ResponseType, EventType } from "./types";
 import { Mockup } from "./interfaces";
-import { Observable /*, of*/ } from "rxjs";
-import /*delay*/ "rxjs/operators";
+import { Observable } from "rxjs";
 
 export class HTTP {
   private static log: Group = Logger.addGroup("Aias");
@@ -40,7 +39,6 @@ export class HTTP {
     | Observable<ResponseDataType> {
     switch (this.eventType) {
       case "observable":
-        // return of(this.mockup.data).pipe(delay(this.mockup.delay));
         return new Observable(observer => {
           setTimeout(() => {
             if (this.mockup.data) {
