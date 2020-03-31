@@ -1,4 +1,3 @@
-
 export class Request {
   private method: HTTPRequestMethod;
   private async: boolean;
@@ -10,5 +9,4 @@ export class Request {
     this.noCache = false;
     this.headers = headers;
   }
-
 }

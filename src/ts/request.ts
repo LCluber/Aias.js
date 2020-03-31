@@ -28,12 +28,12 @@ export class Request {
   private log: Group = Logger.addGroup("Aias");
 
   constructor(
-    method: HTTPRequestMethod, 
+    method: HTTPRequestMethod,
     url: string,
     responseType: ResponseType,
     headers: HTTPHeaders,
     eventType: EventType,
-    data? : DataType
+    data?: DataType
   ) {
     this.method = method;
     this.url = url;
@@ -43,7 +43,6 @@ export class Request {
     this.headers = headers;
     this.eventType = eventType || this.eventType;
     this.data = data || null;
-    
   }
 
   // public setHeaders(headers: HTTPHeaders): void {

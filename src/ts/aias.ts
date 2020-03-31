@@ -94,7 +94,14 @@ export class HTTP {
     if (this.mockup.data) {
       return this.getMockupData();
     } else {
-      let request = new Request(type, url, responseType, headers, eventType || this.eventType, data || null);
+      let request = new Request(
+        type,
+        url,
+        responseType,
+        headers,
+        eventType || this.eventType,
+        data || null
+      );
       return request.call();
     }
   }

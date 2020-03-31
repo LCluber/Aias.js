@@ -14,13 +14,13 @@ export interface Method {
 }
 
 export interface Methods {
-  GET: Method,
-  HEAD: Method,
-  POST: Method,
-  PUT: Method,
-  DELETE: Method,
-  CONNECT: Method,
-  OPTIONS: Method,
-  TRACE: Method,
-  PATCH: Method
+  GET: Method;
+  HEAD: Method;
+  POST: Method;
+  PUT: Method;
+  DELETE: Method;
+  CONNECT: Method;
+  OPTIONS: Method;
+  TRACE: Method;
+  PATCH: Method;
 }
