@@ -1,3 +1,5 @@
+Mouette.Logger.setLevel("info");
+
 var data = {
   firstname: "Galileo",
   lastname: "Galilei",
