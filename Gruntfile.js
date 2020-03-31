@@ -162,7 +162,7 @@ module.exports = function(grunt) {
     strip_code: {
       options: {
         patterns: [
-          /import { .* } from ".*";/g,
+          /import { .* } from "\..*";/g,
           /export { .* } from ".*";/g
           // /\/\/\/ <reference path=.*\/>/g
         ]

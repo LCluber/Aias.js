@@ -3949,73 +3949,92 @@ var Aias = (function (exports) {
       return this.log.getLevel();
     };
 
+    HTTP.setMockup = function setMockup(mockup) {
+      var _a, _b;
+
+      this.mockup.data = (_a = mockup.data, _a !== null && _a !== void 0 ? _a : this.mockup.data);
+      this.mockup.delay = (_b = mockup.delay, _b !== null && _b !== void 0 ? _b : this.mockup.delay);
+      return this.mockup;
+    };
+
     HTTP.getMockupData = function getMockupData() {
       var _this = this;
 
       switch (this.eventType) {
         case "observable":
           return new Observable(function (observer) {
-            if (_this.mockupData) {
-              observer.next(_this.mockupData);
-              observer.complete();
-            } else {
-              observer.error(null);
-            }
+            setTimeout(function () {
+              if (_this.mockup.data) {
+                observer.next(_this.mockup.data);
+                observer.complete();
+              } else {
+                observer.error(null);
+              }
+            }, _this.mockup.delay);
           });
           break;
 
         default:
-          return new Promise(function (resolve, reject) {
-            _this.mockupData ? resolve(_this.mockupData) : reject(null);
+          return this.promiseTimeout().then(function () {
+            return new Promise(function (resolve, reject) {
+              _this.mockup.data ? resolve(_this.mockup.data) : reject(null);
+            });
           });
       }
     };
 
-    HTTP.setMockupData = function setMockupData(mockupData) {
-      this.mockupData = mockupData;
+    HTTP.promiseTimeout = function promiseTimeout() {
+      var _this2 = this;
+
+      return new Promise(function (resolve) {
+        return setTimeout(resolve, _this2.mockup.delay);
+      });
     };
 
     HTTP.GET = function GET(url, responseType) {
-      return this.mockupData ? this.getMockupData() : this.get.call(url, responseType, this.eventType);
+      return this.mockup.data ? this.getMockupData() : this.get.call(url, responseType, this.eventType);
     };
 
     HTTP.HEAD = function HEAD(url, responseType) {
-      return this.mockupData ? this.getMockupData() : this.head.call(url, responseType, this.eventType);
+      return this.mockup.data ? this.getMockupData() : this.head.call(url, responseType, this.eventType);
     };
 
     HTTP.POST = function POST(url, responseType, data) {
-      return this.mockupData ? this.getMockupData() : this.post.call(url, responseType, this.eventType, data);
+      return this.mockup.data ? this.getMockupData() : this.post.call(url, responseType, this.eventType, data);
     };
 
     HTTP.PUT = function PUT(url, responseType, data) {
-      return this.mockupData ? this.getMockupData() : this.put.call(url, responseType, this.eventType, data);
+      return this.mockup.data ? this.getMockupData() : this.put.call(url, responseType, this.eventType, data);
     };
 
     HTTP.DELETE = function DELETE(url, responseType) {
-      return this.mockupData ? this.getMockupData() : this.delete.call(url, responseType, this.eventType);
+      return this.mockup.data ? this.getMockupData() : this.delete.call(url, responseType, this.eventType);
     };
 
     HTTP.CONNECT = function CONNECT(url, responseType) {
-      return this.mockupData ? this.getMockupData() : this.connect.call(url, responseType, this.eventType);
+      return this.mockup.data ? this.getMockupData() : this.connect.call(url, responseType, this.eventType);
     };
 
     HTTP.OPTIONS = function OPTIONS(url, responseType) {
-      return this.mockupData ? this.getMockupData() : this.options.call(url, responseType, this.eventType);
+      return this.mockup.data ? this.getMockupData() : this.options.call(url, responseType, this.eventType);
     };
 
     HTTP.TRACE = function TRACE(url, responseType) {
-      return this.mockupData ? this.getMockupData() : this.trace.call(url, responseType, this.eventType);
+      return this.mockup.data ? this.getMockupData() : this.trace.call(url, responseType, this.eventType);
     };
 
     HTTP.PATCH = function PATCH(url, responseType, data) {
-      return this.mockupData ? this.getMockupData() : this.patch.call(url, responseType, this.eventType, data);
+      return this.mockup.data ? this.getMockupData() : this.patch.call(url, responseType, this.eventType, data);
     };
 
     return HTTP;
   }();
   HTTP.log = Logger.addGroup("Aias");
-  HTTP.mockupData = null;
   HTTP.eventType = "promise";
+  HTTP.mockup = {
+    data: null,
+    delay: 200
+  };
   HTTP.get = new Method("GET", {
     "Content-Type": "application/x-www-form-urlencoded"
   });

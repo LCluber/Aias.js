@@ -1,6 +1,6 @@
 {
   "name": "@lcluber/aiasjs",
-  "version": "2.5.0",
+  "version": "2.6.1",
   "description": "Promise and observable based HTTP client (Ajax) library",
   "keywords": [
     "ajax",
@@ -77,8 +77,8 @@
     "grunt-ts": "6.0.0-beta.19",
     "husky": "2.7.0",
     "jest": "24.9.0",
-    "prettier": "1.18.2",
-    "pretty-quick": "1.11.1",
+    "prettier": "1.19.1",
+    "pretty-quick": "2.0.1",
     "rollup-plugin-babel": "4.1.0",
     "rollup-plugin-node-resolve": "4.0.0",
     "semantic-release": "15.13.21",
