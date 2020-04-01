@@ -103,6 +103,8 @@ export interface Mockup {
     delay: number;
 }
 
+import { Observable } from "rxjs";
+
 export declare class Method {
     private method;
     private async;

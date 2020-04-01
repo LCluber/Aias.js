@@ -26,6 +26,43 @@
 var Aias = (function (exports) {
   'use strict';
 
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(n);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
+
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+
+    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+    return arr2;
+  }
+
+  function _createForOfIteratorHelperLoose(o) {
+    var i = 0;
+
+    if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+      if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) return function () {
+        if (i >= o.length) return {
+          done: true
+        };
+        return {
+          done: false,
+          value: o[i++]
+        };
+      };
+      throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+    }
+
+    i = o[Symbol.iterator]();
+    return i.next.bind(i);
+  }
+
   /** MIT License
   * 
   * Copyright (c) 2015 Ludovic CLUBER 
@@ -89,9 +126,7 @@ var Aias = (function (exports) {
     return date.join("/") + " " + time.join(":");
   }
 
-  var Message =
-  /*#__PURE__*/
-  function () {
+  var Message = /*#__PURE__*/function () {
     function Message(level, content) {
       this.id = level.id;
       this.name = level.name;
@@ -109,9 +144,7 @@ var Aias = (function (exports) {
     return Message;
   }();
 
-  var Group =
-  /*#__PURE__*/
-  function () {
+  var Group = /*#__PURE__*/function () {
     function Group(name, level) {
       this.messages = [];
       this.name = name;
@@ -158,27 +191,14 @@ var Aias = (function (exports) {
     return Group;
   }();
 
-  var Logger =
-  /*#__PURE__*/
-  function () {
+  var Logger = /*#__PURE__*/function () {
     function Logger() {}
 
     Logger.setLevel = function setLevel(name) {
       Logger.level = LEVELS.hasOwnProperty(name) ? LEVELS[name] : Logger.level;
 
-      for (var _iterator = Logger.groups, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-        var _ref;
-
-        if (_isArray) {
-          if (_i >= _iterator.length) break;
-          _ref = _iterator[_i++];
-        } else {
-          _i = _iterator.next();
-          if (_i.done) break;
-          _ref = _i.value;
-        }
-
-        var group = _ref;
+      for (var _iterator = _createForOfIteratorHelperLoose(Logger.groups), _step; !(_step = _iterator()).done;) {
+        var group = _step.value;
         group.setLevel(Logger.level.name);
       }
 
@@ -190,19 +210,8 @@ var Aias = (function (exports) {
     };
 
     Logger.getGroup = function getGroup(name) {
-      for (var _iterator2 = Logger.groups, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
-        var _ref2;
-
-        if (_isArray2) {
-          if (_i2 >= _iterator2.length) break;
-          _ref2 = _iterator2[_i2++];
-        } else {
-          _i2 = _iterator2.next();
-          if (_i2.done) break;
-          _ref2 = _i2.value;
-        }
-
-        var group = _ref2;
+      for (var _iterator2 = _createForOfIteratorHelperLoose(Logger.groups), _step2; !(_step2 = _iterator2()).done;) {
+        var group = _step2.value;
 
         if (group.name === name) {
           return group;
@@ -313,9 +322,7 @@ var Aias = (function (exports) {
 
     set useDeprecatedSynchronousErrorHandling(value) {
       if (value) {
-        var error =
-        /*@__PURE__*/
-        new Error();
+        var error = /*@__PURE__*/new Error();
         /*@__PURE__*/
 
         console.warn('DEPRECATED! RxJS was set to use deprecated synchronous error handling behavior by code at: \n' + error.stack);
@@ -355,9 +362,7 @@ var Aias = (function (exports) {
   };
 
   /** PURE_IMPORTS_START  PURE_IMPORTS_END */
-  var isArray$1 =
-  /*@__PURE__*/
-  function () {
+  var isArray$1 = /*@__PURE__*/function () {
     return Array.isArray || function (x) {
       return x && typeof x.length === 'number';
     };
@@ -369,9 +374,7 @@ var Aias = (function (exports) {
   }
 
   /** PURE_IMPORTS_START  PURE_IMPORTS_END */
-  var UnsubscriptionErrorImpl =
-  /*@__PURE__*/
-  function () {
+  var UnsubscriptionErrorImpl = /*@__PURE__*/function () {
     function UnsubscriptionErrorImpl(errors) {
       Error.call(this);
       this.message = errors ? errors.length + " errors occurred during unsubscription:\n" + errors.map(function (err, i) {
@@ -382,18 +385,14 @@ var Aias = (function (exports) {
       return this;
     }
 
-    UnsubscriptionErrorImpl.prototype =
-    /*@__PURE__*/
-    Object.create(Error.prototype);
+    UnsubscriptionErrorImpl.prototype = /*@__PURE__*/Object.create(Error.prototype);
     return UnsubscriptionErrorImpl;
   }();
 
   var UnsubscriptionError = UnsubscriptionErrorImpl;
 
   /** PURE_IMPORTS_START _util_isArray,_util_isObject,_util_isFunction,_util_UnsubscriptionError PURE_IMPORTS_END */
-  var Subscription =
-  /*@__PURE__*/
-  function () {
+  var Subscription = /*@__PURE__*/function () {
     function Subscription(unsubscribe) {
       this.closed = false;
       this._parentOrParents = null;
@@ -550,20 +549,12 @@ var Aias = (function (exports) {
   }
 
   /** PURE_IMPORTS_START  PURE_IMPORTS_END */
-  var rxSubscriber =
-  /*@__PURE__*/
-  function () {
-    return typeof Symbol === 'function' ?
-    /*@__PURE__*/
-    Symbol('rxSubscriber') : '@@rxSubscriber_' +
-    /*@__PURE__*/
-    Math.random();
+  var rxSubscriber = /*@__PURE__*/function () {
+    return typeof Symbol === 'function' ? /*@__PURE__*/Symbol('rxSubscriber') : '@@rxSubscriber_' + /*@__PURE__*/Math.random();
   }();
 
   /** PURE_IMPORTS_START tslib,_util_isFunction,_Observer,_Subscription,_internal_symbol_rxSubscriber,_config,_util_hostReportError PURE_IMPORTS_END */
-  var Subscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var Subscriber = /*@__PURE__*/function (_super) {
     __extends(Subscriber, _super);
 
     function Subscriber(destinationOrNext, error, complete) {
@@ -676,9 +667,7 @@ var Aias = (function (exports) {
     return Subscriber;
   }(Subscription);
 
-  var SafeSubscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var SafeSubscriber = /*@__PURE__*/function (_super) {
     __extends(SafeSubscriber, _super);
 
     function SafeSubscriber(_parentSubscriber, observerOrNext, error, complete) {
@@ -873,9 +862,7 @@ var Aias = (function (exports) {
   }
 
   /** PURE_IMPORTS_START  PURE_IMPORTS_END */
-  var observable =
-  /*@__PURE__*/
-  function () {
+  var observable = /*@__PURE__*/function () {
     return typeof Symbol === 'function' && Symbol.observable || '@@observable';
   }();
 
@@ -901,9 +888,7 @@ var Aias = (function (exports) {
   }
 
   /** PURE_IMPORTS_START _util_canReportError,_util_toSubscriber,_symbol_observable,_util_pipe,_config PURE_IMPORTS_END */
-  var Observable =
-  /*@__PURE__*/
-  function () {
+  var Observable = /*@__PURE__*/function () {
     function Observable(subscribe) {
       this._isScalar = false;
 
@@ -1039,9 +1024,7 @@ var Aias = (function (exports) {
   }
 
   /** PURE_IMPORTS_START  PURE_IMPORTS_END */
-  var ObjectUnsubscribedErrorImpl =
-  /*@__PURE__*/
-  function () {
+  var ObjectUnsubscribedErrorImpl = /*@__PURE__*/function () {
     function ObjectUnsubscribedErrorImpl() {
       Error.call(this);
       this.message = 'object unsubscribed';
@@ -1049,18 +1032,14 @@ var Aias = (function (exports) {
       return this;
     }
 
-    ObjectUnsubscribedErrorImpl.prototype =
-    /*@__PURE__*/
-    Object.create(Error.prototype);
+    ObjectUnsubscribedErrorImpl.prototype = /*@__PURE__*/Object.create(Error.prototype);
     return ObjectUnsubscribedErrorImpl;
   }();
 
   var ObjectUnsubscribedError = ObjectUnsubscribedErrorImpl;
 
   /** PURE_IMPORTS_START tslib,_Subscription PURE_IMPORTS_END */
-  var SubjectSubscription =
-  /*@__PURE__*/
-  function (_super) {
+  var SubjectSubscription = /*@__PURE__*/function (_super) {
     __extends(SubjectSubscription, _super);
 
     function SubjectSubscription(subject, subscriber) {
@@ -1097,9 +1076,7 @@ var Aias = (function (exports) {
   }(Subscription);
 
   /** PURE_IMPORTS_START tslib,_Observable,_Subscriber,_Subscription,_util_ObjectUnsubscribedError,_SubjectSubscription,_internal_symbol_rxSubscriber PURE_IMPORTS_END */
-  var SubjectSubscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var SubjectSubscriber = /*@__PURE__*/function (_super) {
     __extends(SubjectSubscriber, _super);
 
     function SubjectSubscriber(destination) {
@@ -1112,9 +1089,7 @@ var Aias = (function (exports) {
     return SubjectSubscriber;
   }(Subscriber);
 
-  var Subject =
-  /*@__PURE__*/
-  function (_super) {
+  var Subject = /*@__PURE__*/function (_super) {
     __extends(Subject, _super);
 
     function Subject() {
@@ -1232,9 +1207,7 @@ var Aias = (function (exports) {
     return Subject;
   }(Observable);
 
-  var AnonymousSubject =
-  /*@__PURE__*/
-  function (_super) {
+  var AnonymousSubject = /*@__PURE__*/function (_super) {
     __extends(AnonymousSubject, _super);
 
     function AnonymousSubject(destination, source) {
@@ -1289,9 +1262,7 @@ var Aias = (function (exports) {
     };
   }
 
-  var RefCountOperator =
-  /*@__PURE__*/
-  function () {
+  var RefCountOperator = /*@__PURE__*/function () {
     function RefCountOperator(connectable) {
       this.connectable = connectable;
     }
@@ -1312,9 +1283,7 @@ var Aias = (function (exports) {
     return RefCountOperator;
   }();
 
-  var RefCountSubscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var RefCountSubscriber = /*@__PURE__*/function (_super) {
     __extends(RefCountSubscriber, _super);
 
     function RefCountSubscriber(destination, connectable) {
@@ -1360,9 +1329,7 @@ var Aias = (function (exports) {
   }(Subscriber);
 
   /** PURE_IMPORTS_START tslib,_Subject,_Observable,_Subscriber,_Subscription,_operators_refCount PURE_IMPORTS_END */
-  var ConnectableObservable =
-  /*@__PURE__*/
-  function (_super) {
+  var ConnectableObservable = /*@__PURE__*/function (_super) {
     __extends(ConnectableObservable, _super);
 
     function ConnectableObservable(source, subjectFactory) {
@@ -1415,9 +1382,7 @@ var Aias = (function (exports) {
 
 
 
-  var ConnectableSubscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var ConnectableSubscriber = /*@__PURE__*/function (_super) {
     __extends(ConnectableSubscriber, _super);
 
     function ConnectableSubscriber(destination, connectable) {
@@ -1460,9 +1425,7 @@ var Aias = (function (exports) {
     return ConnectableSubscriber;
   }(SubjectSubscriber);
 
-  var RefCountSubscriber$1 =
-  /*@__PURE__*/
-  function (_super) {
+  var RefCountSubscriber$1 = /*@__PURE__*/function (_super) {
     __extends(RefCountSubscriber, _super);
 
     function RefCountSubscriber(destination, connectable) {
@@ -1510,9 +1473,7 @@ var Aias = (function (exports) {
   /** PURE_IMPORTS_START tslib,_Subscriber,_Subscription,_Observable,_Subject PURE_IMPORTS_END */
 
 
-  var GroupBySubscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var GroupBySubscriber = /*@__PURE__*/function (_super) {
     __extends(GroupBySubscriber, _super);
 
     function GroupBySubscriber(destination, keySelector, elementSelector, durationSelector, subjectSelector) {
@@ -1629,9 +1590,7 @@ var Aias = (function (exports) {
     return GroupBySubscriber;
   }(Subscriber);
 
-  var GroupDurationSubscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var GroupDurationSubscriber = /*@__PURE__*/function (_super) {
     __extends(GroupDurationSubscriber, _super);
 
     function GroupDurationSubscriber(key, group, parent) {
@@ -1662,9 +1621,7 @@ var Aias = (function (exports) {
     return GroupDurationSubscriber;
   }(Subscriber);
 
-  var GroupedObservable =
-  /*@__PURE__*/
-  function (_super) {
+  var GroupedObservable = /*@__PURE__*/function (_super) {
     __extends(GroupedObservable, _super);
 
     function GroupedObservable(key, groupSubject, refCountSubscription) {
@@ -1694,9 +1651,7 @@ var Aias = (function (exports) {
     return GroupedObservable;
   }(Observable);
 
-  var InnerRefCountSubscription =
-  /*@__PURE__*/
-  function (_super) {
+  var InnerRefCountSubscription = /*@__PURE__*/function (_super) {
     __extends(InnerRefCountSubscription, _super);
 
     function InnerRefCountSubscription(parent) {
@@ -1725,9 +1680,7 @@ var Aias = (function (exports) {
   }(Subscription);
 
   /** PURE_IMPORTS_START tslib,_Subject,_util_ObjectUnsubscribedError PURE_IMPORTS_END */
-  var BehaviorSubject =
-  /*@__PURE__*/
-  function (_super) {
+  var BehaviorSubject = /*@__PURE__*/function (_super) {
     __extends(BehaviorSubject, _super);
 
     function BehaviorSubject(_value) {
@@ -1773,9 +1726,7 @@ var Aias = (function (exports) {
   }(Subject);
 
   /** PURE_IMPORTS_START tslib,_Subscription PURE_IMPORTS_END */
-  var Action =
-  /*@__PURE__*/
-  function (_super) {
+  var Action = /*@__PURE__*/function (_super) {
     __extends(Action, _super);
 
     function Action(scheduler, work) {
@@ -1794,9 +1745,7 @@ var Aias = (function (exports) {
   }(Subscription);
 
   /** PURE_IMPORTS_START tslib,_Action PURE_IMPORTS_END */
-  var AsyncAction =
-  /*@__PURE__*/
-  function (_super) {
+  var AsyncAction = /*@__PURE__*/function (_super) {
     __extends(AsyncAction, _super);
 
     function AsyncAction(scheduler, work) {
@@ -1910,9 +1859,7 @@ var Aias = (function (exports) {
   }(Action);
 
   /** PURE_IMPORTS_START tslib,_AsyncAction PURE_IMPORTS_END */
-  var QueueAction =
-  /*@__PURE__*/
-  function (_super) {
+  var QueueAction = /*@__PURE__*/function (_super) {
     __extends(QueueAction, _super);
 
     function QueueAction(scheduler, work) {
@@ -1957,9 +1904,7 @@ var Aias = (function (exports) {
     return QueueAction;
   }(AsyncAction);
 
-  var Scheduler =
-  /*@__PURE__*/
-  function () {
+  var Scheduler = /*@__PURE__*/function () {
     function Scheduler(SchedulerAction, now) {
       if (now === void 0) {
         now = Scheduler.now;
@@ -1985,9 +1930,7 @@ var Aias = (function (exports) {
   }();
 
   /** PURE_IMPORTS_START tslib,_Scheduler PURE_IMPORTS_END */
-  var AsyncScheduler =
-  /*@__PURE__*/
-  function (_super) {
+  var AsyncScheduler = /*@__PURE__*/function (_super) {
     __extends(AsyncScheduler, _super);
 
     function AsyncScheduler(SchedulerAction, now) {
@@ -2053,9 +1996,7 @@ var Aias = (function (exports) {
   }(Scheduler);
 
   /** PURE_IMPORTS_START tslib,_AsyncScheduler PURE_IMPORTS_END */
-  var QueueScheduler =
-  /*@__PURE__*/
-  function (_super) {
+  var QueueScheduler = /*@__PURE__*/function (_super) {
     __extends(QueueScheduler, _super);
 
     function QueueScheduler() {
@@ -2066,14 +2007,10 @@ var Aias = (function (exports) {
   }(AsyncScheduler);
 
   /** PURE_IMPORTS_START _QueueAction,_QueueScheduler PURE_IMPORTS_END */
-  var queue =
-  /*@__PURE__*/
-  new QueueScheduler(QueueAction);
+  var queue = /*@__PURE__*/new QueueScheduler(QueueAction);
 
   /** PURE_IMPORTS_START _Observable PURE_IMPORTS_END */
-  var EMPTY =
-  /*@__PURE__*/
-  new Observable(function (subscriber) {
+  var EMPTY = /*@__PURE__*/new Observable(function (subscriber) {
     return subscriber.complete();
   });
   function empty$1(scheduler) {
@@ -2184,9 +2121,7 @@ var Aias = (function (exports) {
     NotificationKind["COMPLETE"] = "C";
   })(NotificationKind || (NotificationKind = {}));
 
-  var Notification =
-  /*@__PURE__*/
-  function () {
+  var Notification = /*@__PURE__*/function () {
     function Notification(kind, value, error) {
       this.kind = kind;
       this.value = value;
@@ -2271,9 +2206,7 @@ var Aias = (function (exports) {
   /** PURE_IMPORTS_START tslib,_Subscriber,_Notification PURE_IMPORTS_END */
 
 
-  var ObserveOnSubscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var ObserveOnSubscriber = /*@__PURE__*/function (_super) {
     __extends(ObserveOnSubscriber, _super);
 
     function ObserveOnSubscriber(destination, scheduler, delay) {
@@ -2317,9 +2250,7 @@ var Aias = (function (exports) {
     return ObserveOnSubscriber;
   }(Subscriber);
 
-  var ObserveOnMessage =
-  /*@__PURE__*/
-  function () {
+  var ObserveOnMessage = /*@__PURE__*/function () {
     function ObserveOnMessage(notification, destination) {
       this.notification = notification;
       this.destination = destination;
@@ -2329,9 +2260,7 @@ var Aias = (function (exports) {
   }();
 
   /** PURE_IMPORTS_START tslib,_Subject,_scheduler_queue,_Subscription,_operators_observeOn,_util_ObjectUnsubscribedError,_SubjectSubscription PURE_IMPORTS_END */
-  var ReplaySubject =
-  /*@__PURE__*/
-  function (_super) {
+  var ReplaySubject = /*@__PURE__*/function (_super) {
     __extends(ReplaySubject, _super);
 
     function ReplaySubject(bufferSize, windowTime, scheduler) {
@@ -2457,9 +2386,7 @@ var Aias = (function (exports) {
     return ReplaySubject;
   }(Subject);
 
-  var ReplayEvent =
-  /*@__PURE__*/
-  function () {
+  var ReplayEvent = /*@__PURE__*/function () {
     function ReplayEvent(time, value) {
       this.time = time;
       this.value = value;
@@ -2469,9 +2396,7 @@ var Aias = (function (exports) {
   }();
 
   /** PURE_IMPORTS_START tslib,_Subject,_Subscription PURE_IMPORTS_END */
-  var AsyncSubject =
-  /*@__PURE__*/
-  function (_super) {
+  var AsyncSubject = /*@__PURE__*/function (_super) {
     __extends(AsyncSubject, _super);
 
     function AsyncSubject() {
@@ -2549,9 +2474,7 @@ var Aias = (function (exports) {
   };
 
   /** PURE_IMPORTS_START tslib,_util_Immediate,_AsyncAction PURE_IMPORTS_END */
-  var AsapAction =
-  /*@__PURE__*/
-  function (_super) {
+  var AsapAction = /*@__PURE__*/function (_super) {
     __extends(AsapAction, _super);
 
     function AsapAction(scheduler, work) {
@@ -2596,9 +2519,7 @@ var Aias = (function (exports) {
   }(AsyncAction);
 
   /** PURE_IMPORTS_START tslib,_AsyncScheduler PURE_IMPORTS_END */
-  var AsapScheduler =
-  /*@__PURE__*/
-  function (_super) {
+  var AsapScheduler = /*@__PURE__*/function (_super) {
     __extends(AsapScheduler, _super);
 
     function AsapScheduler() {
@@ -2635,19 +2556,13 @@ var Aias = (function (exports) {
   }(AsyncScheduler);
 
   /** PURE_IMPORTS_START _AsapAction,_AsapScheduler PURE_IMPORTS_END */
-  var asap =
-  /*@__PURE__*/
-  new AsapScheduler(AsapAction);
+  var asap = /*@__PURE__*/new AsapScheduler(AsapAction);
 
   /** PURE_IMPORTS_START _AsyncAction,_AsyncScheduler PURE_IMPORTS_END */
-  var async =
-  /*@__PURE__*/
-  new AsyncScheduler(AsyncAction);
+  var async = /*@__PURE__*/new AsyncScheduler(AsyncAction);
 
   /** PURE_IMPORTS_START tslib,_AsyncAction PURE_IMPORTS_END */
-  var AnimationFrameAction =
-  /*@__PURE__*/
-  function (_super) {
+  var AnimationFrameAction = /*@__PURE__*/function (_super) {
     __extends(AnimationFrameAction, _super);
 
     function AnimationFrameAction(scheduler, work) {
@@ -2694,9 +2609,7 @@ var Aias = (function (exports) {
   }(AsyncAction);
 
   /** PURE_IMPORTS_START tslib,_AsyncScheduler PURE_IMPORTS_END */
-  var AnimationFrameScheduler =
-  /*@__PURE__*/
-  function (_super) {
+  var AnimationFrameScheduler = /*@__PURE__*/function (_super) {
     __extends(AnimationFrameScheduler, _super);
 
     function AnimationFrameScheduler() {
@@ -2733,14 +2646,10 @@ var Aias = (function (exports) {
   }(AsyncScheduler);
 
   /** PURE_IMPORTS_START _AnimationFrameAction,_AnimationFrameScheduler PURE_IMPORTS_END */
-  var animationFrame =
-  /*@__PURE__*/
-  new AnimationFrameScheduler(AnimationFrameAction);
+  var animationFrame = /*@__PURE__*/new AnimationFrameScheduler(AnimationFrameAction);
 
   /** PURE_IMPORTS_START tslib,_AsyncAction,_AsyncScheduler PURE_IMPORTS_END */
-  var VirtualTimeScheduler =
-  /*@__PURE__*/
-  function (_super) {
+  var VirtualTimeScheduler = /*@__PURE__*/function (_super) {
     __extends(VirtualTimeScheduler, _super);
 
     function VirtualTimeScheduler(SchedulerAction, maxFrames) {
@@ -2791,9 +2700,7 @@ var Aias = (function (exports) {
     return VirtualTimeScheduler;
   }(AsyncScheduler);
 
-  var VirtualAction =
-  /*@__PURE__*/
-  function (_super) {
+  var VirtualAction = /*@__PURE__*/function (_super) {
     __extends(VirtualAction, _super);
 
     function VirtualAction(scheduler, work, index) {
@@ -2884,9 +2791,7 @@ var Aias = (function (exports) {
   /** PURE_IMPORTS_START tslib,_Subscriber PURE_IMPORTS_END */
 
 
-  var MapSubscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var MapSubscriber = /*@__PURE__*/function (_super) {
     __extends(MapSubscriber, _super);
 
     function MapSubscriber(destination, project, thisArg) {
@@ -2919,9 +2824,7 @@ var Aias = (function (exports) {
   /** PURE_IMPORTS_START _Observable,_AsyncSubject,_operators_map,_util_canReportError,_util_isScheduler,_util_isArray PURE_IMPORTS_END */
 
   /** PURE_IMPORTS_START tslib,_Subscriber PURE_IMPORTS_END */
-  var OuterSubscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var OuterSubscriber = /*@__PURE__*/function (_super) {
     __extends(OuterSubscriber, _super);
 
     function OuterSubscriber() {
@@ -2944,9 +2847,7 @@ var Aias = (function (exports) {
   }(Subscriber);
 
   /** PURE_IMPORTS_START tslib,_Subscriber PURE_IMPORTS_END */
-  var InnerSubscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var InnerSubscriber = /*@__PURE__*/function (_super) {
     __extends(InnerSubscriber, _super);
 
     function InnerSubscriber(parent, outerValue, outerIndex) {
@@ -2999,9 +2900,7 @@ var Aias = (function (exports) {
 
     return Symbol.iterator;
   }
-  var iterator =
-  /*@__PURE__*/
-  getSymbolIterator();
+  var iterator = /*@__PURE__*/getSymbolIterator();
 
   /** PURE_IMPORTS_START _symbol_iterator PURE_IMPORTS_END */
   var subscribeToIterable = function subscribeToIterable(iterable) {
@@ -3096,9 +2995,7 @@ var Aias = (function (exports) {
   var NONE = {};
 
 
-  var CombineLatestSubscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var CombineLatestSubscriber = /*@__PURE__*/function (_super) {
     __extends(CombineLatestSubscriber, _super);
 
     function CombineLatestSubscriber(destination, resultSelector) {
@@ -3187,9 +3084,7 @@ var Aias = (function (exports) {
   /** PURE_IMPORTS_START tslib,_util_subscribeToResult,_OuterSubscriber,_InnerSubscriber,_map,_observable_from PURE_IMPORTS_END */
 
 
-  var MergeMapSubscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var MergeMapSubscriber = /*@__PURE__*/function (_super) {
     __extends(MergeMapSubscriber, _super);
 
     function MergeMapSubscriber(destination, project, concurrent) {
@@ -3303,9 +3198,7 @@ var Aias = (function (exports) {
   /** PURE_IMPORTS_START tslib,_Subscriber PURE_IMPORTS_END */
 
 
-  var FilterSubscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var FilterSubscriber = /*@__PURE__*/function (_super) {
     __extends(FilterSubscriber, _super);
 
     function FilterSubscriber(destination, predicate, thisArg) {
@@ -3340,9 +3233,7 @@ var Aias = (function (exports) {
   /** PURE_IMPORTS_START tslib,_util_isArray,_fromArray,_OuterSubscriber,_util_subscribeToResult PURE_IMPORTS_END */
 
 
-  var RaceSubscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var RaceSubscriber = /*@__PURE__*/function (_super) {
     __extends(RaceSubscriber, _super);
 
     function RaceSubscriber(destination) {
@@ -3410,9 +3301,7 @@ var Aias = (function (exports) {
   /** PURE_IMPORTS_START tslib,_fromArray,_util_isArray,_Subscriber,_OuterSubscriber,_util_subscribeToResult,_.._internal_symbol_iterator PURE_IMPORTS_END */
 
 
-  var ZipSubscriber =
-  /*@__PURE__*/
-  function (_super) {
+  var ZipSubscriber = /*@__PURE__*/function (_super) {
     __extends(ZipSubscriber, _super);
 
     function ZipSubscriber(destination, resultSelector, values) {
@@ -3532,9 +3421,7 @@ var Aias = (function (exports) {
     return ZipSubscriber;
   }(Subscriber);
 
-  var StaticIterator =
-  /*@__PURE__*/
-  function () {
+  var StaticIterator = /*@__PURE__*/function () {
     function StaticIterator(iterator$$1) {
       this.iterator = iterator$$1;
       this.nextResult = iterator$$1.next();
@@ -3558,9 +3445,7 @@ var Aias = (function (exports) {
     return StaticIterator;
   }();
 
-  var StaticArrayIterator =
-  /*@__PURE__*/
-  function () {
+  var StaticArrayIterator = /*@__PURE__*/function () {
     function StaticArrayIterator(array) {
       this.array = array;
       this.index = 0;
@@ -3595,9 +3480,7 @@ var Aias = (function (exports) {
     return StaticArrayIterator;
   }();
 
-  var ZipBufferIterator =
-  /*@__PURE__*/
-  function (_super) {
+  var ZipBufferIterator = /*@__PURE__*/function (_super) {
     __extends(ZipBufferIterator, _super);
 
     function ZipBufferIterator(destination, parent, observable) {
@@ -3663,9 +3546,7 @@ var Aias = (function (exports) {
   /** PURE_IMPORTS_START  PURE_IMPORTS_END */
 
   var AudioContext = window.AudioContext || window.webkitAudioContext || false;
-  var Method =
-  /*#__PURE__*/
-  function () {
+  var Method = /*#__PURE__*/function () {
     function Method(method, defaultHeaders) {
       this.log = Logger.addGroup("Aias");
       this.method = method;
@@ -3928,9 +3809,7 @@ var Aias = (function (exports) {
     return Method;
   }();
 
-  var HTTP =
-  /*#__PURE__*/
-  function () {
+  var HTTP = /*#__PURE__*/function () {
     function HTTP() {}
 
     HTTP.setEventType = function setEventType(eventType) {
