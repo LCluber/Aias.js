@@ -20,16 +20,27 @@ module.exports = api => {
           "@babel/env",
           {
             targets: {
-              ie: 11,
+              ie: 9,
               browsers: "last 2 versions"
             },
             loose: true,
-            modules: false
+            modules: false,
+            useBuiltIns: "usage"
           }
         ]
       ],
       plugins: [
-        // "@babel/plugin-external-helpers"
+        // "@babel/plugin-external-helpers",
+        // [
+        //   "@babel/plugin-transform-runtime",
+        //     {
+        //       absoluteRuntime: false,
+        //       helpers: true,
+        //       corejs: 3,
+        //       regenerator: true,
+        //       useESModules: true,
+        //     }
+        // ]
       ]
     };
   }

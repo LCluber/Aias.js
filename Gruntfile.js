@@ -103,6 +103,7 @@ module.exports = function(grunt) {
               //   //exclude: './node_modules/**'
             }),
             babel({
+              // runtimeHelpers: true
               //   //exclude: './node_modules/**'
             })
           ]
