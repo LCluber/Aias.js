@@ -26,6 +26,22 @@
 var Aias = (function (exports) {
   'use strict';
 
+  var $export = require('./_export');
+
+  var $indexOf = require('./_array-includes')(false);
+
+  var $native = [].indexOf;
+  var NEGATIVE_ZERO = !!$native && 1 / [1].indexOf(1, -0) < 0;
+  $export($export.P + $export.F * (NEGATIVE_ZERO || !require('./_strict-method')($native)), 'Array', {
+    // 22.1.3.11 / 15.4.4.14 Array.prototype.indexOf(searchElement [, fromIndex])
+    indexOf: function indexOf(searchElement
+    /* , fromIndex = 0 */
+    ) {
+      return NEGATIVE_ZERO // convert -0 to +0
+      ? $native.apply(this, arguments) || 0 : $indexOf(this, searchElement, arguments[1]);
+    }
+  });
+
   var LIBRARY = require('./_library');
 
   var global = require('./_global');
@@ -34,7 +50,7 @@ var Aias = (function (exports) {
 
   var classof = require('./_classof');
 
-  var $export = require('./_export');
+  var $export$1 = require('./_export');
 
   var isObject = require('./_is-object');
 
@@ -314,7 +330,7 @@ var Aias = (function (exports) {
     };
   }
 
-  $export($export.G + $export.W + $export.F * !USE_NATIVE, {
+  $export$1($export$1.G + $export$1.W + $export$1.F * !USE_NATIVE, {
     Promise: $Promise
   });
 
@@ -324,7 +340,7 @@ var Aias = (function (exports) {
 
   Wrapper = require('./_core')[PROMISE]; // statics
 
-  $export($export.S + $export.F * !USE_NATIVE, PROMISE, {
+  $export$1($export$1.S + $export$1.F * !USE_NATIVE, PROMISE, {
     // 25.4.4.5 Promise.reject(r)
     reject: function reject(r) {
       var capability = newPromiseCapability(this);
@@ -333,13 +349,13 @@ var Aias = (function (exports) {
       return capability.promise;
     }
   });
-  $export($export.S + $export.F * (LIBRARY || !USE_NATIVE), PROMISE, {
+  $export$1($export$1.S + $export$1.F * (LIBRARY || !USE_NATIVE), PROMISE, {
     // 25.4.4.6 Promise.resolve(x)
     resolve: function resolve(x) {
       return promiseResolve(LIBRARY && this === Wrapper ? $Promise : this, x);
     }
   });
-  $export($export.S + $export.F * !(USE_NATIVE && require('./_iter-detect')(function (iter) {
+  $export$1($export$1.S + $export$1.F * !(USE_NATIVE && require('./_iter-detect')(function (iter) {
     $Promise.all(iter)['catch'](empty);
   })), PROMISE, {
     // 25.4.4.1 Promise.all(iterable)
@@ -395,11 +411,11 @@ var Aias = (function (exports) {
     }, true);
   }
 
-  var $export$1 = require('./_export');
+  var $export$2 = require('./_export');
 
   var $includes = require('./_array-includes')(true);
 
-  $export$1($export$1.P, 'Array', {
+  $export$2($export$2.P, 'Array', {
     includes: function includes(el
     /* , fromIndex = 0 */
     ) {
@@ -410,12 +426,12 @@ var Aias = (function (exports) {
   require('./_add-to-unscopables')('includes');
 
   // 21.1.3.7 String.prototype.includes(searchString, position = 0)
-  var $export$2 = require('./_export');
+  var $export$3 = require('./_export');
 
   var context = require('./_string-context');
 
   var INCLUDES = 'includes';
-  $export$2($export$2.P + $export$2.F * require('./_fails-is-regexp')(INCLUDES), 'String', {
+  $export$3($export$3.P + $export$3.F * require('./_fails-is-regexp')(INCLUDES), 'String', {
     includes: function includes(searchString
     /* , position = 0 */
     ) {
@@ -851,6 +867,12 @@ var Aias = (function (exports) {
     }, $split];
   });
 
+  require('./_string-trim')('trim', function ($trim) {
+    return function trim() {
+      return $trim(this, 3);
+    };
+  });
+
   var global$2 = require('./_global');
 
   var has = require('./_has');
@@ -956,6 +978,35 @@ var Aias = (function (exports) {
     return array !== null && array.constructor === Array;
   }
 
+  var $export$4 = require('./_export');
+
+  var $forEach = require('./_array-methods')(0);
+
+  var STRICT = require('./_strict-method')([].forEach, true);
+
+  $export$4($export$4.P + $export$4.F * !STRICT, 'Array', {
+    // 22.1.3.10 / 15.4.4.18 Array.prototype.forEach(callbackfn [, thisArg])
+    forEach: function forEach(callbackfn
+    /* , thisArg */
+    ) {
+      return $forEach(this, callbackfn, arguments[1]);
+    }
+  });
+
+  // 19.2.3.2 / 15.3.4.5 Function.prototype.bind(thisArg, args...)
+  var $export$5 = require('./_export');
+
+  $export$5($export$5.P, 'Function', {
+    bind: require('./_bind')
+  });
+
+  var $export$6 = require('./_export'); // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+
+
+  $export$6($export$6.S, 'Object', {
+    create: require('./_object-create')
+  });
+
   var $iterators = require('./es6.array.iterator');
 
   var getKeys = require('./_object-keys');
@@ -1029,13 +1080,20 @@ var Aias = (function (exports) {
 
   require('./_wks-define')('asyncIterator');
 
+  var $export$7 = require('./_export'); // 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
+
+
+  $export$7($export$7.S + $export$7.F * !require('./_descriptors'), 'Object', {
+    defineProperty: require('./_object-dp').f
+  });
+
   var global$4 = require('./_global');
 
   var has$1 = require('./_has');
 
   var DESCRIPTORS$1 = require('./_descriptors');
 
-  var $export$3 = require('./_export');
+  var $export$8 = require('./_export');
 
   var redefine$1 = require('./_redefine');
 
@@ -1248,7 +1306,7 @@ var Aias = (function (exports) {
     };
   }
 
-  $export$3($export$3.G + $export$3.W + $export$3.F * !USE_NATIVE$1, {
+  $export$8($export$8.G + $export$8.W + $export$8.F * !USE_NATIVE$1, {
     Symbol: $Symbol
   });
 
@@ -1261,7 +1319,7 @@ var Aias = (function (exports) {
     wksDefine(wellKnownSymbols[k++]);
   }
 
-  $export$3($export$3.S + $export$3.F * !USE_NATIVE$1, 'Symbol', {
+  $export$8($export$8.S + $export$8.F * !USE_NATIVE$1, 'Symbol', {
     // 19.4.2.1 Symbol.for(key)
     'for': function _for(key) {
       return has$1(SymbolRegistry, key += '') ? SymbolRegistry[key] : SymbolRegistry[key] = $Symbol(key);
@@ -1281,7 +1339,7 @@ var Aias = (function (exports) {
       setter = false;
     }
   });
-  $export$3($export$3.S + $export$3.F * !USE_NATIVE$1, 'Object', {
+  $export$8($export$8.S + $export$8.F * !USE_NATIVE$1, 'Object', {
     // 19.1.2.2 Object.create(O [, Properties])
     create: $create,
     // 19.1.2.4 Object.defineProperty(O, P, Attributes)
@@ -1296,7 +1354,7 @@ var Aias = (function (exports) {
     getOwnPropertySymbols: $getOwnPropertySymbols
   }); // 24.3.2 JSON.stringify(value [, replacer [, space]])
 
-  $JSON && $export$3($export$3.S + $export$3.F * (!USE_NATIVE$1 || $fails(function () {
+  $JSON && $export$8($export$8.S + $export$8.F * (!USE_NATIVE$1 || $fails(function () {
     var S = $Symbol(); // MS Edge converts symbol values to JSON as {}
     // WebKit converts symbol values to JSON as null
     // V8 throws on boxed symbols
@@ -1335,16 +1393,16 @@ var Aias = (function (exports) {
   setToStringTag(global$4.JSON, 'JSON', true);
 
   // 19.1.3.1 Object.assign(target, source)
-  var $export$4 = require('./_export');
+  var $export$9 = require('./_export');
 
-  $export$4($export$4.S + $export$4.F, 'Object', {
+  $export$9($export$9.S + $export$9.F, 'Object', {
     assign: require('./_object-assign')
   });
 
   // 19.1.3.19 Object.setPrototypeOf(O, proto)
-  var $export$5 = require('./_export');
+  var $export$10 = require('./_export');
 
-  $export$5($export$5.S, 'Object', {
+  $export$10($export$10.S, 'Object', {
     setPrototypeOf: require('./_set-proto').set
   });
 
@@ -1439,6 +1497,26 @@ var Aias = (function (exports) {
     complete: function complete() {}
   };
 
+  var $export$11 = require('./_export');
+
+  var $reduce = require('./_array-reduce');
+
+  $export$11($export$11.P + $export$11.F * !require('./_strict-method')([].reduce, true), 'Array', {
+    // 22.1.3.18 / 15.4.4.21 Array.prototype.reduce(callbackfn [, initialValue])
+    reduce: function reduce(callbackfn
+    /* , initialValue */
+    ) {
+      return $reduce(this, callbackfn, arguments.length, arguments[1], false);
+    }
+  });
+
+  // 22.1.2.2 / 15.4.3.2 Array.isArray(arg)
+  var $export$12 = require('./_export');
+
+  $export$12($export$12.S, 'Array', {
+    isArray: require('./_is-array')
+  });
+
   /** PURE_IMPORTS_START  PURE_IMPORTS_END */
   var isArray$2 = /*@__PURE__*/function () {
     return Array.isArray || function (x) {
@@ -1450,6 +1528,19 @@ var Aias = (function (exports) {
   function isObject$3(x) {
     return x !== null && typeof x === 'object';
   }
+
+  var $export$13 = require('./_export');
+
+  var $map = require('./_array-methods')(1);
+
+  $export$13($export$13.P + $export$13.F * !require('./_strict-method')([].map, true), 'Array', {
+    // 22.1.3.15 / 15.4.4.19 Array.prototype.map(callbackfn [, thisArg])
+    map: function map(callbackfn
+    /* , thisArg */
+    ) {
+      return $map(this, callbackfn, arguments[1]);
+    }
+  });
 
   /** PURE_IMPORTS_START  PURE_IMPORTS_END */
   var UnsubscriptionErrorImpl = /*@__PURE__*/function () {
@@ -2737,7 +2828,7 @@ var Aias = (function (exports) {
     };
 
     GroupBySubscriber.prototype.removeGroup = function (key) {
-      this.groups.delete(key);
+      this.groups["delete"](key);
     };
 
     GroupBySubscriber.prototype.unsubscribe = function () {
@@ -3067,6 +3158,15 @@ var Aias = (function (exports) {
     return QueueAction;
   }(AsyncAction);
 
+  // 20.3.3.1 / 15.9.4.4 Date.now()
+  var $export$14 = require('./_export');
+
+  $export$14($export$14.S, 'Date', {
+    now: function now() {
+      return new Date().getTime();
+    }
+  });
+
   var Scheduler = /*@__PURE__*/function () {
     function Scheduler(SchedulerAction, now) {
       if (now === void 0) {
@@ -3305,7 +3405,7 @@ var Aias = (function (exports) {
       }
     };
 
-    Notification.prototype.do = function (next, error, complete) {
+    Notification.prototype["do"] = function (next, error, complete) {
       var kind = this.kind;
 
       switch (kind) {
@@ -3324,7 +3424,7 @@ var Aias = (function (exports) {
       if (nextOrObserver && typeof nextOrObserver.next === 'function') {
         return this.observe(nextOrObserver);
       } else {
-        return this.do(nextOrObserver, error, complete);
+        return this["do"](nextOrObserver, error, complete);
       }
     };
 
@@ -3811,6 +3911,29 @@ var Aias = (function (exports) {
   /** PURE_IMPORTS_START _AnimationFrameAction,_AnimationFrameScheduler PURE_IMPORTS_END */
   var animationFrame = /*@__PURE__*/new AnimationFrameScheduler(AnimationFrameAction);
 
+  var $export$15 = require('./_export');
+
+  var aFunction$1 = require('./_a-function');
+
+  var toObject = require('./_to-object');
+
+  var fails$1 = require('./_fails');
+
+  var $sort = [].sort;
+  var test$1 = [1, 2, 3];
+  $export$15($export$15.P + $export$15.F * (fails$1(function () {
+    // IE8-
+    test$1.sort(undefined);
+  }) || !fails$1(function () {
+    // V8 bug
+    test$1.sort(null); // Old WebKit
+  }) || !require('./_strict-method')($sort)), 'Array', {
+    // 22.1.3.25 Array.prototype.sort(comparefn)
+    sort: function sort(comparefn) {
+      return comparefn === undefined ? $sort.call(toObject(this)) : $sort.call(toObject(this), aFunction$1(comparefn));
+    }
+  });
+
   /** PURE_IMPORTS_START tslib,_AsyncAction,_AsyncScheduler PURE_IMPORTS_END */
   var VirtualTimeScheduler = /*@__PURE__*/function (_super) {
     __extends(VirtualTimeScheduler, _super);
@@ -4079,10 +4202,10 @@ var Aias = (function (exports) {
         }
       } while (true);
 
-      if (typeof iterator$$1.return === 'function') {
+      if (typeof iterator$$1["return"] === 'function') {
         subscriber.add(function () {
-          if (iterator$$1.return) {
-            iterator$$1.return();
+          if (iterator$$1["return"]) {
+            iterator$$1["return"]();
           }
         });
       }
@@ -4329,13 +4452,13 @@ var Aias = (function (exports) {
   /** PURE_IMPORTS_START _Observable,_from,_empty PURE_IMPORTS_END */
 
   // 19.1.2.14 Object.keys(O)
-  var toObject = require('./_to-object');
+  var toObject$1 = require('./_to-object');
 
   var $keys$1 = require('./_object-keys');
 
   require('./_object-sap')('keys', function () {
     return function keys(it) {
-      return $keys$1(toObject(it));
+      return $keys$1(toObject$1(it));
     };
   });
 
@@ -5055,7 +5178,7 @@ var Aias = (function (exports) {
     };
 
     HTTP.DELETE = function DELETE(url, responseType) {
-      return this.mockup.data ? this.getMockupData() : this.delete.call(url, responseType, this.eventType);
+      return this.mockup.data ? this.getMockupData() : this["delete"].call(url, responseType, this.eventType);
     };
 
     HTTP.CONNECT = function CONNECT(url, responseType) {
@@ -5094,7 +5217,7 @@ var Aias = (function (exports) {
   HTTP.put = new Method("PUT", {
     "Content-Type": "application/json"
   });
-  HTTP.delete = new Method("DELETE", {
+  HTTP["delete"] = new Method("DELETE", {
     "Content-Type": "application/x-www-form-urlencoded"
   });
   HTTP.connect = new Method("CONNECT", {

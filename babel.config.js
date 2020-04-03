@@ -21,7 +21,7 @@ module.exports = api => {
           {
             targets: {
               ie: 9,
-              browsers: "last 2 versions"
+              browsers: "cover 99.5%"
             },
             loose: true,
             modules: false,
