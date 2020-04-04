@@ -19,29 +19,22 @@ module.exports = api => {
         [
           "@babel/env",
           {
+            debug: true,
             targets: {
-              ie: 9,
-              browsers: "cover 99.5%"
+              ie: 11,
+              browsers: "cover 99.5%",
+              esmodules: false
             },
-            loose: true,
+            loose: false,
             modules: false,
-            useBuiltIns: "usage"
+            useBuiltIns: "usage",
+            corejs: { version: 3, proposals: true },
+            forceAllTransforms: false,
+            include: ["es.promise"]
           }
         ]
       ],
-      plugins: [
-        // "@babel/plugin-external-helpers",
-        // [
-        //   "@babel/plugin-transform-runtime",
-        //     {
-        //       absoluteRuntime: false,
-        //       helpers: true,
-        //       corejs: 3,
-        //       regenerator: true,
-        //       useESModules: true,
-        //     }
-        // ]
-      ]
+      plugins: []
     };
   }
 };
