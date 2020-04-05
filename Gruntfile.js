@@ -1,7 +1,19 @@
 module.exports = function(grunt) {
   var path = require("path");
   var babel = require("rollup-plugin-babel");
-  var resolve = require("rollup-plugin-node-resolve");
+  var resolve = require("@rollup/plugin-node-resolve");
+  var commonjs = require("@rollup/plugin-commonjs");
+  var progress = require("rollup-plugin-progress");
+  var sizes = require("rollup-plugin-sizes");
+  var analyze = require("rollup-plugin-analyzer");
+
+  const limitBytes = 1e6;
+
+  const onAnalysis = ({ bundleSize }) => {
+    if (bundleSize < limitBytes) return;
+    console.log(`Bundle size exceeds ${limitBytes} bytes: ${bundleSize} bytes`);
+    return process.exit(1);
+  };
 
   require("time-grunt")(grunt);
 
@@ -99,13 +111,16 @@ module.exports = function(grunt) {
           moduleName: projectName,
           banner: banner,
           plugins: [
-            resolve({
-              //   //exclude: './node_modules/**'
-            }),
+            resolve(),
+            commonjs(),
             babel({
-              // runtimeHelpers: true
-              //   //exclude: './node_modules/**'
-            })
+              // exclude: "node_modules/**" // only transpile our source code
+            }),
+            progress({
+              clearLine: false // default: true
+            }),
+            sizes(),
+            analyze({ onAnalysis, skipFormatted: false })
           ]
           // sourceMap: 'inline'
         },
@@ -145,7 +160,7 @@ module.exports = function(grunt) {
             keep_fnames: false
           }
         },
-        src: distDir + projectNameLC + ".iife.js",
+        src: compiledSrcDir + projectNameLC + ".iife.js",
         dest: distDir + projectNameLC + ".iife.min.js"
       }
     },
@@ -193,17 +208,16 @@ module.exports = function(grunt) {
   // grunt.loadNpmTasks( 'grunt-contrib-watch' );
   grunt.loadNpmTasks("grunt-strip-code");
   grunt.loadNpmTasks("grunt-ts");
-  grunt.loadNpmTasks("grunt-rollup");
 
   grunt.registerTask("lib", "build the library in the dist/ folder", [
     // 'tslint:lib',
-    "clean:lib",
+    //"clean:lib",
     //lib es6
-    "ts:es6",
-    "rollup:es6",
+    // "ts:es6",
+    // "rollup:es6",
     //lib es5
     //'ts:es5',
-    "rollup:iife",
+    // "rollup:iife",
     "uglify:libIife",
     //declaration
     "concat:declaration",

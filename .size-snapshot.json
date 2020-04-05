@@ -1,0 +1,26 @@
+{
+  "dist/aias.iife.js": {
+    "bundled": 43798,
+    "minified": 18890,
+    "gzipped": 5483
+  },
+  "src/ts/build/aias.iife.js": {
+    "bundled": 207423,
+    "minified": 69092,
+    "gzipped": 24007
+  },
+  "src/ts/build/aias.js": {
+    "bundled": 16668,
+    "minified": 6296,
+    "gzipped": 1537,
+    "treeshaked": {
+      "rollup": {
+        "code": 6112,
+        "import_statements": 119
+      },
+      "webpack": {
+        "code": 7185
+      }
+    }
+  }
+}
