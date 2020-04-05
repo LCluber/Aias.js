@@ -18,7 +18,13 @@ module.exports = {
     file: "src/ts/build/aias.js",
     format: "es"
   },
-  external: ["@lcluber/weejs", "@lcluber/chjs", "@lcluber/mouettejs", "rxjs"],
+  external: [
+    "@lcluber/weejs",
+    "@lcluber/chjs",
+    "@lcluber/mouettejs",
+    "rxjs",
+    "promise-polyfill"
+  ],
   plugins: [
     progress({
       clearLine: false // default: true

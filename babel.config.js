@@ -27,7 +27,7 @@ module.exports = api => {
             },
             loose: false,
             modules: false,
-            useBuiltIns: "usage",
+            // useBuiltIns: "usage",
             corejs: { version: 3, proposals: true }
             // forceAllTransforms: false,
             // include: ["es.promise"]

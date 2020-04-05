@@ -26,6 +26,7 @@
 import { Logger } from '@lcluber/mouettejs';
 import { isObject } from '@lcluber/chjs';
 import { Observable } from 'rxjs';
+import Promise$1 from 'promise-polyfill';
 
 const AudioContext = window.AudioContext ||
     window.webkitAudioContext ||
@@ -49,7 +50,7 @@ class Method {
         return this.headers;
     }
     usePromise(url, responseType, data) {
-        return new Promise((resolve, reject) => {
+        return new Promise$1((resolve, reject) => {
             const http = new XMLHttpRequest();
             url += this.noCache ? "?cache=" + new Date().getTime() : "";
             http.open(this.method, url, this.async);
