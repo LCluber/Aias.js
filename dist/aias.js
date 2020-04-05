@@ -27,6 +27,7 @@ import { Logger } from '@lcluber/mouettejs';
 import { isObject } from '@lcluber/chjs';
 import { Observable } from 'rxjs';
 import Promise$1 from 'promise-polyfill';
+import 'polyfill-array-includes';
 
 const AudioContext = window.AudioContext ||
     window.webkitAudioContext ||

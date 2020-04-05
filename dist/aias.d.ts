@@ -27,6 +27,7 @@ import { LevelName } from "@lcluber/mouettejs";
 
 
 import { Observable } from "rxjs";
+import 'polyfill-array-includes';
 export declare class HTTP {
     private static log;
     private static eventType;
@@ -102,6 +103,9 @@ export interface Mockup {
     data: ResponseDataType;
     delay: number;
 }
+
+
+import { Observable } from "rxjs";
 
 export declare class Method {
     private method;

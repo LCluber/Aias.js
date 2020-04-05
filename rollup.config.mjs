@@ -23,7 +23,8 @@ module.exports = {
     "@lcluber/chjs",
     "@lcluber/mouettejs",
     "rxjs",
-    "promise-polyfill"
+    "promise-polyfill",
+    "polyfill-array-includes"
   ],
   plugins: [
     progress({
