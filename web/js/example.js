@@ -27,8 +27,10 @@ var request = Aias.HTTP.POST("http://httpbin.org/post", "json", data)
 Aias.HTTP.setEventType("observable");
 
 var request = Aias.HTTP.GET("http://httpbin.org/get", "json").subscribe(
-  response => {
+  function(response) {
     console.log("observable", response);
   },
-  err => console.log("HTTP Error", err)
+  function(err) {
+    console.log("HTTP Error", err);
+  }
 );
