@@ -22,20 +22,22 @@
 *
 * https://github.com/LCluber/Aias.js
 */
+import { LevelName } from "@lcluber/mouettejs";
 
 
 
-
+import { Observable } from "rxjs";
 export declare class HTTP {
     private static log;
-    private static mockupData;
     private static eventType;
+    private static mockup;
     static setEventType(eventType: EventType): void;
     private static isOfTypeEventType;
     static setLogLevel(name: LevelName): LevelName;
     static getLogLevel(): LevelName;
-    static getMockupData(): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static setMockupData(mockupData: ResponseDataType): void;
+    static setMockup(mockup: Partial<Mockup>): Mockup;
+    private static getMockupData;
+    private static promiseTimeout;
     static get: Method;
     static head: Method;
     static post: Method;
@@ -96,7 +98,10 @@ export interface HTTPHeaders {
     [key: string]: string | number | undefined;
 }
 
-
+export interface Mockup {
+    data: ResponseDataType;
+    delay: number;
+}
 
 export declare class Method {
     private method;
