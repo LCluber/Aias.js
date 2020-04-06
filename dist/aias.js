@@ -26,8 +26,8 @@
 import { Logger } from '@lcluber/mouettejs';
 import { isObject } from '@lcluber/chjs';
 import { Observable } from 'rxjs';
-import Promise$1 from 'promise-polyfill';
 import 'polyfill-array-includes';
+import Promise$1 from 'promise-polyfill';
 
 const AudioContext = window.AudioContext ||
     window.webkitAudioContext ||
@@ -51,7 +51,7 @@ class Method {
         return this.headers;
     }
     usePromise(url, responseType, data) {
-        return new Promise$1((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const http = new XMLHttpRequest();
             url += this.noCache ? "?cache=" + new Date().getTime() : "";
             http.open(this.method, url, this.async);
@@ -326,14 +326,14 @@ class HTTP {
                 });
             default:
                 return this.promiseTimeout().then(() => {
-                    return new Promise((resolve, reject) => {
+                    return new Promise$1((resolve, reject) => {
                         this.mockup.data ? resolve(this.mockup.data) : reject(null);
                     });
                 });
         }
     }
     static promiseTimeout() {
-        return new Promise((resolve) => setTimeout(resolve, this.mockup.delay));
+        return new Promise$1((resolve) => setTimeout(resolve, this.mockup.delay));
     }
     static GET(url, responseType) {
         return this.mockup.data
