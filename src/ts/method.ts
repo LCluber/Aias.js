@@ -2,6 +2,8 @@ import { isObject } from "@lcluber/chjs";
 import { Logger, Group } from "@lcluber/mouettejs";
 import { HTTPHeaders } from "./httpheaders";
 import { Observable } from "rxjs";
+import Promise from "promise-polyfill";
+
 import {
   HTTPRequestMethod,
   DataType,

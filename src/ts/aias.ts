@@ -3,6 +3,8 @@ import { Method } from "./method";
 import { DataType, ResponseDataType, ResponseType, EventType } from "./types";
 import { Mockup } from "./interfaces";
 import { Observable } from "rxjs";
+import "polyfill-array-includes";
+import Promise from "promise-polyfill";
 
 export class HTTP {
   private static log: Group = Logger.addGroup("Aias");
