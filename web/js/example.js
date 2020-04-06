@@ -5,11 +5,12 @@ var data = {
   died: 1642
 };
 
-Aias.HTTP.setMockup({ data: data });
+// Aias.HTTP.setMockup({ data: data });
 
 var request = Aias.HTTP.GET("http://httpbin.org/get", "json")
   .then(function(response) {
     console.log("get", response);
+    //console.log("get2", response.firstname);
   })
   .catch(function(err) {
     console.log("error", err.message);

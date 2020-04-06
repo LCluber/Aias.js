@@ -1105,297 +1105,6 @@ var Aias = (function (exports) {
     return promiseCtor;
   }
 
-  var AudioContext = window.AudioContext || window.webkitAudioContext || false;
-  var Method = /*#__PURE__*/function () {
-    function Method(method, defaultHeaders) {
-      _classCallCheck(this, Method);
-
-      this.log = Logger.addGroup("Aias");
-      this.method = method;
-      this.async = true;
-      this.noCache = false;
-      this.headers = defaultHeaders;
-    }
-
-    _createClass(Method, [{
-      key: "setHeaders",
-      value: function setHeaders(headers) {
-        for (var property in headers) {
-          if (headers.hasOwnProperty(property)) {
-            this.headers[property] = headers[property];
-          }
-        }
-      }
-    }, {
-      key: "getHeaders",
-      value: function getHeaders() {
-        return this.headers;
-      }
-    }, {
-      key: "usePromise",
-      value: function usePromise(url, responseType, data) {
-        var _this = this;
-
-        return new Promise(function (resolve, reject) {
-          var http = new XMLHttpRequest();
-          url += _this.noCache ? "?cache=" + new Date().getTime() : "";
-          http.open(_this.method, url, _this.async);
-          http.responseType = responseType === "audiobuffer" ? "arraybuffer" : responseType;
-
-          _this.setRequestHeaders(http);
-
-          switch (responseType) {
-            case "json":
-            case "arraybuffer":
-            case "audiobuffer":
-            case "blob":
-              http.onload = function () {
-                if (http.readyState == 4) {
-                  if (http.status == 200) {
-                    var response = http.response;
-
-                    if (response) {
-                      _this.logInfo(url, http.status, http.statusText);
-
-                      if (responseType === "audiobuffer") {
-                        if (AudioContext) {
-                          var audioContext = new AudioContext();
-                          audioContext.decodeAudioData(response, function (buffer) {
-                            audioContext.close();
-                            resolve(buffer);
-                          }, function (error) {
-                            _this.log.error("xhr (" + _this.method + ":" + url + ") failed with decodeAudioData error : " + error.message);
-
-                            audioContext.close();
-                            reject({
-                              status: error.name,
-                              statusText: error.message
-                            });
-                          });
-                        } else {
-                          _this.log.error("xhr (" + _this.method + ":" + url + ") failed with error : " + "Web Audio API is not supported by your browser.");
-
-                          reject({
-                            status: "Web Audio API not supported by your browser",
-                            statusText: "Web Audio API is not supported by your browser"
-                          });
-                        }
-                      } else {
-                        resolve(response);
-                      }
-                    } else {
-                      _this.logError(url, http.status, http.statusText);
-
-                      reject({
-                        status: http.status,
-                        statusText: http.statusText
-                      });
-                    }
-                  } else {
-                    _this.logError(url, http.status, http.statusText);
-
-                    reject({
-                      status: http.status,
-                      statusText: http.statusText
-                    });
-                  }
-                }
-              };
-
-              break;
-
-            default:
-              http.onreadystatechange = function () {
-                if (http.readyState == 4) {
-                  if (http.status == 200) {
-                    _this.logInfo(url, http.status, http.statusText);
-
-                    resolve(http.responseText);
-                  } else {
-                    _this.logError(url, http.status, http.statusText);
-
-                    reject({
-                      status: http.status,
-                      statusText: http.statusText
-                    });
-                  }
-                }
-              };
-
-          }
-
-          if (isObject(data)) {
-            data = JSON.stringify(data);
-          }
-
-          http.send(data || null);
-
-          _this.log.info("xhr (" + _this.method + ":" + url + ")" + "sent");
-        });
-      }
-    }, {
-      key: "useObservable",
-      value: function useObservable(url, responseType, data) {
-        var _this2 = this;
-
-        return new Observable(function (observer) {
-          var http = new XMLHttpRequest();
-          url += _this2.noCache ? "?cache=" + new Date().getTime() : "";
-          http.open(_this2.method, url, _this2.async);
-          http.responseType = responseType === "audiobuffer" ? "arraybuffer" : responseType;
-
-          _this2.setRequestHeaders(http);
-
-          switch (responseType) {
-            case "json":
-            case "arraybuffer":
-            case "audiobuffer":
-            case "blob":
-              http.onload = function () {
-                if (http.readyState == 4) {
-                  if (http.status == 200) {
-                    var response = http.response;
-
-                    if (response) {
-                      _this2.logInfo(url, http.status, http.statusText);
-
-                      if (responseType === "audiobuffer") {
-                        if (AudioContext) {
-                          var audioContext = new AudioContext();
-                          audioContext.decodeAudioData(response, function (buffer) {
-                            audioContext.close();
-                            observer.next(buffer);
-                            observer.complete();
-                          }, function (error) {
-                            _this2.log.error("xhr (" + _this2.method + ":" + url + ") failed with decodeAudioData error : " + error.message);
-
-                            audioContext.close();
-                            observer.error({
-                              status: error.name,
-                              statusText: error.message
-                            });
-                            observer.complete();
-                          });
-                        } else {
-                          _this2.log.error("xhr (" + _this2.method + ":" + url + ") failed with error : " + "Web Audio API is not supported by your browser.");
-
-                          observer.error({
-                            status: "Web Audio API not supported by your browser",
-                            statusText: "Web Audio API is not supported by your browser"
-                          });
-                          observer.complete();
-                        }
-                      } else {
-                        observer.next(response);
-                        observer.complete();
-                      }
-                    } else {
-                      _this2.logError(url, http.status, http.statusText);
-
-                      observer.error({
-                        status: http.status,
-                        statusText: http.statusText
-                      });
-                      observer.complete();
-                    }
-                  } else {
-                    _this2.logError(url, http.status, http.statusText);
-
-                    observer.error({
-                      status: http.status,
-                      statusText: http.statusText
-                    });
-                    observer.complete();
-                  }
-                }
-              };
-
-              break;
-
-            default:
-              http.onreadystatechange = function () {
-                if (http.readyState == 4) {
-                  if (http.status == 200) {
-                    _this2.logInfo(url, http.status, http.statusText);
-
-                    observer.next(http.responseText);
-                    observer.complete();
-                  } else {
-                    _this2.logError(url, http.status, http.statusText);
-
-                    observer.error({
-                      status: http.status,
-                      statusText: http.statusText
-                    });
-                    observer.complete();
-                  }
-                }
-              };
-
-          }
-
-          if (isObject(data)) {
-            data = JSON.stringify(data);
-          }
-
-          http.send(data || null);
-
-          _this2.log.info("xhr (" + _this2.method + ":" + url + ")" + "sent");
-        });
-      }
-    }, {
-      key: "call",
-      value: function call(url, responseType, eventType, data) {
-        switch (eventType) {
-          case "observable":
-            return this.useObservable(url, responseType, data);
-
-          default:
-            return this.usePromise(url, responseType, data);
-        }
-      }
-    }, {
-      key: "setRequestHeaders",
-      value: function setRequestHeaders(http) {
-        for (var property in this.headers) {
-          if (this.headers.hasOwnProperty(property)) {
-            http.setRequestHeader(property, this.headers[property]);
-          }
-        }
-      }
-    }, {
-      key: "logInfo",
-      value: function logInfo(url, status, statusText) {
-        this.log.info("xhr (" + this.method + ":" + url + ") done with status " + status + " " + statusText);
-      }
-    }, {
-      key: "logError",
-      value: function logError(url, status, statusText) {
-        this.log.error("xhr (" + this.method + ":" + url + ") failed with status " + status + " " + statusText);
-      }
-    }]);
-
-    return Method;
-  }();
-
-  Array.prototype.includes || Object.defineProperty(Array.prototype, "includes", {
-    value: function value(r, e) {
-      if (null == this) throw new TypeError('"this" is null or not defined');
-      var t = Object(this),
-          n = t.length >>> 0;
-      if (0 === n) return !1;
-
-      for (var i = 0 | e, o = Math.max(i >= 0 ? i : n - Math.abs(i), 0); o < n;) {
-        if (function (r, e) {
-          return r === e || "number" == typeof r && "number" == typeof e && isNaN(r) && isNaN(e);
-        }(t[o], r)) return !0;
-        o++;
-      }
-
-      return !1;
-    }
-  });
-
   /**
    * @this {Promise}
    */
@@ -1669,6 +1378,297 @@ var Aias = (function (exports) {
       console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
     }
   };
+
+  var AudioContext = window.AudioContext || window.webkitAudioContext || false;
+  var Method = /*#__PURE__*/function () {
+    function Method(method, defaultHeaders) {
+      _classCallCheck(this, Method);
+
+      this.log = Logger.addGroup("Aias");
+      this.method = method;
+      this.async = true;
+      this.noCache = false;
+      this.headers = defaultHeaders;
+    }
+
+    _createClass(Method, [{
+      key: "setHeaders",
+      value: function setHeaders(headers) {
+        for (var property in headers) {
+          if (headers.hasOwnProperty(property)) {
+            this.headers[property] = headers[property];
+          }
+        }
+      }
+    }, {
+      key: "getHeaders",
+      value: function getHeaders() {
+        return this.headers;
+      }
+    }, {
+      key: "usePromise",
+      value: function usePromise(url, responseType, data) {
+        var _this = this;
+
+        return new Promise$1(function (resolve, reject) {
+          var http = new XMLHttpRequest();
+          url += _this.noCache ? "?cache=" + new Date().getTime() : "";
+          http.open(_this.method, url, _this.async);
+          http.responseType = responseType === "audiobuffer" ? "arraybuffer" : responseType;
+
+          _this.setRequestHeaders(http);
+
+          switch (responseType) {
+            case "json":
+            case "arraybuffer":
+            case "audiobuffer":
+            case "blob":
+              http.onload = function () {
+                if (http.readyState == 4) {
+                  if (http.status == 200) {
+                    var response = http.response;
+
+                    if (response) {
+                      _this.logInfo(url, http.status, http.statusText);
+
+                      if (responseType === "audiobuffer") {
+                        if (AudioContext) {
+                          var audioContext = new AudioContext();
+                          audioContext.decodeAudioData(response, function (buffer) {
+                            audioContext.close();
+                            resolve(buffer);
+                          }, function (error) {
+                            _this.log.error("xhr (" + _this.method + ":" + url + ") failed with decodeAudioData error : " + error.message);
+
+                            audioContext.close();
+                            reject({
+                              status: error.name,
+                              statusText: error.message
+                            });
+                          });
+                        } else {
+                          _this.log.error("xhr (" + _this.method + ":" + url + ") failed with error : " + "Web Audio API is not supported by your browser.");
+
+                          reject({
+                            status: "Web Audio API not supported by your browser",
+                            statusText: "Web Audio API is not supported by your browser"
+                          });
+                        }
+                      } else {
+                        resolve(response);
+                      }
+                    } else {
+                      _this.logError(url, http.status, http.statusText);
+
+                      reject({
+                        status: http.status,
+                        statusText: http.statusText
+                      });
+                    }
+                  } else {
+                    _this.logError(url, http.status, http.statusText);
+
+                    reject({
+                      status: http.status,
+                      statusText: http.statusText
+                    });
+                  }
+                }
+              };
+
+              break;
+
+            default:
+              http.onreadystatechange = function () {
+                if (http.readyState == 4) {
+                  if (http.status == 200) {
+                    _this.logInfo(url, http.status, http.statusText);
+
+                    resolve(http.responseText);
+                  } else {
+                    _this.logError(url, http.status, http.statusText);
+
+                    reject({
+                      status: http.status,
+                      statusText: http.statusText
+                    });
+                  }
+                }
+              };
+
+          }
+
+          if (isObject(data)) {
+            data = JSON.stringify(data);
+          }
+
+          http.send(data || null);
+
+          _this.log.info("xhr (" + _this.method + ":" + url + ")" + "sent");
+        });
+      }
+    }, {
+      key: "useObservable",
+      value: function useObservable(url, responseType, data) {
+        var _this2 = this;
+
+        return new Observable(function (observer) {
+          var http = new XMLHttpRequest();
+          url += _this2.noCache ? "?cache=" + new Date().getTime() : "";
+          http.open(_this2.method, url, _this2.async);
+          http.responseType = responseType === "audiobuffer" ? "arraybuffer" : responseType;
+
+          _this2.setRequestHeaders(http);
+
+          switch (responseType) {
+            case "json":
+            case "arraybuffer":
+            case "audiobuffer":
+            case "blob":
+              http.onload = function () {
+                if (http.readyState == 4) {
+                  if (http.status == 200) {
+                    var response = http.response;
+
+                    if (response) {
+                      _this2.logInfo(url, http.status, http.statusText);
+
+                      if (responseType === "audiobuffer") {
+                        if (AudioContext) {
+                          var audioContext = new AudioContext();
+                          audioContext.decodeAudioData(response, function (buffer) {
+                            audioContext.close();
+                            observer.next(buffer);
+                            observer.complete();
+                          }, function (error) {
+                            _this2.log.error("xhr (" + _this2.method + ":" + url + ") failed with decodeAudioData error : " + error.message);
+
+                            audioContext.close();
+                            observer.error({
+                              status: error.name,
+                              statusText: error.message
+                            });
+                            observer.complete();
+                          });
+                        } else {
+                          _this2.log.error("xhr (" + _this2.method + ":" + url + ") failed with error : " + "Web Audio API is not supported by your browser.");
+
+                          observer.error({
+                            status: "Web Audio API not supported by your browser",
+                            statusText: "Web Audio API is not supported by your browser"
+                          });
+                          observer.complete();
+                        }
+                      } else {
+                        observer.next(response);
+                        observer.complete();
+                      }
+                    } else {
+                      _this2.logError(url, http.status, http.statusText);
+
+                      observer.error({
+                        status: http.status,
+                        statusText: http.statusText
+                      });
+                      observer.complete();
+                    }
+                  } else {
+                    _this2.logError(url, http.status, http.statusText);
+
+                    observer.error({
+                      status: http.status,
+                      statusText: http.statusText
+                    });
+                    observer.complete();
+                  }
+                }
+              };
+
+              break;
+
+            default:
+              http.onreadystatechange = function () {
+                if (http.readyState == 4) {
+                  if (http.status == 200) {
+                    _this2.logInfo(url, http.status, http.statusText);
+
+                    observer.next(http.responseText);
+                    observer.complete();
+                  } else {
+                    _this2.logError(url, http.status, http.statusText);
+
+                    observer.error({
+                      status: http.status,
+                      statusText: http.statusText
+                    });
+                    observer.complete();
+                  }
+                }
+              };
+
+          }
+
+          if (isObject(data)) {
+            data = JSON.stringify(data);
+          }
+
+          http.send(data || null);
+
+          _this2.log.info("xhr (" + _this2.method + ":" + url + ")" + "sent");
+        });
+      }
+    }, {
+      key: "call",
+      value: function call(url, responseType, eventType, data) {
+        switch (eventType) {
+          case "observable":
+            return this.useObservable(url, responseType, data);
+
+          default:
+            return this.usePromise(url, responseType, data);
+        }
+      }
+    }, {
+      key: "setRequestHeaders",
+      value: function setRequestHeaders(http) {
+        for (var property in this.headers) {
+          if (this.headers.hasOwnProperty(property)) {
+            http.setRequestHeader(property, this.headers[property]);
+          }
+        }
+      }
+    }, {
+      key: "logInfo",
+      value: function logInfo(url, status, statusText) {
+        this.log.info("xhr (" + this.method + ":" + url + ") done with status " + status + " " + statusText);
+      }
+    }, {
+      key: "logError",
+      value: function logError(url, status, statusText) {
+        this.log.error("xhr (" + this.method + ":" + url + ") failed with status " + status + " " + statusText);
+      }
+    }]);
+
+    return Method;
+  }();
+
+  Array.prototype.includes || Object.defineProperty(Array.prototype, "includes", {
+    value: function value(r, e) {
+      if (null == this) throw new TypeError('"this" is null or not defined');
+      var t = Object(this),
+          n = t.length >>> 0;
+      if (0 === n) return !1;
+
+      for (var i = 0 | e, o = Math.max(i >= 0 ? i : n - Math.abs(i), 0); o < n;) {
+        if (function (r, e) {
+          return r === e || "number" == typeof r && "number" == typeof e && isNaN(r) && isNaN(e);
+        }(t[o], r)) return !0;
+        o++;
+      }
+
+      return !1;
+    }
+  });
 
   var HTTP = /*#__PURE__*/function () {
     function HTTP() {
