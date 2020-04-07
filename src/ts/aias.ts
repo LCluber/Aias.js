@@ -9,6 +9,8 @@ import {
 } from "./types";
 import { Mockup } from "./interfaces";
 import { Observable } from "rxjs";
+import "polyfill-array-includes";
+import Promise from "promise-polyfill";
 import { HTTPHeaders } from "./httpheaders";
 import { METHODS } from "./methods";
 
