@@ -118,9 +118,6 @@ export interface Methods {
 
 export declare const METHODS: Methods;
 
-
-import { Observable } from "rxjs";
-
 export declare class Request {
     private method;
     private url;

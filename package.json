@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.9.0",
-    "@babel/preset-env": "7.9.0",
+    "@babel/preset-env": "7.9.5",
     "@babel/runtime": "7.9.2",
     "@commitlint/cli": "8.0.0",
     "@commitlint/config-conventional": "8.0.0",
@@ -85,7 +85,7 @@
     "grunt-ts": "6.0.0-beta.19",
     "husky": "2.7.0",
     "jest": "24.9.0",
-    "polyfill-array-includes": "^2.0.0",
+    "polyfill-array-includes": "2.0.0",
     "prettier": "1.19.1",
     "pretty-quick": "2.0.1",
     "promise-polyfill": "^8.1.3",

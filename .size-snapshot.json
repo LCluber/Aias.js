@@ -10,7 +10,7 @@
     "gzipped": 6672
   },
   "src/ts/build/aias.js": {
-    "bundled": 18146,
+    "bundled": 18166,
     "minified": 7131,
     "gzipped": 1745,
     "treeshaked": {

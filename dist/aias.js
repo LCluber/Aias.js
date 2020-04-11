@@ -377,7 +377,8 @@ class HTTP {
     setHeaders(method, headers) {
         if (METHODS.hasOwnProperty(method)) {
             for (const property in headers) {
-                if (headers.hasOwnProperty(property) && HTTPHeaders.hasOwnProperty(property)) {
+                if (headers.hasOwnProperty(property) &&
+                    HTTPHeaders.hasOwnProperty(property)) {
                     METHODS[method].headers[property] = headers[property];
                 }
             }
