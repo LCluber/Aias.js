@@ -208,15 +208,14 @@ static HTTP.trace( url: string, responseType: ResponseType ): Promise<ResponseDa
 static HTTP.patch( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
 
 static HTTP.setEventType(eventType: EventType): void {}
+static HTTP.setMockup(mockup: Partial<Mockup> = { data: ResponseDataType, delay: number}): void {}
+static HTTP.setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders): void {}
 
 // Log levels from @lcluber Mouette.js logger library
 type LevelName = "info" | "trace" | "warn" | "error" | "off";
 static HTTP.setLogLevel(name: LevelName): LevelName {}
 static HTTP.getLogLevel(): LevelName {}
 
-static HTTP.setMockup(mockup: Partial<Mockup> = { data: ResponseDataType, delay: number}): void {}
-
-static HTTP.setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders): void {}
 ```
 
 ## Tests
