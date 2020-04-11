@@ -1380,30 +1380,32 @@ var Aias = (function (exports) {
   };
 
   var AudioContext = window.AudioContext || window.webkitAudioContext || false;
-  var Method = /*#__PURE__*/function () {
-    function Method(method, defaultHeaders) {
-      _classCallCheck(this, Method);
+  var Request = /*#__PURE__*/function () {
+    function Request(method, url, responseType, headers, eventType, data) {
+      _classCallCheck(this, Request);
 
+      this.eventType = "promise";
       this.log = Logger.addGroup("Aias");
       this.method = method;
+      this.url = url;
+      this.responseType = responseType;
       this.async = true;
       this.noCache = false;
-      this.headers = defaultHeaders;
+      this.headers = headers;
+      this.eventType = eventType || this.eventType;
+      this.data = data || null;
     }
 
-    _createClass(Method, [{
-      key: "setHeaders",
-      value: function setHeaders(headers) {
-        for (var property in headers) {
-          if (headers.hasOwnProperty(property)) {
-            this.headers[property] = headers[property];
-          }
+    _createClass(Request, [{
+      key: "call",
+      value: function call() {
+        switch (this.eventType) {
+          case "observable":
+            return this.useObservable(this.url, this.responseType, this.data);
+
+          default:
+            return this.usePromise(this.url, this.responseType, this.data);
         }
-      }
-    }, {
-      key: "getHeaders",
-      value: function getHeaders() {
-        return this.headers;
       }
     }, {
       key: "usePromise",
@@ -1618,17 +1620,6 @@ var Aias = (function (exports) {
         });
       }
     }, {
-      key: "call",
-      value: function call(url, responseType, eventType, data) {
-        switch (eventType) {
-          case "observable":
-            return this.useObservable(url, responseType, data);
-
-          default:
-            return this.usePromise(url, responseType, data);
-        }
-      }
-    }, {
       key: "setRequestHeaders",
       value: function setRequestHeaders(http) {
         for (var property in this.headers) {
@@ -1649,8 +1640,87 @@ var Aias = (function (exports) {
       }
     }]);
 
-    return Method;
+    return Request;
   }();
+
+  var HTTPHeaders = function HTTPHeaders() {
+    _classCallCheck(this, HTTPHeaders);
+  };
+
+  var METHODS = {
+    GET: {
+      type: "GET",
+      defaultHeaders: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      headers: {},
+      data: false
+    },
+    HEAD: {
+      type: "HEAD",
+      defaultHeaders: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      headers: {},
+      data: false
+    },
+    POST: {
+      type: "POST",
+      defaultHeaders: {
+        "Content-Type": "application/json"
+      },
+      headers: {},
+      data: true
+    },
+    PUT: {
+      type: "PUT",
+      defaultHeaders: {
+        "Content-Type": "application/json"
+      },
+      headers: {},
+      data: true
+    },
+    DELETE: {
+      type: "DELETE",
+      defaultHeaders: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      headers: {},
+      data: false
+    },
+    CONNECT: {
+      type: "CONNECT",
+      defaultHeaders: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      headers: {},
+      data: false
+    },
+    OPTIONS: {
+      type: "OPTIONS",
+      defaultHeaders: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      headers: {},
+      data: false
+    },
+    TRACE: {
+      type: "TRACE",
+      defaultHeaders: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      headers: {},
+      data: false
+    },
+    PATCH: {
+      type: "PATCH",
+      defaultHeaders: {
+        "Content-Type": "application/json"
+      },
+      headers: {},
+      data: false
+    }
+  };
 
   Array.prototype.includes || Object.defineProperty(Array.prototype, "includes", {
     value: function value(r, e) {
@@ -1675,15 +1745,21 @@ var Aias = (function (exports) {
       _classCallCheck(this, HTTP);
     }
 
-    _createClass(HTTP, null, [{
+    _createClass(HTTP, [{
+      key: "setHeaders",
+      value: function setHeaders(method, headers) {
+        if (METHODS.hasOwnProperty(method)) {
+          for (var property in headers) {
+            if (headers.hasOwnProperty(property) && HTTPHeaders.hasOwnProperty(property)) {
+              METHODS[method].headers[property] = headers[property];
+            }
+          }
+        }
+      }
+    }], [{
       key: "setEventType",
       value: function setEventType(eventType) {
         this.eventType = this.isOfTypeEventType(eventType) ? eventType : "promise";
-      }
-    }, {
-      key: "isOfTypeEventType",
-      value: function isOfTypeEventType(eventType) {
-        return ["promise", "observable"].includes(eventType);
       }
     }, {
       key: "setLogLevel",
@@ -1731,6 +1807,61 @@ var Aias = (function (exports) {
         }
       }
     }, {
+      key: "get",
+      value: function get(url, responseType) {
+        return this.request(METHODS.GET.type, url, responseType, METHODS.GET.headers || METHODS.GET.defaultHeaders, null);
+      }
+    }, {
+      key: "head",
+      value: function head(url, responseType) {
+        return this.request(METHODS.HEAD.type, url, responseType, METHODS.HEAD.headers || METHODS.HEAD.defaultHeaders, null);
+      }
+    }, {
+      key: "post",
+      value: function post(url, responseType, data) {
+        return this.request(METHODS.POST.type, url, responseType, METHODS.POST.headers || METHODS.POST.defaultHeaders, data);
+      }
+    }, {
+      key: "put",
+      value: function put(url, responseType, data) {
+        return this.request(METHODS.PUT.type, url, responseType, METHODS.PUT.headers || METHODS.PUT.defaultHeaders, data);
+      }
+    }, {
+      key: "delete",
+      value: function _delete(url, responseType) {
+        return this.request(METHODS.DELETE.type, url, responseType, METHODS.DELETE.headers || METHODS.DELETE.defaultHeaders, null);
+      }
+    }, {
+      key: "connect",
+      value: function connect(url, responseType) {
+        return this.request(METHODS.CONNECT.type, url, responseType, METHODS.CONNECT.headers || METHODS.CONNECT.defaultHeaders, null);
+      }
+    }, {
+      key: "options",
+      value: function options(url, responseType) {
+        return this.request(METHODS.OPTIONS.type, url, responseType, METHODS.OPTIONS.headers || METHODS.OPTIONS.defaultHeaders, null);
+      }
+    }, {
+      key: "trace",
+      value: function trace(url, responseType) {
+        return this.request(METHODS.TRACE.type, url, responseType, METHODS.TRACE.headers || METHODS.TRACE.defaultHeaders, null);
+      }
+    }, {
+      key: "patch",
+      value: function patch(url, responseType, data) {
+        return this.request(METHODS.PATCH.type, url, responseType, METHODS.PATCH.headers || METHODS.PATCH.defaultHeaders, data);
+      }
+    }, {
+      key: "request",
+      value: function request(type, url, responseType, headers, data) {
+        if (this.mockup.data) {
+          return this.getMockupData();
+        } else {
+          var request = new Request(type, url, responseType, headers, this.eventType, data || null);
+          return request.call();
+        }
+      }
+    }, {
       key: "promiseTimeout",
       value: function promiseTimeout() {
         var _this2 = this;
@@ -1740,49 +1871,9 @@ var Aias = (function (exports) {
         });
       }
     }, {
-      key: "GET",
-      value: function GET(url, responseType) {
-        return this.mockup.data ? this.getMockupData() : this.get.call(url, responseType, this.eventType);
-      }
-    }, {
-      key: "HEAD",
-      value: function HEAD(url, responseType) {
-        return this.mockup.data ? this.getMockupData() : this.head.call(url, responseType, this.eventType);
-      }
-    }, {
-      key: "POST",
-      value: function POST(url, responseType, data) {
-        return this.mockup.data ? this.getMockupData() : this.post.call(url, responseType, this.eventType, data);
-      }
-    }, {
-      key: "PUT",
-      value: function PUT(url, responseType, data) {
-        return this.mockup.data ? this.getMockupData() : this.put.call(url, responseType, this.eventType, data);
-      }
-    }, {
-      key: "DELETE",
-      value: function DELETE(url, responseType) {
-        return this.mockup.data ? this.getMockupData() : this["delete"].call(url, responseType, this.eventType);
-      }
-    }, {
-      key: "CONNECT",
-      value: function CONNECT(url, responseType) {
-        return this.mockup.data ? this.getMockupData() : this.connect.call(url, responseType, this.eventType);
-      }
-    }, {
-      key: "OPTIONS",
-      value: function OPTIONS(url, responseType) {
-        return this.mockup.data ? this.getMockupData() : this.options.call(url, responseType, this.eventType);
-      }
-    }, {
-      key: "TRACE",
-      value: function TRACE(url, responseType) {
-        return this.mockup.data ? this.getMockupData() : this.trace.call(url, responseType, this.eventType);
-      }
-    }, {
-      key: "PATCH",
-      value: function PATCH(url, responseType, data) {
-        return this.mockup.data ? this.getMockupData() : this.patch.call(url, responseType, this.eventType, data);
+      key: "isOfTypeEventType",
+      value: function isOfTypeEventType(eventType) {
+        return ["promise", "observable"].includes(eventType);
       }
     }]);
 
@@ -1794,33 +1885,6 @@ var Aias = (function (exports) {
     data: null,
     delay: 200
   };
-  HTTP.get = new Method("GET", {
-    "Content-Type": "application/x-www-form-urlencoded"
-  });
-  HTTP.head = new Method("HEAD", {
-    "Content-Type": "application/x-www-form-urlencoded"
-  });
-  HTTP.post = new Method("POST", {
-    "Content-Type": "application/json"
-  });
-  HTTP.put = new Method("PUT", {
-    "Content-Type": "application/json"
-  });
-  HTTP["delete"] = new Method("DELETE", {
-    "Content-Type": "application/x-www-form-urlencoded"
-  });
-  HTTP.connect = new Method("CONNECT", {
-    "Content-Type": "application/x-www-form-urlencoded"
-  });
-  HTTP.options = new Method("OPTIONS", {
-    "Content-Type": "application/x-www-form-urlencoded"
-  });
-  HTTP.trace = new Method("TRACE", {
-    "Content-Type": "application/x-www-form-urlencoded"
-  });
-  HTTP.patch = new Method("PATCH", {
-    "Content-Type": "application/json"
-  });
 
   exports.HTTP = HTTP;
 

@@ -26,40 +26,33 @@
 import { LevelName } from "@lcluber/mouettejs";
 
 
-
 import { Observable } from "rxjs";
-import "polyfill-array-includes";
+
+
 export declare class HTTP {
     private static log;
     private static eventType;
     private static mockup;
     static setEventType(eventType: EventType): void;
-    private static isOfTypeEventType;
     static setLogLevel(name: LevelName): LevelName;
     static getLogLevel(): LevelName;
+    setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders): void;
     static setMockup(mockup: Partial<Mockup>): Mockup;
     private static getMockupData;
+    static get(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static head(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static post(url: string, responseType: ResponseType, data?: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static put(url: string, responseType: ResponseType, data?: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static delete(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static connect(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static options(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static trace(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    static patch(url: string, responseType: ResponseType, data?: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    private static request;
     private static promiseTimeout;
-    static get: Method;
-    static head: Method;
-    static post: Method;
-    static put: Method;
-    static delete: Method;
-    static connect: Method;
-    static options: Method;
-    static trace: Method;
-    static patch: Method;
-    static GET(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static HEAD(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static POST(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static PUT(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static DELETE(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static CONNECT(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static OPTIONS(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static TRACE(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static PATCH(url: string, responseType: ResponseType, data: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
+    private static isOfTypeEventType;
 }
-export interface HTTPHeaders {
+export declare class HTTPHeaders {
     "A-IM"?: string;
     Accept?: string;
     "Accept-Charset"?: string;
@@ -100,26 +93,48 @@ export interface HTTPHeaders {
     [key: string]: string | number | undefined;
 }
 
+
 export interface Mockup {
     data: ResponseDataType;
     delay: number;
 }
+export interface Method {
+    type: HTTPRequestMethod;
+    defaultHeaders: HTTPHeaders;
+    headers: HTTPHeaders;
+    data: boolean;
+}
+export interface Methods {
+    GET: Method;
+    HEAD: Method;
+    POST: Method;
+    PUT: Method;
+    DELETE: Method;
+    CONNECT: Method;
+    OPTIONS: Method;
+    TRACE: Method;
+    PATCH: Method;
+}
+
+export declare const METHODS: Methods;
 
 
 import { Observable } from "rxjs";
 
-export declare class Method {
+export declare class Request {
     private method;
+    private url;
+    private responseType;
     private async;
     private noCache;
     private headers;
+    private eventType;
+    private data;
     private log;
-    constructor(method: HTTPRequestMethod, defaultHeaders: HTTPHeaders);
-    setHeaders(headers: HTTPHeaders): void;
-    getHeaders(): HTTPHeaders;
+    constructor(method: HTTPRequestMethod, url: string, responseType: ResponseType, headers: HTTPHeaders, eventType: EventType, data: DataType);
+    call(): Promise<ResponseDataType> | Observable<ResponseDataType>;
     private usePromise;
     private useObservable;
-    call(url: string, responseType: ResponseType, eventType: EventType, data?: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
     private setRequestHeaders;
     private logInfo;
     private logError;

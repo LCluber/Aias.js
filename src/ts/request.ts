@@ -10,6 +10,7 @@ import {
   ResponseType,
   EventType
 } from "./types";
+import Promise from "promise-polyfill";
 
 const AudioContext =
   window.AudioContext || // Default
@@ -33,7 +34,7 @@ export class Request {
     responseType: ResponseType,
     headers: HTTPHeaders,
     eventType: EventType,
-    data?: DataType
+    data: DataType
   ) {
     this.method = method;
     this.url = url;
@@ -44,18 +45,6 @@ export class Request {
     this.eventType = eventType || this.eventType;
     this.data = data || null;
   }
-
-  // public setHeaders(headers: HTTPHeaders): void {
-  //   for (const property in headers) {
-  //     if (headers.hasOwnProperty(property)) {
-  //       this.headers[property] = headers[property];
-  //     }
-  //   }
-  // }
-
-  // public getHeaders(): HTTPHeaders {
-  //   return this.headers;
-  // }
 
   public call(): Promise<ResponseDataType> | Observable<ResponseDataType> {
     switch (this.eventType) {
