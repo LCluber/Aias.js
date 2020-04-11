@@ -220,7 +220,9 @@ static HTTP.getLogLevel(): LevelName {}
 
 ## Tests
 
-No tests to run yet
+```bash
+$ npm run test
+```
 
 ## Contributors
 
