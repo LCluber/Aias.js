@@ -1745,18 +1745,7 @@ var Aias = (function (exports) {
       _classCallCheck(this, HTTP);
     }
 
-    _createClass(HTTP, [{
-      key: "setHeaders",
-      value: function setHeaders(method, headers) {
-        if (METHODS.hasOwnProperty(method)) {
-          for (var property in headers) {
-            if (headers.hasOwnProperty(property) && HTTPHeaders.hasOwnProperty(property)) {
-              METHODS[method].headers[property] = headers[property];
-            }
-          }
-        }
-      }
-    }], [{
+    _createClass(HTTP, null, [{
       key: "setEventType",
       value: function setEventType(eventType) {
         this.eventType = this.isOfTypeEventType(eventType) ? eventType : "promise";
@@ -1770,6 +1759,17 @@ var Aias = (function (exports) {
       key: "getLogLevel",
       value: function getLogLevel() {
         return this.log.getLevel();
+      }
+    }, {
+      key: "setHeaders",
+      value: function setHeaders(method, headers) {
+        if (METHODS.hasOwnProperty(method)) {
+          for (var property in headers) {
+            if (headers.hasOwnProperty(property) && HTTPHeaders.hasOwnProperty(property)) {
+              METHODS[method].headers[property] = headers[property];
+            }
+          }
+        }
       }
     }, {
       key: "setMockup",

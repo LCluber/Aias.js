@@ -1,3 +1,8 @@
+## Version 2.7.1 (June 15th 2020)
+
+- Fix issue with setHeaders method in declarations file
+- Add IE polyfills to dependencies
+
 ## Version 2.7.0 (June 14th 2020)
 
 - Add polyfills for Internet Explorer compatibility

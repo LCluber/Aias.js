@@ -374,7 +374,7 @@ class HTTP {
     static getLogLevel() {
         return this.log.getLevel();
     }
-    setHeaders(method, headers) {
+    static setHeaders(method, headers) {
         if (METHODS.hasOwnProperty(method)) {
             for (const property in headers) {
                 if (headers.hasOwnProperty(property) &&

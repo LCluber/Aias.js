@@ -34,7 +34,7 @@ export class HTTP {
     return this.log.getLevel();
   }
 
-  public setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders) {
+  public static setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders) {
     if (METHODS.hasOwnProperty(method)) {
       for (const property in headers) {
         if (

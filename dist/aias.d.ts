@@ -36,7 +36,7 @@ export declare class HTTP {
     static setEventType(eventType: EventType): void;
     static setLogLevel(name: LevelName): LevelName;
     static getLogLevel(): LevelName;
-    setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders): void;
+    static setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders): void;
     static setMockup(mockup: Partial<Mockup>): Mockup;
     private static getMockupData;
     static get(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
