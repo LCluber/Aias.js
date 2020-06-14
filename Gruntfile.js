@@ -179,6 +179,7 @@ module.exports = function(grunt) {
       options: {
         patterns: [
           /import { .* } from "\..*";/g,
+          /import ".*";/g,
           /export { .* } from ".*";/g,
           /\/\/\/ <reference types=.*\/>/g
         ]

@@ -35,13 +35,13 @@ const scientist = {
   died: 1642
 };
 
-HTTP.post.setHeaders({ "Content-Type": "application/json" }); // this is the default setting for POST requests
-HTTP.get.setHeaders({ "Content-Type": "application/x-www-form-urlencoded" }); // this is the default setting for
+HTTP.setHeaders("POST", { "Content-Type": "application/json" }); // this is the default setting for POST requests
+HTTP.setHeaders("GET", { "Content-Type": "application/x-www-form-urlencoded" }); // this is the default setting for
 
 // Using promises
 
 // POST request
-HTTP.POST("http://url.com/api/scientists", "json", scientist)
+HTTP.post("http://url.com/api/scientists", "json", scientist)
   .then(response => {
     console.log(response);
   })
@@ -50,7 +50,7 @@ HTTP.POST("http://url.com/api/scientists", "json", scientist)
   });
 
 // GET request
-HTTP.GET("http://url.com/api/scientists/2", "json")
+HTTP.get("http://url.com/api/scientists/2", "json")
   .then(response => {
     console.log(response);
   })
@@ -63,7 +63,7 @@ HTTP.GET("http://url.com/api/scientists/2", "json")
 // GET request
 HTTP.setEventType("observable");
 
-HTTP.GET("http://url.com/api/scientists/2", "json").subscribe(
+HTTP.get("http://url.com/api/scientists/2", "json").subscribe(
   response => {
     console.log(response);
   },
@@ -85,15 +85,15 @@ var scientist = {
   died: 1642
 };
 
-Aias.HTTP.post.setHeaders({ "Content-Type": "application/json" }); // this is the default setting for POST requests
-Aias.HTTP.get.setHeaders({
+Aias.HTTP.setHeaders("POST", { "Content-Type": "application/json" }); // this is the default setting for POST requests
+Aias.HTTP.setHeaders("GET", {
   "Content-Type": "application/x-www-form-urlencoded"
 }); // this is the default setting for GET requests
 
 // Using promises
 
 // POST request
-Aias.HTTP.POST("http://url.com/api/scientists", "json", scientist)
+Aias.HTTP.post("http://url.com/api/scientists", "json", scientist)
   .then(function(response) {
     console.log(response);
   })
@@ -102,7 +102,7 @@ Aias.HTTP.POST("http://url.com/api/scientists", "json", scientist)
   });
 
 // GET request
-Aias.HTTP.GET("http://url.com/api/scientists/2", "json")
+Aias.HTTP.get("http://url.com/api/scientists/2", "json")
   .then(response => {
     console.log(response);
   })
@@ -115,7 +115,7 @@ Aias.HTTP.GET("http://url.com/api/scientists/2", "json")
 // GET request
 Aias.HTTP.setEventType("observable");
 
-Aias.HTTP.GET("http://url.com/api/scientists/2", "json").subscribe(
+Aias.HTTP.get("http://url.com/api/scientists/2", "json").subscribe(
   response => {
     console.log(response);
   },
@@ -137,12 +137,12 @@ const scientist = {
   died: 1642
 };
 
-HTTP.setMockup({ data: scientist });
-HTTP.get.setHeaders({ "Content-Type": "application/x-www-form-urlencoded" }); // this is the default setting for GET requests
+HTTP.setMockup({ data: scientist, delay: 200 });
+HTTP.setHeaders("GET", { "Content-Type": "application/x-www-form-urlencoded" }); // this is the default setting for GET requests
 
 // Using promises
 
-HTTP.GET("http://url.com/api/scientists/2", "json")
+HTTP.get("http://url.com/api/scientists/2", "json")
   .then(response => {
     console.log(response); //scientist
   })
@@ -154,7 +154,7 @@ HTTP.GET("http://url.com/api/scientists/2", "json")
 
 HTTP.setEventType("observable");
 
-HTTP.GET("http://url.com/api/scientists/2", "json").subscribe(
+HTTP.get("http://url.com/api/scientists/2", "json").subscribe(
   response => {
     console.log(response); //scientist
   },
@@ -197,56 +197,32 @@ interface HTTPHeaders {
   ...
 }
 
-static HTTP.GET( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
-static HTTP.HEAD( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
-static HTTP.POST( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> {}
-static HTTP.PUT( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> {}
-static HTTP.DELETE( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
-static HTTP.CONNECT( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
-static HTTP.OPTIONS( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
-static HTTP.TRACE( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
-static HTTP.PATCH( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> {}
+static HTTP.get( url: string, responseType: ResponseType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
+static HTTP.head( url: string, responseType: ResponseType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
+static HTTP.post( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
+static HTTP.put( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
+static HTTP.delete( url: string, responseType: ResponseType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
+static HTTP.connect( url: string, responseType: ResponseType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
+static HTTP.options( url: string, responseType: ResponseType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
+static HTTP.trace( url: string, responseType: ResponseType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
+static HTTP.patch( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
 
 static HTTP.setEventType(eventType: EventType): void {}
+static HTTP.setMockup(mockup: Partial<Mockup> = { data: ResponseDataType, delay: number}): void {}
+static HTTP.setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders): void {}
 
 // Log levels from @lcluber Mouette.js logger library
 type LevelName = "info" | "trace" | "warn" | "error" | "off";
 static HTTP.setLogLevel(name: LevelName): LevelName {}
 static HTTP.getLogLevel(): LevelName {}
 
-static HTTP.setMockup(mockup: Partial<Mockup> = { data: ResponseDataType, delay: number}): void {}
-
-static HTTP.get.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.get.getHeaders(): HTTPHeaders {}
-
-static HTTP.head.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.head.getHeaders(): HTTPHeaders {}
-
-static HTTP.post.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.post.getHeaders(): HTTPHeaders {}
-
-static HTTP.put.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.put.getHeaders(): HTTPHeaders {}
-
-static HTTP.delete.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.delete.getHeaders(): HTTPHeaders {}
-
-static HTTP.connect.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.connect.getHeaders(): HTTPHeaders {}
-
-static HTTP.options.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.options.getHeaders(): HTTPHeaders {}
-
-static HTTP.trace.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.trace.getHeaders(): HTTPHeaders {}
-
-static HTTP.patch.setHeaders(headers: HTTPHeaders): void {}
-static HTTP.patch.getHeaders(): HTTPHeaders {}
 ```
 
 ## Tests
 
-No tests to run yet
+```bash
+$ npm run test
+```
 
 ## Contributors
 
