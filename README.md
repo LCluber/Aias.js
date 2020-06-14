@@ -224,11 +224,6 @@ static HTTP.getLogLevel(): LevelName {}
 $ npm run test
 ```
 
-## Contributors
-
-Aias.js is still in early development and I would be glad to get all the help you can provide for this project.
-To contribute you can clone the project on **[GitHub](https://github.com/LCluber/Aias.js)** and See **NOTICE.md** for detailed installation walkthrough.
-
 ## License
 
 MIT License
