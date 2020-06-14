@@ -1,8 +1,18 @@
 import { Logger, Group, LevelName } from "@lcluber/mouettejs";
-import { Method } from "./method";
-import { DataType, ResponseDataType, ResponseType, EventType } from "./types";
+import { Request } from "./request";
+import {
+  DataType,
+  ResponseDataType,
+  ResponseType,
+  EventType,
+  HTTPRequestMethod
+} from "./types";
 import { Mockup } from "./interfaces";
 import { Observable } from "rxjs";
+import { HTTPHeaders } from "./httpheaders";
+import { METHODS } from "./methods";
+import Promise from "promise-polyfill";
+import "polyfill-array-includes";
 
 export class HTTP {
   private static log: Group = Logger.addGroup("Aias");
@@ -16,16 +26,25 @@ export class HTTP {
     this.eventType = this.isOfTypeEventType(eventType) ? eventType : "promise";
   }
 
-  private static isOfTypeEventType(eventType: string): eventType is EventType {
-    return ["promise", "observable"].includes(eventType);
-  }
-
   public static setLogLevel(name: LevelName): LevelName {
     return this.log.setLevel(name);
   }
 
   public static getLogLevel(): LevelName {
     return this.log.getLevel();
+  }
+
+  public setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders) {
+    if (METHODS.hasOwnProperty(method)) {
+      for (const property in headers) {
+        if (
+          headers.hasOwnProperty(property) &&
+          HTTPHeaders.hasOwnProperty(property)
+        ) {
+          METHODS[method].headers[property] = headers[property];
+        }
+      }
+    }
   }
 
   public static setMockup(mockup: Partial<Mockup>): Mockup {
@@ -59,121 +78,155 @@ export class HTTP {
     }
   }
 
+  public static get(
+    url: string,
+    responseType: ResponseType
+  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
+    return this.request(
+      METHODS.GET.type,
+      url,
+      responseType,
+      METHODS.GET.headers || METHODS.GET.defaultHeaders,
+      null
+    );
+  }
+
+  public static head(
+    url: string,
+    responseType: ResponseType
+  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
+    return this.request(
+      METHODS.HEAD.type,
+      url,
+      responseType,
+      METHODS.HEAD.headers || METHODS.HEAD.defaultHeaders,
+      null
+    );
+  }
+
+  public static post(
+    url: string,
+    responseType: ResponseType,
+    data?: DataType
+  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
+    return this.request(
+      METHODS.POST.type,
+      url,
+      responseType,
+      METHODS.POST.headers || METHODS.POST.defaultHeaders,
+      data
+    );
+  }
+
+  public static put(
+    url: string,
+    responseType: ResponseType,
+    data?: DataType
+  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
+    return this.request(
+      METHODS.PUT.type,
+      url,
+      responseType,
+      METHODS.PUT.headers || METHODS.PUT.defaultHeaders,
+      data
+    );
+  }
+
+  public static delete(
+    url: string,
+    responseType: ResponseType
+  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
+    return this.request(
+      METHODS.DELETE.type,
+      url,
+      responseType,
+      METHODS.DELETE.headers || METHODS.DELETE.defaultHeaders,
+      null
+    );
+  }
+
+  public static connect(
+    url: string,
+    responseType: ResponseType
+  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
+    return this.request(
+      METHODS.CONNECT.type,
+      url,
+      responseType,
+      METHODS.CONNECT.headers || METHODS.CONNECT.defaultHeaders,
+      null
+    );
+  }
+
+  public static options(
+    url: string,
+    responseType: ResponseType
+  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
+    return this.request(
+      METHODS.OPTIONS.type,
+      url,
+      responseType,
+      METHODS.OPTIONS.headers || METHODS.OPTIONS.defaultHeaders,
+      null
+    );
+  }
+
+  public static trace(
+    url: string,
+    responseType: ResponseType
+  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
+    return this.request(
+      METHODS.TRACE.type,
+      url,
+      responseType,
+      METHODS.TRACE.headers || METHODS.TRACE.defaultHeaders,
+      null
+    );
+  }
+
+  public static patch(
+    url: string,
+    responseType: ResponseType,
+    data?: DataType
+  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
+    return this.request(
+      METHODS.PATCH.type,
+      url,
+      responseType,
+      METHODS.PATCH.headers || METHODS.PATCH.defaultHeaders,
+      data
+    );
+  }
+
+  private static request(
+    type: HTTPRequestMethod,
+    url: string,
+    responseType: ResponseType,
+    headers: HTTPHeaders,
+    data?: DataType
+  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
+    if (this.mockup.data) {
+      return this.getMockupData();
+    } else {
+      let request = new Request(
+        type,
+        url,
+        responseType,
+        headers,
+        this.eventType,
+        data || null
+      );
+      return request.call();
+    }
+  }
+
   private static promiseTimeout(): Promise<void> {
     return new Promise((resolve: Function) =>
       setTimeout(resolve, this.mockup.delay)
     );
   }
 
-  public static get: Method = new Method("GET", {
-    "Content-Type": "application/x-www-form-urlencoded"
-  });
-  public static head: Method = new Method("HEAD", {
-    "Content-Type": "application/x-www-form-urlencoded"
-  });
-  public static post: Method = new Method("POST", {
-    "Content-Type": "application/json"
-  });
-  public static put: Method = new Method("PUT", {
-    "Content-Type": "application/json"
-  });
-  public static delete: Method = new Method("DELETE", {
-    "Content-Type": "application/x-www-form-urlencoded"
-  });
-  public static connect: Method = new Method("CONNECT", {
-    "Content-Type": "application/x-www-form-urlencoded"
-  });
-  public static options: Method = new Method("OPTIONS", {
-    "Content-Type": "application/x-www-form-urlencoded"
-  });
-  public static trace: Method = new Method("TRACE", {
-    "Content-Type": "application/x-www-form-urlencoded"
-  });
-  public static patch: Method = new Method("PATCH", {
-    "Content-Type": "application/json"
-  });
-
-  public static GET(
-    url: string,
-    responseType: ResponseType
-  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockup.data
-      ? this.getMockupData()
-      : this.get.call(url, responseType, this.eventType);
-  }
-
-  public static HEAD(
-    url: string,
-    responseType: ResponseType
-  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockup.data
-      ? this.getMockupData()
-      : this.head.call(url, responseType, this.eventType);
-  }
-
-  public static POST(
-    url: string,
-    responseType: ResponseType,
-    data: DataType
-  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockup.data
-      ? this.getMockupData()
-      : this.post.call(url, responseType, this.eventType, data);
-  }
-
-  public static PUT(
-    url: string,
-    responseType: ResponseType,
-    data: DataType
-  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockup.data
-      ? this.getMockupData()
-      : this.put.call(url, responseType, this.eventType, data);
-  }
-
-  public static DELETE(
-    url: string,
-    responseType: ResponseType
-  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockup.data
-      ? this.getMockupData()
-      : this.delete.call(url, responseType, this.eventType);
-  }
-
-  public static CONNECT(
-    url: string,
-    responseType: ResponseType
-  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockup.data
-      ? this.getMockupData()
-      : this.connect.call(url, responseType, this.eventType);
-  }
-
-  public static OPTIONS(
-    url: string,
-    responseType: ResponseType
-  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockup.data
-      ? this.getMockupData()
-      : this.options.call(url, responseType, this.eventType);
-  }
-
-  public static TRACE(
-    url: string,
-    responseType: ResponseType
-  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockup.data
-      ? this.getMockupData()
-      : this.trace.call(url, responseType, this.eventType);
-  }
-
-  public static PATCH(
-    url: string,
-    responseType: ResponseType,
-    data: DataType
-  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    return this.mockup.data
-      ? this.getMockupData()
-      : this.patch.call(url, responseType, this.eventType, data);
+  private static isOfTypeEventType(eventType: string): eventType is EventType {
+    return ["promise", "observable"].includes(eventType);
   }
 }

@@ -10,36 +10,50 @@ import {
   ResponseType,
   EventType
 } from "./types";
+import Promise from "promise-polyfill";
 
 const AudioContext =
   window.AudioContext || // Default
   (<any>window).webkitAudioContext || // Safari and old versions of Chrome
   false;
 
-export class Method {
+export class Request {
   private method: HTTPRequestMethod;
+  private url: string;
+  private responseType: ResponseType;
   private async: boolean;
   private noCache: boolean;
   private headers: HTTPHeaders;
+  private eventType: EventType = "promise";
+  private data: DataType;
   private log: Group = Logger.addGroup("Aias");
 
-  constructor(method: HTTPRequestMethod, defaultHeaders: HTTPHeaders) {
+  constructor(
+    method: HTTPRequestMethod,
+    url: string,
+    responseType: ResponseType,
+    headers: HTTPHeaders,
+    eventType: EventType,
+    data: DataType
+  ) {
     this.method = method;
+    this.url = url;
+    this.responseType = responseType;
     this.async = true;
     this.noCache = false;
-    this.headers = defaultHeaders;
+    this.headers = headers;
+    this.eventType = eventType || this.eventType;
+    this.data = data || null;
   }
 
-  public setHeaders(headers: HTTPHeaders): void {
-    for (const property in headers) {
-      if (headers.hasOwnProperty(property)) {
-        this.headers[property] = headers[property];
-      }
+  public call(): Promise<ResponseDataType> | Observable<ResponseDataType> {
+    switch (this.eventType) {
+      case "observable":
+        return this.useObservable(this.url, this.responseType, this.data);
+        break;
+      default:
+        return this.usePromise(this.url, this.responseType, this.data);
     }
-  }
-
-  public getHeaders(): HTTPHeaders {
-    return this.headers;
   }
 
   private usePromise(
@@ -272,21 +286,6 @@ export class Method {
       http.send(<SendDataType>data || null);
       this.log.info("xhr (" + this.method + ":" + url + ")" + "sent");
     });
-  }
-
-  public call(
-    url: string,
-    responseType: ResponseType,
-    eventType: EventType,
-    data?: DataType
-  ): Promise<ResponseDataType> | Observable<ResponseDataType> {
-    switch (eventType) {
-      case "observable":
-        return this.useObservable(url, responseType, data);
-        break;
-      default:
-        return this.usePromise(url, responseType, data);
-    }
   }
 
   private setRequestHeaders(http: XMLHttpRequest): void {
