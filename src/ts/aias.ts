@@ -7,9 +7,8 @@ import {
   EventType,
   HTTPRequestMethod
 } from "./types";
-import { Mockup } from "./interfaces";
+import { Mockup, HTTPHeaders } from "./interfaces";
 import { Observable } from "rxjs";
-import { HTTPHeaders } from "./httpheaders";
 import { METHODS } from "./methods";
 import Promise from "promise-polyfill";
 import "polyfill-array-includes";
@@ -37,10 +36,7 @@ export class HTTP {
   public static setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders) {
     if (METHODS.hasOwnProperty(method)) {
       for (const property in headers) {
-        if (
-          headers.hasOwnProperty(property) &&
-          HTTPHeaders.hasOwnProperty(property)
-        ) {
+        if (headers.hasOwnProperty(property)) {
           METHODS[method].headers[property] = headers[property];
         }
       }

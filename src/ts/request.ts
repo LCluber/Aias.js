@@ -1,6 +1,6 @@
 import { isObject } from "@lcluber/chjs";
 import { Logger, Group } from "@lcluber/mouettejs";
-import { HTTPHeaders } from "./httpheaders";
+import { HTTPHeaders } from "./interfaces";
 import { Observable } from "rxjs";
 import {
   HTTPRequestMethod,
@@ -81,6 +81,7 @@ export class Request {
               if (http.status == 200) {
                 const response = http.response;
                 if (response) {
+                  this.log.time("xhr " + url);
                   this.logInfo(url, http.status, http.statusText);
                   if (responseType === "audiobuffer") {
                     if (AudioContext) {
@@ -146,6 +147,7 @@ export class Request {
           http.onreadystatechange = () => {
             if (http.readyState == 4) {
               if (http.status == 200) {
+                this.log.time("xhr " + url);
                 this.logInfo(url, http.status, http.statusText);
                 resolve(http.responseText);
               } else {
@@ -162,7 +164,7 @@ export class Request {
       if (isObject(data)) {
         data = JSON.stringify(data);
       }
-
+      this.log.time("xhr " + url);
       http.send(<SendDataType>data || null);
       this.log.info("xhr (" + this.method + ":" + url + ")" + "sent");
     });
@@ -193,6 +195,7 @@ export class Request {
               if (http.status == 200) {
                 const response = http.response;
                 if (response) {
+                  this.log.time("xhr " + url);
                   this.logInfo(url, http.status, http.statusText);
                   if (responseType === "audiobuffer") {
                     if (AudioContext) {
@@ -264,6 +267,7 @@ export class Request {
           http.onreadystatechange = () => {
             if (http.readyState == 4) {
               if (http.status == 200) {
+                this.log.time("xhr " + url);
                 this.logInfo(url, http.status, http.statusText);
                 observer.next(http.responseText);
                 observer.complete();
@@ -284,6 +288,7 @@ export class Request {
       }
 
       http.send(<SendDataType>data || null);
+      this.log.time("xhr " + url);
       this.log.info("xhr (" + this.method + ":" + url + ")" + "sent");
     });
   }
@@ -294,6 +299,7 @@ export class Request {
         http.setRequestHeader(property, <string>this.headers[property]);
       }
     }
+    console.log("headers", this.headers);
   }
 
   private logInfo(url: string, status: number, statusText: string): void {

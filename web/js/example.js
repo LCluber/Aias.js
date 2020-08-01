@@ -1,5 +1,4 @@
-// Mouette.Logger.setLevel("info");
-
+Mouette.Logger.setLevel("info");
 var data = {
   firstname: "Galileo",
   lastname: "Galilei",
@@ -8,7 +7,9 @@ var data = {
 };
 
 // Aias.HTTP.setMockup({ data: data, delay: 3000 });
-
+Aias.HTTP.setHeaders("GET", {
+  "Content-Type": "application/x-www-form-urlencoded"
+});
 var request = Aias.HTTP.get("http://httpbin.org/get", "json")
   .then(function(response) {
     console.log("get", response);

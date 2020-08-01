@@ -71,6 +71,7 @@ class Request {
                             if (http.status == 200) {
                                 const response = http.response;
                                 if (response) {
+                                    this.log.time("xhr " + url);
                                     this.logInfo(url, http.status, http.statusText);
                                     if (responseType === "audiobuffer") {
                                         if (AudioContext) {
@@ -131,6 +132,7 @@ class Request {
                     http.onreadystatechange = () => {
                         if (http.readyState == 4) {
                             if (http.status == 200) {
+                                this.log.time("xhr " + url);
                                 this.logInfo(url, http.status, http.statusText);
                                 resolve(http.responseText);
                             }
@@ -147,6 +149,7 @@ class Request {
             if (isObject(data)) {
                 data = JSON.stringify(data);
             }
+            this.log.time("xhr " + url);
             http.send(data || null);
             this.log.info("xhr (" + this.method + ":" + url + ")" + "sent");
         });
@@ -169,6 +172,7 @@ class Request {
                             if (http.status == 200) {
                                 const response = http.response;
                                 if (response) {
+                                    this.log.time("xhr " + url);
                                     this.logInfo(url, http.status, http.statusText);
                                     if (responseType === "audiobuffer") {
                                         if (AudioContext) {
@@ -235,6 +239,7 @@ class Request {
                     http.onreadystatechange = () => {
                         if (http.readyState == 4) {
                             if (http.status == 200) {
+                                this.log.time("xhr " + url);
                                 this.logInfo(url, http.status, http.statusText);
                                 observer.next(http.responseText);
                                 observer.complete();
@@ -254,6 +259,7 @@ class Request {
                 data = JSON.stringify(data);
             }
             http.send(data || null);
+            this.log.time("xhr " + url);
             this.log.info("xhr (" + this.method + ":" + url + ")" + "sent");
         });
     }
@@ -263,6 +269,7 @@ class Request {
                 http.setRequestHeader(property, this.headers[property]);
             }
         }
+        console.log('headers', this.headers);
     }
     logInfo(url, status, statusText) {
         this.log.info("xhr (" +
@@ -284,9 +291,6 @@ class Request {
             " " +
             statusText);
     }
-}
-
-class HTTPHeaders {
 }
 
 const METHODS = {
@@ -377,8 +381,7 @@ class HTTP {
     static setHeaders(method, headers) {
         if (METHODS.hasOwnProperty(method)) {
             for (const property in headers) {
-                if (headers.hasOwnProperty(property) &&
-                    HTTPHeaders.hasOwnProperty(property)) {
+                if (headers.hasOwnProperty(property)) {
                     METHODS[method].headers[property] = headers[property];
                 }
             }

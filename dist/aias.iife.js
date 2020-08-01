@@ -64,12 +64,24 @@ var Aias = (function (exports) {
     return Constructor;
   }
 
+  function _toConsumableArray(arr) {
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+  }
+
+  function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+  }
+
+  function _iterableToArray(iter) {
+    if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+  }
+
   function _unsupportedIterableToArray(o, minLen) {
     if (!o) return;
     if (typeof o === "string") return _arrayLikeToArray(o, minLen);
     var n = Object.prototype.toString.call(o).slice(8, -1);
     if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(n);
+    if (n === "Map" || n === "Set") return Array.from(o);
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
   }
 
@@ -81,9 +93,16 @@ var Aias = (function (exports) {
     return arr2;
   }
 
-  function _createForOfIteratorHelper(o) {
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+
+  function _createForOfIteratorHelper(o, allowArrayLike) {
+    var it;
+
     if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
-      if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) {
+      if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+        if (it) o = it;
         var i = 0;
 
         var F = function () {};
@@ -109,8 +128,7 @@ var Aias = (function (exports) {
       throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
     }
 
-    var it,
-        normalCompletion = true,
+    var normalCompletion = true,
         didErr = false,
         err;
     return {
@@ -348,6 +366,35 @@ var Aias = (function (exports) {
 
   Logger.level = LEVELS.error;
   Logger.groups = [];
+
+  /** MIT License
+   *
+   * Copyright (c) 2009 Ludovic CLUBER
+   *
+   * Permission is hereby granted, free of charge, to any person obtaining a copy
+   * of this software and associated documentation files (the "Software"), to deal
+   * in the Software without restriction, including without limitation the rights
+   * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   * copies of the Software, and to permit persons to whom the Software is
+   * furnished to do so, subject to the following conditions:
+   *
+   * The above copyright notice and this permission notice (including the next
+   * paragraph) shall be included in all copies or substantial portions of the
+   * Software.
+   *
+   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   * SOFTWARE.
+   *
+   * https://github.com/LCluber/Ch.js
+   */
+  function isBoolean(bool) {
+    return typeof bool === "boolean";
+  }
 
   function isObject(object) {
     return object !== null && _typeof(object) === "object" && !isArray(object);
@@ -1379,7 +1426,26 @@ var Aias = (function (exports) {
     }
   };
 
+  Array.prototype.includes || Object.defineProperty(Array.prototype, "includes", {
+    value: function value(r, e) {
+      if (null == this) throw new TypeError('"this" is null or not defined');
+      var t = Object(this),
+          n = t.length >>> 0;
+      if (0 === n) return !1;
+
+      for (var i = 0 | e, o = Math.max(i >= 0 ? i : n - Math.abs(i), 0); o < n;) {
+        if (function (r, e) {
+          return r === e || "number" == typeof r && "number" == typeof e && isNaN(r) && isNaN(e);
+        }(t[o], r)) return !0;
+        o++;
+      }
+
+      return !1;
+    }
+  });
+
   var AudioContext = window.AudioContext || window.webkitAudioContext || false;
+
   var Request = /*#__PURE__*/function () {
     function Request(method, url, responseType, headers, eventType, data) {
       _classCallCheck(this, Request);
@@ -1722,24 +1788,6 @@ var Aias = (function (exports) {
     }
   };
 
-  Array.prototype.includes || Object.defineProperty(Array.prototype, "includes", {
-    value: function value(r, e) {
-      if (null == this) throw new TypeError('"this" is null or not defined');
-      var t = Object(this),
-          n = t.length >>> 0;
-      if (0 === n) return !1;
-
-      for (var i = 0 | e, o = Math.max(i >= 0 ? i : n - Math.abs(i), 0); o < n;) {
-        if (function (r, e) {
-          return r === e || "number" == typeof r && "number" == typeof e && isNaN(r) && isNaN(e);
-        }(t[o], r)) return !0;
-        o++;
-      }
-
-      return !1;
-    }
-  });
-
   var HTTP = /*#__PURE__*/function () {
     function HTTP() {
       _classCallCheck(this, HTTP);
@@ -1783,25 +1831,25 @@ var Aias = (function (exports) {
     }, {
       key: "getMockupData",
       value: function getMockupData() {
-        var _this = this;
+        var _this3 = this;
 
         switch (this.eventType) {
           case "observable":
             return new Observable(function (observer) {
               setTimeout(function () {
-                if (_this.mockup.data) {
-                  observer.next(_this.mockup.data);
+                if (_this3.mockup.data) {
+                  observer.next(_this3.mockup.data);
                   observer.complete();
                 } else {
                   observer.error(null);
                 }
-              }, _this.mockup.delay);
+              }, _this3.mockup.delay);
             });
 
           default:
             return this.promiseTimeout().then(function () {
               return new Promise$1(function (resolve, reject) {
-                _this.mockup.data ? resolve(_this.mockup.data) : reject(null);
+                _this3.mockup.data ? resolve(_this3.mockup.data) : reject(null);
               });
             });
         }
@@ -1864,6 +1912,878 @@ var Aias = (function (exports) {
     }, {
       key: "promiseTimeout",
       value: function promiseTimeout() {
+        var _this4 = this;
+
+        return new Promise$1(function (resolve) {
+          return setTimeout(resolve, _this4.mockup.delay);
+        });
+      }
+    }, {
+      key: "isOfTypeEventType",
+      value: function isOfTypeEventType(eventType) {
+        return ["promise", "observable"].includes(eventType);
+      }
+    }]);
+
+    return HTTP;
+  }();
+
+  HTTP.log = Logger.addGroup("Aias");
+  HTTP.eventType = "promise";
+  HTTP.mockup = {
+    data: null,
+    delay: 200
+  };
+
+  var LEVELS$1 = {
+    info: {
+      id: 1,
+      name: "info",
+      color: "#28a745"
+    },
+    time: {
+      id: 2,
+      name: "time",
+      color: "#28a745"
+    },
+    trace: {
+      id: 3,
+      name: "trace",
+      color: "#17a2b8"
+    },
+    warn: {
+      id: 4,
+      name: "warn",
+      color: "#ffc107"
+    },
+    error: {
+      id: 5,
+      name: "error",
+      color: "#dc3545"
+    },
+    off: {
+      id: 99,
+      name: "off",
+      color: null
+    }
+  };
+
+  var Options = /*#__PURE__*/function () {
+    function Options(levelName, console, maxLength) {
+      _classCallCheck(this, Options);
+
+      this._level = "error";
+      this._console = true;
+      this._maxLength = 200;
+      this.level = levelName ? levelName : this._level;
+      this.console = isBoolean(console) ? console : this._console;
+      this.maxLength = maxLength ? maxLength : this.maxLength;
+    }
+
+    _createClass(Options, [{
+      key: "displayMessage",
+      value: function displayMessage(messageId) {
+        return this._console && LEVELS$1[this._level].id <= messageId;
+      }
+    }, {
+      key: "level",
+      set: function set(name) {
+        this._level = LEVELS$1.hasOwnProperty(name) ? name : this._level;
+      },
+      get: function get() {
+        return this._level;
+      }
+    }, {
+      key: "console",
+      set: function set(display) {
+        this._console = display ? true : false;
+      },
+      get: function get() {
+        return this._console;
+      }
+    }, {
+      key: "maxLength",
+      set: function set(length) {
+        this._maxLength = length > 50 ? length : 50;
+      },
+      get: function get() {
+        return this._maxLength;
+      }
+    }]);
+
+    return Options;
+  }();
+
+  function addZero$1(value) {
+    return value < 10 ? "0" + value : value;
+  }
+
+  function formatDate$1() {
+    var now = new Date();
+    var date = [addZero$1(now.getMonth() + 1), addZero$1(now.getDate()), now.getFullYear().toString().substr(-2)];
+    var time = [addZero$1(now.getHours()), addZero$1(now.getMinutes()), addZero$1(now.getSeconds())];
+    return date.join("/") + " " + time.join(":");
+  }
+
+  var Log = /*#__PURE__*/function () {
+    function Log(level, content) {
+      _classCallCheck(this, Log);
+
+      this.id = level.id;
+      this.name = level.name;
+      this.color = level.color;
+      this.content = content;
+      this.date = formatDate$1();
+    }
+
+    _createClass(Log, [{
+      key: "display",
+      value: function display(groupName) {
+        var name = this.name === "time" ? "info" : this.name;
+        console[name]("%c[" + groupName + "] " + this.date + " : ", "color:" + this.color + ";", this.content);
+      }
+    }]);
+
+    return Log;
+  }();
+
+  var Timer = function Timer(key) {
+    _classCallCheck(this, Timer);
+
+    this.key = key;
+    this.timestamp = new Date().getTime();
+  };
+
+  var Group$1 = /*#__PURE__*/function () {
+    function Group(name, options) {
+      _classCallCheck(this, Group);
+
+      this.name = name;
+      this.logs = [];
+      this.timers = [];
+      this.options = new Options(options.level, options.console, options.maxLength);
+    }
+
+    _createClass(Group, [{
+      key: "setLevel",
+      value: function setLevel(name) {
+        this.options.level = name;
+        return this.options.level;
+      }
+    }, {
+      key: "getLevel",
+      value: function getLevel() {
+        return this.options.level;
+      }
+    }, {
+      key: "displayConsole",
+      value: function displayConsole(value) {
+        this.options.console = value;
+        return this.options.console;
+      }
+    }, {
+      key: "setMaxLength",
+      value: function setMaxLength(length) {
+        this.options.maxLength = length;
+        return this.options.maxLength;
+      }
+    }, {
+      key: "getMaxLength",
+      value: function getMaxLength() {
+        return this.options.maxLength;
+      }
+    }, {
+      key: "info",
+      value: function info(log) {
+        this.log(LEVELS$1.info, log);
+      }
+    }, {
+      key: "trace",
+      value: function trace(log) {
+        this.log(LEVELS$1.trace, log);
+      }
+    }, {
+      key: "time",
+      value: function time(key) {
+        var index = this.timers.findIndex(function (element) {
+          return element.key === key;
+        });
+
+        if (index > -1) {
+          var newTimestamp = new Date().getTime();
+          var delta = newTimestamp - this.timers[index].timestamp;
+          this.log(LEVELS$1.time, key + " completed in " + delta + " ms");
+          this.timers.splice(index, 1);
+        } else {
+          this.addTimer(key);
+          this.log(LEVELS$1.time, key + " started");
+        }
+      }
+    }, {
+      key: "warn",
+      value: function warn(log) {
+        this.log(LEVELS$1.warn, log);
+      }
+    }, {
+      key: "error",
+      value: function error(log) {
+        this.log(LEVELS$1.error, log);
+      }
+    }, {
+      key: "initLogs",
+      value: function initLogs() {
+        this.logs = [];
+      }
+    }, {
+      key: "log",
+      value: function log(level, _log) {
+        var message = new Log(level, _log);
+
+        if (this.options.displayMessage(message.id)) {
+          this.addLog(message);
+          message.display(this.name);
+        }
+      }
+    }, {
+      key: "addLog",
+      value: function addLog(message) {
+        if (this.logs.length >= this.options.maxLength) {
+          this.logs.shift();
+        }
+
+        this.logs.push(message);
+      }
+    }, {
+      key: "addTimer",
+      value: function addTimer(key) {
+        if (this.timers.length >= this.options.maxLength) {
+          this.timers.shift();
+        }
+
+        this.timers.push(new Timer(key));
+      }
+    }]);
+
+    return Group;
+  }();
+
+  var Logger$1 = /*#__PURE__*/function () {
+    function Logger() {
+      _classCallCheck(this, Logger);
+    }
+
+    _createClass(Logger, null, [{
+      key: "setLevel",
+      value: function setLevel(name) {
+        this.options.level = name;
+
+        var _iterator = _createForOfIteratorHelper(this.groups),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var group = _step.value;
+            group.setLevel(this.options.level);
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+
+        return this.getLevel();
+      }
+    }, {
+      key: "getLevel",
+      value: function getLevel() {
+        return this.options.level;
+      }
+    }, {
+      key: "displayConsole",
+      value: function displayConsole(value) {
+        this.options.console = value;
+
+        var _iterator2 = _createForOfIteratorHelper(this.groups),
+            _step2;
+
+        try {
+          for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+            var group = _step2.value;
+            group.displayConsole(this.options.console);
+          }
+        } catch (err) {
+          _iterator2.e(err);
+        } finally {
+          _iterator2.f();
+        }
+
+        return this.options.console;
+      }
+    }, {
+      key: "addGroup",
+      value: function addGroup(name) {
+        return this.getGroup(name) || this.createGroup(name);
+      }
+    }, {
+      key: "sendLogs",
+      value: function sendLogs(url, headers) {
+        var _this = this;
+
+        var logs = [];
+
+        if (headers) {
+          HTTP.setHeaders("POST", headers);
+        }
+
+        var _iterator3 = _createForOfIteratorHelper(this.groups),
+            _step3;
+
+        try {
+          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+            var group = _step3.value;
+            logs.push.apply(logs, _toConsumableArray(group.logs));
+          }
+        } catch (err) {
+          _iterator3.e(err);
+        } finally {
+          _iterator3.f();
+        }
+
+        return HTTP.post(url, "json", logs).then(function (response) {
+          var _iterator4 = _createForOfIteratorHelper(_this.groups),
+              _step4;
+
+          try {
+            for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+              var group = _step4.value;
+              group.initLogs();
+            }
+          } catch (err) {
+            _iterator4.e(err);
+          } finally {
+            _iterator4.f();
+          }
+
+          return response;
+        })["catch"](function (err) {
+          console.log("error", err);
+          return err;
+        });
+      }
+    }, {
+      key: "getGroup",
+      value: function getGroup(name) {
+        var _iterator5 = _createForOfIteratorHelper(this.groups),
+            _step5;
+
+        try {
+          for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+            var group = _step5.value;
+
+            if (group.name === name) {
+              return group;
+            }
+          }
+        } catch (err) {
+          _iterator5.e(err);
+        } finally {
+          _iterator5.f();
+        }
+
+        return null;
+      }
+    }, {
+      key: "createGroup",
+      value: function createGroup(name) {
+        var group = new Group$1(name, this.options);
+        this.groups.push(group);
+        return group;
+      }
+    }]);
+
+    return Logger;
+  }();
+
+  Logger$1.groups = [];
+  Logger$1.options = new Options();
+
+  var AudioContext$1 = window.AudioContext || window.webkitAudioContext || false;
+  var Request$1 = /*#__PURE__*/function () {
+    function Request(method, url, responseType, headers, eventType, data) {
+      _classCallCheck(this, Request);
+
+      this.eventType = "promise";
+      this.log = Logger$1.addGroup("Aias");
+      this.method = method;
+      this.url = url;
+      this.responseType = responseType;
+      this.async = true;
+      this.noCache = false;
+      this.headers = headers;
+      this.eventType = eventType || this.eventType;
+      this.data = data || null;
+    }
+
+    _createClass(Request, [{
+      key: "call",
+      value: function call() {
+        switch (this.eventType) {
+          case "observable":
+            return this.useObservable(this.url, this.responseType, this.data);
+
+          default:
+            return this.usePromise(this.url, this.responseType, this.data);
+        }
+      }
+    }, {
+      key: "usePromise",
+      value: function usePromise(url, responseType, data) {
+        var _this = this;
+
+        return new Promise$1(function (resolve, reject) {
+          var http = new XMLHttpRequest();
+          url += _this.noCache ? "?cache=" + new Date().getTime() : "";
+          http.open(_this.method, url, _this.async);
+          http.responseType = responseType === "audiobuffer" ? "arraybuffer" : responseType;
+
+          _this.setRequestHeaders(http);
+
+          switch (responseType) {
+            case "json":
+            case "arraybuffer":
+            case "audiobuffer":
+            case "blob":
+              http.onload = function () {
+                if (http.readyState == 4) {
+                  if (http.status == 200) {
+                    var response = http.response;
+
+                    if (response) {
+                      _this.log.time("xhr " + url);
+
+                      _this.logInfo(url, http.status, http.statusText);
+
+                      if (responseType === "audiobuffer") {
+                        if (AudioContext$1) {
+                          var audioContext = new AudioContext$1();
+                          audioContext.decodeAudioData(response, function (buffer) {
+                            audioContext.close();
+                            resolve(buffer);
+                          }, function (error) {
+                            _this.log.error("xhr (" + _this.method + ":" + url + ") failed with decodeAudioData error : " + error.message);
+
+                            audioContext.close();
+                            reject({
+                              status: error.name,
+                              statusText: error.message
+                            });
+                          });
+                        } else {
+                          _this.log.error("xhr (" + _this.method + ":" + url + ") failed with error : " + "Web Audio API is not supported by your browser.");
+
+                          reject({
+                            status: "Web Audio API not supported by your browser",
+                            statusText: "Web Audio API is not supported by your browser"
+                          });
+                        }
+                      } else {
+                        resolve(response);
+                      }
+                    } else {
+                      _this.logError(url, http.status, http.statusText);
+
+                      reject({
+                        status: http.status,
+                        statusText: http.statusText
+                      });
+                    }
+                  } else {
+                    _this.logError(url, http.status, http.statusText);
+
+                    reject({
+                      status: http.status,
+                      statusText: http.statusText
+                    });
+                  }
+                }
+              };
+
+              break;
+
+            default:
+              http.onreadystatechange = function () {
+                if (http.readyState == 4) {
+                  if (http.status == 200) {
+                    _this.log.time("xhr " + url);
+
+                    _this.logInfo(url, http.status, http.statusText);
+
+                    resolve(http.responseText);
+                  } else {
+                    _this.logError(url, http.status, http.statusText);
+
+                    reject({
+                      status: http.status,
+                      statusText: http.statusText
+                    });
+                  }
+                }
+              };
+
+          }
+
+          if (isObject(data)) {
+            data = JSON.stringify(data);
+          }
+
+          _this.log.time("xhr " + url);
+
+          http.send(data || null);
+
+          _this.log.info("xhr (" + _this.method + ":" + url + ")" + "sent");
+        });
+      }
+    }, {
+      key: "useObservable",
+      value: function useObservable(url, responseType, data) {
+        var _this2 = this;
+
+        return new Observable(function (observer) {
+          var http = new XMLHttpRequest();
+          url += _this2.noCache ? "?cache=" + new Date().getTime() : "";
+          http.open(_this2.method, url, _this2.async);
+          http.responseType = responseType === "audiobuffer" ? "arraybuffer" : responseType;
+
+          _this2.setRequestHeaders(http);
+
+          switch (responseType) {
+            case "json":
+            case "arraybuffer":
+            case "audiobuffer":
+            case "blob":
+              http.onload = function () {
+                if (http.readyState == 4) {
+                  if (http.status == 200) {
+                    var response = http.response;
+
+                    if (response) {
+                      _this2.log.time("xhr " + url);
+
+                      _this2.logInfo(url, http.status, http.statusText);
+
+                      if (responseType === "audiobuffer") {
+                        if (AudioContext$1) {
+                          var audioContext = new AudioContext$1();
+                          audioContext.decodeAudioData(response, function (buffer) {
+                            audioContext.close();
+                            observer.next(buffer);
+                            observer.complete();
+                          }, function (error) {
+                            _this2.log.error("xhr (" + _this2.method + ":" + url + ") failed with decodeAudioData error : " + error.message);
+
+                            audioContext.close();
+                            observer.error({
+                              status: error.name,
+                              statusText: error.message
+                            });
+                            observer.complete();
+                          });
+                        } else {
+                          _this2.log.error("xhr (" + _this2.method + ":" + url + ") failed with error : " + "Web Audio API is not supported by your browser.");
+
+                          observer.error({
+                            status: "Web Audio API not supported by your browser",
+                            statusText: "Web Audio API is not supported by your browser"
+                          });
+                          observer.complete();
+                        }
+                      } else {
+                        observer.next(response);
+                        observer.complete();
+                      }
+                    } else {
+                      _this2.logError(url, http.status, http.statusText);
+
+                      observer.error({
+                        status: http.status,
+                        statusText: http.statusText
+                      });
+                      observer.complete();
+                    }
+                  } else {
+                    _this2.logError(url, http.status, http.statusText);
+
+                    observer.error({
+                      status: http.status,
+                      statusText: http.statusText
+                    });
+                    observer.complete();
+                  }
+                }
+              };
+
+              break;
+
+            default:
+              http.onreadystatechange = function () {
+                if (http.readyState == 4) {
+                  if (http.status == 200) {
+                    _this2.log.time("xhr " + url);
+
+                    _this2.logInfo(url, http.status, http.statusText);
+
+                    observer.next(http.responseText);
+                    observer.complete();
+                  } else {
+                    _this2.logError(url, http.status, http.statusText);
+
+                    observer.error({
+                      status: http.status,
+                      statusText: http.statusText
+                    });
+                    observer.complete();
+                  }
+                }
+              };
+
+          }
+
+          if (isObject(data)) {
+            data = JSON.stringify(data);
+          }
+
+          http.send(data || null);
+
+          _this2.log.time("xhr " + url);
+
+          _this2.log.info("xhr (" + _this2.method + ":" + url + ")" + "sent");
+        });
+      }
+    }, {
+      key: "setRequestHeaders",
+      value: function setRequestHeaders(http) {
+        for (var property in this.headers) {
+          if (this.headers.hasOwnProperty(property)) {
+            http.setRequestHeader(property, this.headers[property]);
+          }
+        }
+
+        console.log('headers', this.headers);
+      }
+    }, {
+      key: "logInfo",
+      value: function logInfo(url, status, statusText) {
+        this.log.info("xhr (" + this.method + ":" + url + ") done with status " + status + " " + statusText);
+      }
+    }, {
+      key: "logError",
+      value: function logError(url, status, statusText) {
+        this.log.error("xhr (" + this.method + ":" + url + ") failed with status " + status + " " + statusText);
+      }
+    }]);
+
+    return Request;
+  }();
+
+  var METHODS$1 = {
+    GET: {
+      type: "GET",
+      defaultHeaders: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      headers: {},
+      data: false
+    },
+    HEAD: {
+      type: "HEAD",
+      defaultHeaders: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      headers: {},
+      data: false
+    },
+    POST: {
+      type: "POST",
+      defaultHeaders: {
+        "Content-Type": "application/json"
+      },
+      headers: {},
+      data: true
+    },
+    PUT: {
+      type: "PUT",
+      defaultHeaders: {
+        "Content-Type": "application/json"
+      },
+      headers: {},
+      data: true
+    },
+    DELETE: {
+      type: "DELETE",
+      defaultHeaders: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      headers: {},
+      data: false
+    },
+    CONNECT: {
+      type: "CONNECT",
+      defaultHeaders: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      headers: {},
+      data: false
+    },
+    OPTIONS: {
+      type: "OPTIONS",
+      defaultHeaders: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      headers: {},
+      data: false
+    },
+    TRACE: {
+      type: "TRACE",
+      defaultHeaders: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      headers: {},
+      data: false
+    },
+    PATCH: {
+      type: "PATCH",
+      defaultHeaders: {
+        "Content-Type": "application/json"
+      },
+      headers: {},
+      data: false
+    }
+  };
+
+  var HTTP$1 = /*#__PURE__*/function () {
+    function HTTP() {
+      _classCallCheck(this, HTTP);
+    }
+
+    _createClass(HTTP, null, [{
+      key: "setEventType",
+      value: function setEventType(eventType) {
+        this.eventType = this.isOfTypeEventType(eventType) ? eventType : "promise";
+      }
+    }, {
+      key: "setLogLevel",
+      value: function setLogLevel(name) {
+        return this.log.setLevel(name);
+      }
+    }, {
+      key: "getLogLevel",
+      value: function getLogLevel() {
+        return this.log.getLevel();
+      }
+    }, {
+      key: "setHeaders",
+      value: function setHeaders(method, headers) {
+        if (METHODS$1.hasOwnProperty(method)) {
+          for (var property in headers) {
+            if (headers.hasOwnProperty(property)) {
+              METHODS$1[method].headers[property] = headers[property];
+            }
+          }
+        }
+      }
+    }, {
+      key: "setMockup",
+      value: function setMockup(mockup) {
+        var _a, _b;
+
+        this.mockup.data = (_a = mockup.data, _a !== null && _a !== void 0 ? _a : this.mockup.data);
+        this.mockup.delay = (_b = mockup.delay, _b !== null && _b !== void 0 ? _b : this.mockup.delay);
+        return this.mockup;
+      }
+    }, {
+      key: "getMockupData",
+      value: function getMockupData() {
+        var _this = this;
+
+        switch (this.eventType) {
+          case "observable":
+            return new Observable(function (observer) {
+              setTimeout(function () {
+                if (_this.mockup.data) {
+                  observer.next(_this.mockup.data);
+                  observer.complete();
+                } else {
+                  observer.error(null);
+                }
+              }, _this.mockup.delay);
+            });
+
+          default:
+            return this.promiseTimeout().then(function () {
+              return new Promise$1(function (resolve, reject) {
+                _this.mockup.data ? resolve(_this.mockup.data) : reject(null);
+              });
+            });
+        }
+      }
+    }, {
+      key: "get",
+      value: function get(url, responseType) {
+        return this.request(METHODS$1.GET.type, url, responseType, METHODS$1.GET.headers || METHODS$1.GET.defaultHeaders, null);
+      }
+    }, {
+      key: "head",
+      value: function head(url, responseType) {
+        return this.request(METHODS$1.HEAD.type, url, responseType, METHODS$1.HEAD.headers || METHODS$1.HEAD.defaultHeaders, null);
+      }
+    }, {
+      key: "post",
+      value: function post(url, responseType, data) {
+        return this.request(METHODS$1.POST.type, url, responseType, METHODS$1.POST.headers || METHODS$1.POST.defaultHeaders, data);
+      }
+    }, {
+      key: "put",
+      value: function put(url, responseType, data) {
+        return this.request(METHODS$1.PUT.type, url, responseType, METHODS$1.PUT.headers || METHODS$1.PUT.defaultHeaders, data);
+      }
+    }, {
+      key: "delete",
+      value: function _delete(url, responseType) {
+        return this.request(METHODS$1.DELETE.type, url, responseType, METHODS$1.DELETE.headers || METHODS$1.DELETE.defaultHeaders, null);
+      }
+    }, {
+      key: "connect",
+      value: function connect(url, responseType) {
+        return this.request(METHODS$1.CONNECT.type, url, responseType, METHODS$1.CONNECT.headers || METHODS$1.CONNECT.defaultHeaders, null);
+      }
+    }, {
+      key: "options",
+      value: function options(url, responseType) {
+        return this.request(METHODS$1.OPTIONS.type, url, responseType, METHODS$1.OPTIONS.headers || METHODS$1.OPTIONS.defaultHeaders, null);
+      }
+    }, {
+      key: "trace",
+      value: function trace(url, responseType) {
+        return this.request(METHODS$1.TRACE.type, url, responseType, METHODS$1.TRACE.headers || METHODS$1.TRACE.defaultHeaders, null);
+      }
+    }, {
+      key: "patch",
+      value: function patch(url, responseType, data) {
+        return this.request(METHODS$1.PATCH.type, url, responseType, METHODS$1.PATCH.headers || METHODS$1.PATCH.defaultHeaders, data);
+      }
+    }, {
+      key: "request",
+      value: function request(type, url, responseType, headers, data) {
+        if (this.mockup.data) {
+          return this.getMockupData();
+        } else {
+          var request = new Request$1(type, url, responseType, headers, this.eventType, data || null);
+          return request.call();
+        }
+      }
+    }, {
+      key: "promiseTimeout",
+      value: function promiseTimeout() {
         var _this2 = this;
 
         return new Promise$1(function (resolve) {
@@ -1879,14 +2799,14 @@ var Aias = (function (exports) {
 
     return HTTP;
   }();
-  HTTP.log = Logger.addGroup("Aias");
-  HTTP.eventType = "promise";
-  HTTP.mockup = {
+  HTTP$1.log = Logger$1.addGroup("Aias");
+  HTTP$1.eventType = "promise";
+  HTTP$1.mockup = {
     data: null,
     delay: 200
   };
 
-  exports.HTTP = HTTP;
+  exports.HTTP = HTTP$1;
 
   return exports;
 

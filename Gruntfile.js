@@ -139,7 +139,7 @@ module.exports = function(grunt) {
           sourceMapName: srcDir + "sourcemap.map",
           banner: banner,
           mangle: {
-            reserved: [projectName]
+            reserved: [projectName, "Mouette"]
           },
           compress: {
             sequences: true,
@@ -185,7 +185,7 @@ module.exports = function(grunt) {
         ]
       },
       declaration: {
-        src: distDir + projectName + ".d.ts"
+        src: distDir + projectNameLC + ".d.ts"
       }
     }
     // watch: {

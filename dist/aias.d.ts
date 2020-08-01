@@ -28,7 +28,6 @@ import { LevelName } from "@lcluber/mouettejs";
 
 import { Observable } from "rxjs";
 
-
 export declare class HTTP {
     private static log;
     private static eventType;
@@ -52,7 +51,29 @@ export declare class HTTP {
     private static promiseTimeout;
     private static isOfTypeEventType;
 }
-export declare class HTTPHeaders {
+
+export interface Mockup {
+    data: ResponseDataType;
+    delay: number;
+}
+export interface Method {
+    type: HTTPRequestMethod;
+    defaultHeaders: HTTPHeaders;
+    headers: HTTPHeaders;
+    data: boolean;
+}
+export interface Methods {
+    GET: Method;
+    HEAD: Method;
+    POST: Method;
+    PUT: Method;
+    DELETE: Method;
+    CONNECT: Method;
+    OPTIONS: Method;
+    TRACE: Method;
+    PATCH: Method;
+}
+export interface HTTPHeaders {
     "A-IM"?: string;
     Accept?: string;
     "Accept-Charset"?: string;
@@ -93,30 +114,10 @@ export declare class HTTPHeaders {
     [key: string]: string | number | undefined;
 }
 
-
-export interface Mockup {
-    data: ResponseDataType;
-    delay: number;
-}
-export interface Method {
-    type: HTTPRequestMethod;
-    defaultHeaders: HTTPHeaders;
-    headers: HTTPHeaders;
-    data: boolean;
-}
-export interface Methods {
-    GET: Method;
-    HEAD: Method;
-    POST: Method;
-    PUT: Method;
-    DELETE: Method;
-    CONNECT: Method;
-    OPTIONS: Method;
-    TRACE: Method;
-    PATCH: Method;
-}
-
 export declare const METHODS: Methods;
+
+
+import { Observable } from "rxjs";
 
 export declare class Request {
     private method;
