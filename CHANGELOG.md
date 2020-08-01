@@ -1,3 +1,7 @@
+## Version 2.7.3 (August 01st 2020)
+
+- Fix declaration file for Typescript
+
 ## Version 2.7.2 (August 01st 2020)
 
 - Fix issue with setHeaders method not setting headers properly
