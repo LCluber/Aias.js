@@ -1,3 +1,7 @@
+## Version 2.7.2 (August 01st 2020)
+
+- Fix issue with setHeaders method not setting headers properly
+
 ## Version 2.7.1 (June 15th 2020)
 
 - Fix issue with setHeaders method in declarations file

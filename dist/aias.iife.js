@@ -2567,8 +2567,6 @@ var Aias = (function (exports) {
             http.setRequestHeader(property, this.headers[property]);
           }
         }
-
-        console.log('headers', this.headers);
       }
     }, {
       key: "logInfo",

@@ -269,7 +269,6 @@ class Request {
                 http.setRequestHeader(property, this.headers[property]);
             }
         }
-        console.log('headers', this.headers);
     }
     logInfo(url, status, statusText) {
         this.log.info("xhr (" +

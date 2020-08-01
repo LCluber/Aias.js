@@ -299,7 +299,6 @@ export class Request {
         http.setRequestHeader(property, <string>this.headers[property]);
       }
     }
-    console.log("headers", this.headers);
   }
 
   private logInfo(url: string, status: number, statusText: string): void {
