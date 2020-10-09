@@ -2589,7 +2589,9 @@ var Aias = (function (exports) {
       defaultHeaders: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      headers: {},
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
       data: false
     },
     HEAD: {
@@ -2597,7 +2599,9 @@ var Aias = (function (exports) {
       defaultHeaders: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      headers: {},
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
       data: false
     },
     POST: {
@@ -2605,7 +2609,9 @@ var Aias = (function (exports) {
       defaultHeaders: {
         "Content-Type": "application/json"
       },
-      headers: {},
+      headers: {
+        "Content-Type": "application/json"
+      },
       data: true
     },
     PUT: {
@@ -2613,7 +2619,9 @@ var Aias = (function (exports) {
       defaultHeaders: {
         "Content-Type": "application/json"
       },
-      headers: {},
+      headers: {
+        "Content-Type": "application/json"
+      },
       data: true
     },
     DELETE: {
@@ -2621,7 +2629,9 @@ var Aias = (function (exports) {
       defaultHeaders: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      headers: {},
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
       data: false
     },
     CONNECT: {
@@ -2629,7 +2639,9 @@ var Aias = (function (exports) {
       defaultHeaders: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      headers: {},
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
       data: false
     },
     OPTIONS: {
@@ -2637,7 +2649,9 @@ var Aias = (function (exports) {
       defaultHeaders: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      headers: {},
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
       data: false
     },
     TRACE: {
@@ -2645,7 +2659,9 @@ var Aias = (function (exports) {
       defaultHeaders: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      headers: {},
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
       data: false
     },
     PATCH: {
@@ -2653,7 +2669,9 @@ var Aias = (function (exports) {
       defaultHeaders: {
         "Content-Type": "application/json"
       },
-      headers: {},
+      headers: {
+        "Content-Type": "application/json"
+      },
       data: false
     }
   };

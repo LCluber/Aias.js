@@ -6,7 +6,9 @@ export const METHODS: Methods = {
     defaultHeaders: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
-    headers: {},
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
     data: false
   },
   HEAD: {
@@ -14,7 +16,9 @@ export const METHODS: Methods = {
     defaultHeaders: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
-    headers: {},
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
     data: false
   },
   POST: {
@@ -22,7 +26,9 @@ export const METHODS: Methods = {
     defaultHeaders: {
       "Content-Type": "application/json"
     },
-    headers: {},
+    headers: {
+      "Content-Type": "application/json"
+    },
     data: true
   },
   PUT: {
@@ -30,7 +36,9 @@ export const METHODS: Methods = {
     defaultHeaders: {
       "Content-Type": "application/json"
     },
-    headers: {},
+    headers: {
+      "Content-Type": "application/json"
+    },
     data: true
   },
   DELETE: {
@@ -38,7 +46,9 @@ export const METHODS: Methods = {
     defaultHeaders: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
-    headers: {},
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
     data: false
   },
   CONNECT: {
@@ -46,7 +56,9 @@ export const METHODS: Methods = {
     defaultHeaders: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
-    headers: {},
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
     data: false
   },
   OPTIONS: {
@@ -54,7 +66,9 @@ export const METHODS: Methods = {
     defaultHeaders: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
-    headers: {},
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
     data: false
   },
   TRACE: {
@@ -62,7 +76,9 @@ export const METHODS: Methods = {
     defaultHeaders: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
-    headers: {},
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
     data: false
   },
   PATCH: {
@@ -70,7 +86,9 @@ export const METHODS: Methods = {
     defaultHeaders: {
       "Content-Type": "application/json"
     },
-    headers: {},
+    headers: {
+      "Content-Type": "application/json"
+    },
     data: false
   }
 };

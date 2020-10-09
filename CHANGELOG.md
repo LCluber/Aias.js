@@ -1,3 +1,7 @@
+## Version 2.7.4 (October 09st 2020)
+
+- Fix default headers setup
+
 ## Version 2.7.3 (August 01st 2020)
 
 - Fix declaration file for Typescript

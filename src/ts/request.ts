@@ -164,6 +164,7 @@ export class Request {
       if (isObject(data)) {
         data = JSON.stringify(data);
       }
+
       this.log.time("xhr " + url);
       http.send(<SendDataType>data || null);
       this.log.info("xhr (" + this.method + ":" + url + ")" + "sent");

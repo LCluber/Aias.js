@@ -298,7 +298,9 @@ const METHODS = {
         defaultHeaders: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
-        headers: {},
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
         data: false
     },
     HEAD: {
@@ -306,7 +308,9 @@ const METHODS = {
         defaultHeaders: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
-        headers: {},
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
         data: false
     },
     POST: {
@@ -314,7 +318,9 @@ const METHODS = {
         defaultHeaders: {
             "Content-Type": "application/json"
         },
-        headers: {},
+        headers: {
+            "Content-Type": "application/json"
+        },
         data: true
     },
     PUT: {
@@ -322,7 +328,9 @@ const METHODS = {
         defaultHeaders: {
             "Content-Type": "application/json"
         },
-        headers: {},
+        headers: {
+            "Content-Type": "application/json"
+        },
         data: true
     },
     DELETE: {
@@ -330,7 +338,9 @@ const METHODS = {
         defaultHeaders: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
-        headers: {},
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
         data: false
     },
     CONNECT: {
@@ -338,7 +348,9 @@ const METHODS = {
         defaultHeaders: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
-        headers: {},
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
         data: false
     },
     OPTIONS: {
@@ -346,7 +358,9 @@ const METHODS = {
         defaultHeaders: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
-        headers: {},
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
         data: false
     },
     TRACE: {
@@ -354,7 +368,9 @@ const METHODS = {
         defaultHeaders: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
-        headers: {},
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
         data: false
     },
     PATCH: {
@@ -362,7 +378,9 @@ const METHODS = {
         defaultHeaders: {
             "Content-Type": "application/json"
         },
-        headers: {},
+        headers: {
+            "Content-Type": "application/json"
+        },
         data: false
     }
 };

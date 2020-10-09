@@ -24,6 +24,8 @@
 */
 
 import { LevelName } from "@lcluber/mouettejs";
+
+
 import { Observable } from "rxjs";
 
 export declare class HTTP {
@@ -113,6 +115,7 @@ export interface HTTPHeaders {
 }
 
 export declare const METHODS: Methods;
+
 
 export declare class Request {
     private method;
