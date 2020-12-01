@@ -1,7 +1,7 @@
 import { HTTP } from "../dist/aias";
 
-const mockup = true;
-HTTP.setMockup({ data: mockup });
+// const mockup = true;
+// HTTP.setMockup({ data: mockup });
 
 const scientist = {
   firstname: "Galileo",
@@ -11,47 +11,43 @@ const scientist = {
 };
 
 test("get returns true", async () => {
-  await expect(HTTP.get("http://httpbin.org/get", "text")).resolves.toBe(true);
+  await expect(HTTP.promise.get("http://httpbin.org/get", "text")).resolves.toContain("headers");
 });
 
 test("post returns true", async () => {
   await expect(
-    HTTP.post("http://httpbin.org/post", "text", scientist)
-  ).resolves.toBe(true);
+    HTTP.promise.post("http://httpbin.org/post", "text", scientist)
+  ).resolves.toContain("headers");
 });
 
 test("put returns true", async () => {
   await expect(
-    HTTP.put("http://httpbin.org/put", "text", scientist)
-  ).resolves.toBe(true);
+    HTTP.promise.put("http://httpbin.org/put", "text", scientist)
+  ).resolves.toContain("headers");
 });
 
 test("delete returns true", async () => {
-  await expect(HTTP.delete("http://httpbin.org/delete", "text")).resolves.toBe(
-    true
-  );
+  await expect(HTTP.promise.delete("http://httpbin.org/delete", "text")).resolves.toContain("headers");
 });
 
-test("connect returns true", async () => {
-  await expect(
-    HTTP.connect("http://httpbin.org/connect", "text")
-  ).resolves.toBe(true);
-});
+// test("connect returns true", async () => {
+//   await expect(
+//     HTTP.promise.connect("http://httpbin.org/connect", "text")
+//   ).resolves.toContain("headers");
+// });
 
-test("options returns true", async () => {
-  await expect(
-    HTTP.options("http://httpbin.org/options", "text")
-  ).resolves.toBe(true);
-});
+// test("options returns true", async () => {
+//   await expect(
+//     HTTP.promise.options("http://httpbin.org/options", "text")
+//   ).resolves.toContain("status");
+// });
 
-test("trace returns true", async () => {
-  await expect(HTTP.trace("http://httpbin.org/trace", "text")).resolves.toBe(
-    true
-  );
-});
+// test("trace returns true", async () => {
+//   await expect(HTTP.promise.trace("http://httpbin.org/trace", "text")).resolves.toContain("headers");
+// });
 
 test("patch returns true", async () => {
   await expect(
-    HTTP.patch("http://httpbin.org/patch", "text", scientist)
-  ).resolves.toBe(true);
+    HTTP.promise.patch("http://httpbin.org/patch", "text", scientist)
+  ).resolves.toContain("headers");
 });

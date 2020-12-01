@@ -7,12 +7,7 @@ You just cloned Aias.js : git clone https://github.com/LCluber/Aias.js.git
   - Linux : run
     - **curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -**
     - **sudo apt-get install -y nodejs**
-
-
-### Install grunt :
-  - Run **npm update -g npm** to update npm
-  - Run **npm install -g grunt-cli**
-
+    
 
 ### Install typescript :
   - Run **npm install -g typescript**
@@ -23,10 +18,6 @@ You just cloned Aias.js : git clone https://github.com/LCluber/Aias.js.git
 
 
 ### Workflow
-  - Run **grunt** to serve the website. (http://localhost:3000/)
-  - Run **grunt build** to build the library and serve the website.
-  - Use **grunt --help** to see the list of tasks.
+  - Run **npm run build** to build the library.
+  - Use **npm run test** to launch tests.
 
-  - Set node environment if needed :
-    - Run **export NODE_ENV=development**
-    - Or **export NODE_ENV=production**

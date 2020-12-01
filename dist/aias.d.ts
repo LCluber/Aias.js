@@ -23,39 +23,35 @@
 * https://github.com/LCluber/Aias.js
 */
 
-import { LevelName } from "@lcluber/mouettejs";
-
 
 import { Observable } from "rxjs";
 
 export declare class HTTP {
-    private static log;
-    private static eventType;
-    private static mockup;
-    static setEventType(eventType: EventType): void;
-    static setLogLevel(name: LevelName): LevelName;
-    static getLogLevel(): LevelName;
     static setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders): void;
-    static setMockup(mockup: Partial<Mockup>): Mockup;
-    private static getMockupData;
-    static get(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static head(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static post(url: string, responseType: ResponseType, data?: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static put(url: string, responseType: ResponseType, data?: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static delete(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static connect(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static options(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static trace(url: string, responseType: ResponseType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    static patch(url: string, responseType: ResponseType, data?: DataType): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    private static request;
-    private static promiseTimeout;
-    private static isOfTypeEventType;
+    static observable: {
+        get: (url: string, responseType: ResponseType) => Observable<ResponseDataType>;
+        head: (url: string, responseType: ResponseType) => Observable<ResponseDataType>;
+        post: (url: string, responseType: ResponseType, data?: DataType) => Observable<ResponseDataType>;
+        put: (url: string, responseType: ResponseType, data?: DataType) => Observable<ResponseDataType>;
+        delete: (url: string, responseType: ResponseType) => Observable<ResponseDataType>;
+        connect: (url: string, responseType: ResponseType) => Observable<ResponseDataType>;
+        options: (url: string, responseType: ResponseType) => Observable<ResponseDataType>;
+        trace: (url: string, responseType: ResponseType) => Observable<ResponseDataType>;
+        patch: (url: string, responseType: ResponseType, data?: DataType) => Observable<ResponseDataType>;
+    };
+    static promise: {
+        get: (url: string, responseType: ResponseType) => Promise<ResponseDataType>;
+        head: (url: string, responseType: ResponseType) => Promise<ResponseDataType>;
+        post: (url: string, responseType: ResponseType, data?: DataType) => Promise<ResponseDataType>;
+        put: (url: string, responseType: ResponseType, data?: DataType) => Promise<ResponseDataType>;
+        delete: (url: string, responseType: ResponseType) => Promise<ResponseDataType>;
+        connect: (url: string, responseType: ResponseType) => Promise<ResponseDataType>;
+        options: (url: string, responseType: ResponseType) => Promise<ResponseDataType>;
+        trace: (url: string, responseType: ResponseType) => Promise<ResponseDataType>;
+        patch: (url: string, responseType: ResponseType, data?: DataType) => Promise<ResponseDataType>;
+    };
 }
 
-export interface Mockup {
-    data: ResponseDataType;
-    delay: number;
-}
 export interface Method {
     type: HTTPRequestMethod;
     defaultHeaders: HTTPHeaders;
@@ -116,28 +112,34 @@ export interface HTTPHeaders {
 
 export declare const METHODS: Methods;
 
-
-export declare class Request {
+export declare class observable {
     private method;
     private url;
     private responseType;
     private async;
     private noCache;
     private headers;
-    private eventType;
     private data;
-    private log;
-    constructor(method: HTTPRequestMethod, url: string, responseType: ResponseType, headers: HTTPHeaders, eventType: EventType, data: DataType);
-    call(): Promise<ResponseDataType> | Observable<ResponseDataType>;
-    private usePromise;
-    private useObservable;
+    constructor(method: HTTPRequestMethod, url: string, responseType: ResponseType, data: DataType);
+    call(): Observable<ResponseDataType>;
     private setRequestHeaders;
-    private logInfo;
-    private logError;
+}
+
+
+export declare class promise {
+    private method;
+    private url;
+    private responseType;
+    private async;
+    private noCache;
+    private headers;
+    private data;
+    constructor(method: HTTPRequestMethod, url: string, responseType: ResponseType, data: DataType);
+    call(): Promise<ResponseDataType>;
+    private setRequestHeaders;
 }
 export declare type HTTPRequestMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
-export declare type EventType = "promise" | "observable";
 export declare type SendDataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | URLSearchParams | ReadableStream | null;
-export declare type DataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | URLSearchParams | ReadableStream | Object | null;
+export declare type DataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | URLSearchParams | ReadableStream | Object | null | undefined;
 export declare type ResponseDataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | AudioBuffer | URLSearchParams | ReadableStream | Object | null;
 export declare type ResponseType = "arraybuffer" | "audiobuffer" | "blob" | "document" | "json" | "text" | "";

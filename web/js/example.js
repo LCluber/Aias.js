@@ -1,4 +1,4 @@
-Mouette.Logger.setLevel("info");
+// Mouette.Logger.setLevel("info");
 var data = {
   firstname: "Galileo",
   lastname: "Galilei",
@@ -6,11 +6,10 @@ var data = {
   died: 1642
 };
 
-// Aias.HTTP.setMockup({ data: data, delay: 3000 });
 Aias.HTTP.setHeaders("GET", {
   "Content-Type": "application/x-www-form-urlencoded"
 });
-var request = Aias.HTTP.get("http://httpbin.org/get", "json")
+var request = Aias.HTTP.promise.get("http://httpbin.org/get", "json")
   .then(function(response) {
     console.log("get", response);
     //console.log("get2", response.firstname);
@@ -19,7 +18,7 @@ var request = Aias.HTTP.get("http://httpbin.org/get", "json")
     console.log("error", err.message);
   });
 
-var request = Aias.HTTP.post("http://httpbin.org/post", "json", data)
+var request = Aias.HTTP.promise.post("http://httpbin.org/post", "json", data)
   .then(function(response) {
     console.log("post", response);
   })
@@ -27,9 +26,7 @@ var request = Aias.HTTP.post("http://httpbin.org/post", "json", data)
     console.log("error", err.message);
   });
 
-Aias.HTTP.setEventType("observable");
-
-var request = Aias.HTTP.get("http://httpbin.org/get", "json").subscribe(
+var request = Aias.HTTP.observable.get("http://httpbin.org/get", "json").subscribe(
   function(response) {
     console.log("observable", response);
   },
@@ -37,3 +34,31 @@ var request = Aias.HTTP.get("http://httpbin.org/get", "json").subscribe(
     console.log("HTTP Error", err);
   }
 );
+
+
+// var request = Aias.HTTP.promise.connect("http://httpbin.org/get", "json")
+//   .then(function(response) {
+//     console.log("connect", response);
+//     //console.log("get2", response.firstname);
+//   })
+//   .catch(function(err) {
+//     console.log("error", err.message);
+//   });
+
+//   var request = Aias.HTTP.promise.options("http://httpbin.org/get", "json")
+//   .then(function(response) {
+//     console.log("options", response);
+//     //console.log("get2", response.firstname);
+//   })
+//   .catch(function(err) {
+//     console.log("error", err.message);
+//   });
+
+//   var request = Aias.HTTP.promise.trace("http://httpbin.org/get", "json")
+//   .then(function(response) {
+//     console.log("trace", response);
+//     //console.log("get2", response.firstname);
+//   })
+//   .catch(function(err) {
+//     console.log("error", err.message);
+//   });

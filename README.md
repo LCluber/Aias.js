@@ -40,8 +40,8 @@ HTTP.setHeaders("GET", { "Content-Type": "application/x-www-form-urlencoded" });
 
 // Using promises
 
-// POST request
-HTTP.post("http://url.com/api/scientists", "json", scientist)
+// POST request using promise
+HTTP.promise.post("http://url.com/api/scientists", "json", scientist)
   .then(response => {
     console.log(response);
   })
@@ -49,8 +49,8 @@ HTTP.post("http://url.com/api/scientists", "json", scientist)
     console.log("error", err);
   });
 
-// GET request
-HTTP.get("http://url.com/api/scientists/2", "json")
+// GET request using promise
+HTTP.promise.get("http://url.com/api/scientists/2", "json")
   .then(response => {
     console.log(response);
   })
@@ -58,12 +58,8 @@ HTTP.get("http://url.com/api/scientists/2", "json")
     console.log("error", err);
   });
 
-// Using observables
-
-// GET request
-HTTP.setEventType("observable");
-
-HTTP.get("http://url.com/api/scientists/2", "json").subscribe(
+// GET request using observable
+HTTP.observable.get("http://url.com/api/scientists/2", "json").subscribe(
   response => {
     console.log(response);
   },
@@ -92,8 +88,8 @@ Aias.HTTP.setHeaders("GET", {
 
 // Using promises
 
-// POST request
-Aias.HTTP.post("http://url.com/api/scientists", "json", scientist)
+// POST request using promise
+Aias.HTTP.promise.post("http://url.com/api/scientists", "json", scientist)
   .then(function(response) {
     console.log(response);
   })
@@ -101,8 +97,8 @@ Aias.HTTP.post("http://url.com/api/scientists", "json", scientist)
     console.log("error", err);
   });
 
-// GET request
-Aias.HTTP.get("http://url.com/api/scientists/2", "json")
+// GET request using promise
+Aias.HTTP.promise.get("http://url.com/api/scientists/2", "json")
   .then(response => {
     console.log(response);
   })
@@ -110,53 +106,10 @@ Aias.HTTP.get("http://url.com/api/scientists/2", "json")
     console.log("error", err);
   });
 
-// Using observables
-
-// GET request
-Aias.HTTP.setEventType("observable");
-
-Aias.HTTP.get("http://url.com/api/scientists/2", "json").subscribe(
+// GET request using observables
+Aias.HTTP.observable.get("http://url.com/api/scientists/2", "json").subscribe(
   response => {
     console.log(response);
-  },
-  err => console.log("error", err)
-);
-```
-
-### Mockup
-
-You can simulate HTTP requests without actually sending them to a server in order to test your application by using setMockup() method.
-
-```javascript
-import { HTTP } from "@lcluber/aiasjs";
-
-const scientist = {
-  firstname: "Galileo",
-  lastname: "Galilei",
-  born: 1564,
-  died: 1642
-};
-
-HTTP.setMockup({ data: scientist, delay: 200 });
-HTTP.setHeaders("GET", { "Content-Type": "application/x-www-form-urlencoded" }); // this is the default setting for GET requests
-
-// Using promises
-
-HTTP.get("http://url.com/api/scientists/2", "json")
-  .then(response => {
-    console.log(response); //scientist
-  })
-  .catch(err => {
-    console.log("error", err);
-  });
-
-// Using observables
-
-HTTP.setEventType("observable");
-
-HTTP.get("http://url.com/api/scientists/2", "json").subscribe(
-  response => {
-    console.log(response); //scientist
   },
   err => console.log("error", err)
 );
@@ -166,14 +119,7 @@ HTTP.get("http://url.com/api/scientists/2", "json").subscribe(
 
 ```javascript
 
-interface Mockup {
-  data: ResponseDataType;
-  delay: number;
-}
-
-type EventType = "promise" | "observable";
-
-type DataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | Object | null;
+type DataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | FormData | URLSearchParams | ReadableStream | Object | null | undefined;
 
 type ResponseDataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | AudioBuffer | FormData | URLSearchParams | ReadableStream | Object | null;
 
@@ -197,24 +143,27 @@ interface HTTPHeaders {
   ...
 }
 
-static HTTP.get( url: string, responseType: ResponseType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
-static HTTP.head( url: string, responseType: ResponseType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
-static HTTP.post( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
-static HTTP.put( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
-static HTTP.delete( url: string, responseType: ResponseType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
-static HTTP.connect( url: string, responseType: ResponseType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
-static HTTP.options( url: string, responseType: ResponseType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
-static HTTP.trace( url: string, responseType: ResponseType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
-static HTTP.patch( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> | Observable<ResponseDataType> {}
+static HTTP.promise.get( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
+static HTTP.promise.head( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
+static HTTP.promise.post( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> {}
+static HTTP.promise.put( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> {}
+static HTTP.promise.delete( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
+static HTTP.promise.connect( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
+static HTTP.promise.options( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
+static HTTP.promise.trace( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
+static HTTP.promise.patch( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> {}
 
-static HTTP.setEventType(eventType: EventType): void {}
-static HTTP.setMockup(mockup: Partial<Mockup> = { data: ResponseDataType, delay: number}): void {}
+static HTTP.observable.get( url: string, responseType: ResponseType ): Observable<ResponseDataType> {}
+static HTTP.observable.head( url: string, responseType: ResponseType ): Observable<ResponseDataType> {}
+static HTTP.observable.post( url: string, responseType: ResponseType, data: DataType ): Observable<ResponseDataType> {}
+static HTTP.observable.put( url: string, responseType: ResponseType, data: DataType ): Observable<ResponseDataType> {}
+static HTTP.observable.delete( url: string, responseType: ResponseType ): Observable<ResponseDataType> {}
+static HTTP.observable.connect( url: string, responseType: ResponseType ): Observable<ResponseDataType> {}
+static HTTP.observable.options( url: string, responseType: ResponseType ): Observable<ResponseDataType> {}
+static HTTP.observable.trace( url: string, responseType: ResponseType ): Observable<ResponseDataType> {}
+static HTTP.observable.patch( url: string, responseType: ResponseType, data: DataType ): Observable<ResponseDataType> {}
+
 static HTTP.setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders): void {}
-
-// Log levels from @lcluber Mouette.js logger library
-type LevelName = "info" | "trace" | "warn" | "error" | "off";
-static HTTP.setLogLevel(name: LevelName): LevelName {}
-static HTTP.getLogLevel(): LevelName {}
 
 ```
 

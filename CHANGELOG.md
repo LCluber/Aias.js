@@ -1,3 +1,8 @@
+## Version 3.0.0 (December 01st 2020)
+
+- Delete mockup data options
+- promise and observable now used as namespace instead of option
+
 ## Version 2.7.4 (October 09st 2020)
 
 - Fix default headers setup

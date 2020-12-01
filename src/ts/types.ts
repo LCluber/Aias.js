@@ -9,8 +9,6 @@ export type HTTPRequestMethod =
   | "TRACE"
   | "PATCH";
 
-export type EventType = "promise" | "observable";
-
 export type SendDataType =
   | string
   | Document
@@ -34,7 +32,8 @@ export type DataType =
   | URLSearchParams
   | ReadableStream
   | Object
-  | null;
+  | null
+  | undefined;
 
 export type ResponseDataType =
   | string

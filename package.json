@@ -47,7 +47,6 @@
   ],
   "dependencies": {
     "@lcluber/chjs": "2.10.1",
-    "@lcluber/mouettejs": "2.3.1",
     "@types/promise-polyfill": "6.0.3",
     "polyfill-array-includes": "2.0.0",
     "promise-polyfill": "8.1.3",

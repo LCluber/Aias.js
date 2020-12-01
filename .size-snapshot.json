@@ -5,21 +5,21 @@
     "gzipped": 5483
   },
   "src/ts/build/aias.iife.js": {
-    "bundled": 80430,
-    "minified": 35090,
-    "gzipped": 7879
+    "bundled": 42113,
+    "minified": 17423,
+    "gzipped": 4733
   },
   "src/ts/build/aias.js": {
-    "bundled": 19030,
-    "minified": 7631,
-    "gzipped": 1762,
+    "bundled": 14612,
+    "minified": 6038,
+    "gzipped": 1273,
     "treeshaked": {
       "rollup": {
-        "code": 7308,
-        "import_statements": 183
+        "code": 92,
+        "import_statements": 92
       },
       "webpack": {
-        "code": 8457
+        "code": 6721
       }
     }
   }

@@ -1,9 +1,4 @@
-import { ResponseDataType, HTTPRequestMethod } from "./types";
-
-export interface Mockup {
-  data: ResponseDataType;
-  delay: number;
-}
+import { HTTPRequestMethod } from "./types";
 
 export interface Method {
   type: HTTPRequestMethod;
