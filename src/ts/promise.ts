@@ -1,4 +1,5 @@
 import { isObject } from "@lcluber/chjs";
+import { getAudioContext } from "./audio";
 import { METHODS } from "./methods";
 // import { Logger, Group } from "@lcluber/mouettejs";
 import { HTTPHeaders } from "./interfaces";
@@ -11,10 +12,7 @@ import {
 } from "./types";
 import Promise from "promise-polyfill";
 
-const AudioContext =
-  window.AudioContext || // Default
-  (<any>window).webkitAudioContext || // Safari and old versions of Chrome
-  false;
+const AudioContext = getAudioContext();
 
 export class promise {
   private method: HTTPRequestMethod;

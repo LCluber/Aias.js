@@ -28,6 +28,17 @@ import Promise from 'promise-polyfill';
 import { Observable } from 'rxjs';
 import 'polyfill-array-includes';
 
+function getAudioContext() {
+    if (typeof window === 'undefined') {
+        return false;
+    }
+    else {
+        return window.AudioContext ||
+            window.webkitAudioContext ||
+            false;
+    }
+}
+
 const METHODS = {
     GET: {
         type: "GET",
@@ -121,9 +132,7 @@ const METHODS = {
     }
 };
 
-const AudioContext = window.AudioContext ||
-    window.webkitAudioContext ||
-    false;
+const AudioContext = getAudioContext();
 class promise {
     constructor(method, url, responseType, data) {
         this.method = method;
@@ -222,9 +231,7 @@ class promise {
     }
 }
 
-const AudioContext$1 = window.AudioContext ||
-    window.webkitAudioContext ||
-    false;
+const AudioContext$1 = getAudioContext();
 class observable {
     constructor(method, url, responseType, data) {
         this.method = method;

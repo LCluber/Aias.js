@@ -1,6 +1,6 @@
 {
   "name": "@lcluber/aiasjs",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Promise and observable based HTTP client (Ajax) library",
   "keywords": [
     "ajax",
@@ -32,7 +32,7 @@
     "build": "npm run clean && tsc && npm run rollup && grunt build && npm run banner",
     "clean": "rimraf dist/* src/ts/build/*",
     "rollup": "rollup --config rollup.config.mjs && rollup --config rollup.config.js",
-    "banner": "cat license.js src/ts/build/aias.js > dist/aias.js && cat license.js src/ts/build/aias.iife.js > dist/aias.iife.js",
+    "banner": "cat license.js src/ts/build/aias.js > dist/aias.js && cat license.js src/ts/build/aias.iife.js > dist/aias.iife.js && cat license.js src/ts/build/aias.d.ts > dist/aias.d.ts",
     "test": "jest --coverage"
   },
   "husky": {
@@ -46,7 +46,7 @@
     "dist/"
   ],
   "dependencies": {
-    "@lcluber/chjs": "2.10.1",
+    "@lcluber/chjs": "2.13.0",
     "@types/promise-polyfill": "6.0.3",
     "polyfill-array-includes": "2.0.0",
     "promise-polyfill": "8.1.3",

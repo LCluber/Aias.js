@@ -19,9 +19,7 @@ module.exports = {
     format: "es"
   },
   external: [
-    "@lcluber/weejs",
     "@lcluber/chjs",
-    "@lcluber/mouettejs",
     "rxjs",
     "promise-polyfill",
     "polyfill-array-includes"

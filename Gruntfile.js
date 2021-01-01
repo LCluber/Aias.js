@@ -56,82 +56,6 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
-    clean: {
-      lib: {
-        src: [
-          distDir + "*",
-          // compiledES5Dir + '*',
-          compiledES6Dir + "*"
-        ]
-      }
-    },
-    ts: {
-      options: {
-        fast: "never"
-        //rootDir: srcDir + 'ts/'
-      },
-      es6: {
-        tsconfig: "tsconfig.json",
-        src: [srcDir + "ts/**/*.ts", "!node_modules/**/*.ts"]
-        // },
-        // es5: {
-        //   tsconfig: 'tsconfig.es5.json',
-        //   src: [ srcDir + 'ts/**/*.ts', '!node_modules/**/*.ts' ]
-      }
-    },
-    rollup: {
-      es6: {
-        options: {
-          format: "es",
-          // moduleName: projectName,
-          banner: banner,
-          // sourceMap: 'inline'
-          plugins: [
-            // resolve({
-            // //   //exclude: './node_modules/**'
-            // })
-          ],
-          external: [
-            "@lcluber/weejs",
-            "@lcluber/chjs",
-            "@lcluber/mouettejs",
-            "rxjs"
-          ]
-        },
-        files: [
-          {
-            src: compiledES6Dir + projectNameLC + ".js",
-            dest: distDir + projectNameLC + ".js"
-          }
-        ]
-      },
-      iife: {
-        options: {
-          format: "iife",
-          moduleName: projectName,
-          banner: banner,
-          plugins: [
-            resolve(),
-            commonjs(),
-            babel({
-              // exclude: "node_modules/**" // only transpile our source code
-            }),
-            progress({
-              clearLine: false // default: true
-            }),
-            sizes(),
-            analyze({ onAnalysis, skipFormatted: false })
-          ]
-          // sourceMap: 'inline'
-        },
-        files: [
-          {
-            src: compiledES6Dir + projectNameLC + ".js",
-            dest: distDir + projectNameLC + ".iife.js"
-          }
-        ]
-      }
-    },
     uglify: {
       libIife: {
         options: {
@@ -169,10 +93,10 @@ module.exports = function(grunt) {
         options: {
           separator: "",
           stripBanners: false,
-          banner: banner
+          // banner: banner
         },
         src: compiledES6Dir + "*.d.ts",
-        dest: distDir + projectNameLC + ".d.ts"
+        dest: compiledSrcDir + projectNameLC + ".d.ts"
       }
     },
     strip_code: {
@@ -185,7 +109,7 @@ module.exports = function(grunt) {
         ]
       },
       declaration: {
-        src: distDir + projectNameLC + ".d.ts"
+        src: compiledSrcDir + projectNameLC + ".d.ts"
       }
     }
     // watch: {

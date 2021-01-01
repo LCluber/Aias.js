@@ -72,6 +72,14 @@ var Aias = (function (exports) {
     return array !== null && array.constructor === Array;
   }
 
+  function getAudioContext() {
+    if (typeof window === 'undefined') {
+      return false;
+    } else {
+      return window.AudioContext || window.webkitAudioContext || false;
+    }
+  }
+
   var METHODS = {
     GET: {
       type: "GET",
@@ -439,7 +447,7 @@ var Aias = (function (exports) {
     }
   };
 
-  var AudioContext = window.AudioContext || window.webkitAudioContext || false;
+  var AudioContext = getAudioContext();
   var promise = /*#__PURE__*/function () {
     function promise(method, url, responseType, data) {
       _classCallCheck(this, promise);
@@ -1301,7 +1309,7 @@ var Aias = (function (exports) {
     return promiseCtor;
   }
 
-  var AudioContext$1 = window.AudioContext || window.webkitAudioContext || false;
+  var AudioContext$1 = getAudioContext();
   var observable$1 = /*#__PURE__*/function () {
     function observable(method, url, responseType, data) {
       _classCallCheck(this, observable);
