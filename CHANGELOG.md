@@ -1,3 +1,8 @@
+## Version 3.1.0 (January 02st 2021)
+
+- Headers parameters can be set to false
+- Documentation update
+
 ## Version 3.0.0 (December 01st 2020)
 
 - Delete mockup data options
