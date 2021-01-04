@@ -42,9 +42,6 @@ function getAudioContext() {
 const METHODS = {
     GET: {
         type: "GET",
-        defaultHeaders: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
@@ -52,9 +49,6 @@ const METHODS = {
     },
     HEAD: {
         type: "HEAD",
-        defaultHeaders: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
@@ -62,9 +56,6 @@ const METHODS = {
     },
     POST: {
         type: "POST",
-        defaultHeaders: {
-            "Content-Type": "application/json"
-        },
         headers: {
             "Content-Type": "application/json"
         },
@@ -72,9 +63,6 @@ const METHODS = {
     },
     PUT: {
         type: "PUT",
-        defaultHeaders: {
-            "Content-Type": "application/json"
-        },
         headers: {
             "Content-Type": "application/json"
         },
@@ -82,9 +70,6 @@ const METHODS = {
     },
     DELETE: {
         type: "DELETE",
-        defaultHeaders: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
@@ -92,9 +77,6 @@ const METHODS = {
     },
     CONNECT: {
         type: "CONNECT",
-        defaultHeaders: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
@@ -102,9 +84,6 @@ const METHODS = {
     },
     OPTIONS: {
         type: "OPTIONS",
-        defaultHeaders: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
@@ -112,9 +91,6 @@ const METHODS = {
     },
     TRACE: {
         type: "TRACE",
-        defaultHeaders: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
@@ -122,9 +98,6 @@ const METHODS = {
     },
     PATCH: {
         type: "PATCH",
-        defaultHeaders: {
-            "Content-Type": "application/json"
-        },
         headers: {
             "Content-Type": "application/json"
         },
@@ -132,16 +105,31 @@ const METHODS = {
     }
 };
 
-const AudioContext = getAudioContext();
-class promise {
-    constructor(method, url, responseType, data) {
+class request {
+    constructor(method, url, responseType, data, headers) {
         this.method = method;
         this.url = url;
         this.responseType = responseType;
         this.async = true;
         this.noCache = false;
-        this.headers = METHODS[method].headers || METHODS[method].defaultHeaders;
+        this.headers = headers || METHODS[method].headers;
         this.data = data;
+    }
+    setRequestHeaders(http) {
+        for (const property in this.headers) {
+            if (this.headers.hasOwnProperty(property)) {
+                if (this.headers[property] !== null && this.headers[property] !== false) {
+                    http.setRequestHeader(property, this.headers[property]);
+                }
+            }
+        }
+    }
+}
+
+const AudioContext = getAudioContext();
+class promise extends request {
+    constructor(method, url, responseType, data, headers) {
+        super(method, url, responseType, data, headers);
     }
     call() {
         return new Promise((resolve, reject) => {
@@ -222,25 +210,12 @@ class promise {
             http.send(this.data || null);
         });
     }
-    setRequestHeaders(http) {
-        for (const property in this.headers) {
-            if (this.headers.hasOwnProperty(property)) {
-                http.setRequestHeader(property, this.headers[property]);
-            }
-        }
-    }
 }
 
 const AudioContext$1 = getAudioContext();
-class observable {
-    constructor(method, url, responseType, data) {
-        this.method = method;
-        this.url = url;
-        this.responseType = responseType;
-        this.async = true;
-        this.noCache = false;
-        this.headers = METHODS[method].headers || METHODS[method].defaultHeaders;
-        this.data = data;
+class observable extends request {
+    constructor(method, url, responseType, data, headers) {
+        super(method, url, responseType, data, headers);
     }
     call() {
         return new Observable(observer => {
@@ -329,13 +304,6 @@ class observable {
             http.send(this.data || null);
         });
     }
-    setRequestHeaders(http) {
-        for (const property in this.headers) {
-            if (this.headers.hasOwnProperty(property)) {
-                http.setRequestHeader(property, this.headers[property]);
-            }
-        }
-    }
 }
 
 class HTTP {
@@ -343,68 +311,73 @@ class HTTP {
         if (METHODS.hasOwnProperty(method)) {
             for (const property in headers) {
                 if (headers.hasOwnProperty(property)) {
-                    METHODS[method].headers[property] = headers[property];
+                    if (headers[property] !== null && headers[property] !== false) {
+                        METHODS[method].headers[property] = headers[property];
+                    }
+                    else {
+                        delete METHODS[method].headers[property];
+                    }
                 }
             }
         }
     }
 }
 HTTP.observable = {
-    get: function (url, responseType) {
-        return new observable(METHODS.GET.type, url, responseType, null).call();
+    get: function (url, responseType, headers) {
+        return new observable(METHODS.GET.type, url, responseType, null, headers).call();
     },
-    head: function (url, responseType) {
-        return new observable(METHODS.HEAD.type, url, responseType, null).call();
+    head: function (url, responseType, headers) {
+        return new observable(METHODS.HEAD.type, url, responseType, null, headers).call();
     },
-    post: function (url, responseType, data) {
-        return new observable(METHODS.POST.type, url, responseType, data).call();
+    post: function (url, responseType, data, headers) {
+        return new observable(METHODS.POST.type, url, responseType, data, headers).call();
     },
-    put: function (url, responseType, data) {
-        return new observable(METHODS.PUT.type, url, responseType, data).call();
+    put: function (url, responseType, data, headers) {
+        return new observable(METHODS.PUT.type, url, responseType, data, headers).call();
     },
-    delete: function (url, responseType) {
-        return new observable(METHODS.DELETE.type, url, responseType, null).call();
+    delete: function (url, responseType, headers) {
+        return new observable(METHODS.DELETE.type, url, responseType, null, headers).call();
     },
-    connect: function (url, responseType) {
-        return new observable(METHODS.CONNECT.type, url, responseType, null).call();
+    connect: function (url, responseType, headers) {
+        return new observable(METHODS.CONNECT.type, url, responseType, null, headers).call();
     },
-    options: function (url, responseType) {
-        return new observable(METHODS.OPTIONS.type, url, responseType, null).call();
+    options: function (url, responseType, headers) {
+        return new observable(METHODS.OPTIONS.type, url, responseType, null, headers).call();
     },
-    trace: function (url, responseType) {
-        return new observable(METHODS.TRACE.type, url, responseType, null).call();
+    trace: function (url, responseType, headers) {
+        return new observable(METHODS.TRACE.type, url, responseType, null, headers).call();
     },
-    patch: function (url, responseType, data) {
-        return new observable(METHODS.PATCH.type, url, responseType, data).call();
+    patch: function (url, responseType, data, headers) {
+        return new observable(METHODS.PATCH.type, url, responseType, data, headers).call();
     }
 };
 HTTP.promise = {
-    get: function (url, responseType) {
-        return new promise(METHODS.GET.type, url, responseType, null).call();
+    get: function (url, responseType, headers) {
+        return new promise(METHODS.GET.type, url, responseType, null, headers).call();
     },
-    head: function (url, responseType) {
-        return new promise(METHODS.HEAD.type, url, responseType, null).call();
+    head: function (url, responseType, headers) {
+        return new promise(METHODS.HEAD.type, url, responseType, null, headers).call();
     },
-    post: function (url, responseType, data) {
-        return new promise(METHODS.POST.type, url, responseType, data).call();
+    post: function (url, responseType, data, headers) {
+        return new promise(METHODS.POST.type, url, responseType, data, headers).call();
     },
-    put: function (url, responseType, data) {
-        return new promise(METHODS.PUT.type, url, responseType, data).call();
+    put: function (url, responseType, data, headers) {
+        return new promise(METHODS.PUT.type, url, responseType, data, headers).call();
     },
-    delete: function (url, responseType) {
-        return new promise(METHODS.DELETE.type, url, responseType, null).call();
+    delete: function (url, responseType, headers) {
+        return new promise(METHODS.DELETE.type, url, responseType, null, headers).call();
     },
-    connect: function (url, responseType) {
-        return new promise(METHODS.CONNECT.type, url, responseType, null).call();
+    connect: function (url, responseType, headers) {
+        return new promise(METHODS.CONNECT.type, url, responseType, null, headers).call();
     },
-    options: function (url, responseType) {
-        return new promise(METHODS.OPTIONS.type, url, responseType, null).call();
+    options: function (url, responseType, headers) {
+        return new promise(METHODS.OPTIONS.type, url, responseType, null, headers).call();
     },
-    trace: function (url, responseType) {
-        return new promise(METHODS.TRACE.type, url, responseType, null).call();
+    trace: function (url, responseType, headers) {
+        return new promise(METHODS.TRACE.type, url, responseType, null, headers).call();
     },
-    patch: function (url, responseType, data) {
-        return new promise(METHODS.PATCH.type, url, responseType, data).call();
+    patch: function (url, responseType, data, headers) {
+        return new promise(METHODS.PATCH.type, url, responseType, data, headers).call();
     }
 };
 

@@ -64,6 +64,83 @@ var Aias = (function (exports) {
     return Constructor;
   }
 
+  function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+      constructor: {
+        value: subClass,
+        writable: true,
+        configurable: true
+      }
+    });
+    if (superClass) _setPrototypeOf(subClass, superClass);
+  }
+
+  function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+      return o.__proto__ || Object.getPrototypeOf(o);
+    };
+    return _getPrototypeOf(o);
+  }
+
+  function _setPrototypeOf(o, p) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+      o.__proto__ = p;
+      return o;
+    };
+
+    return _setPrototypeOf(o, p);
+  }
+
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+
+    try {
+      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function _assertThisInitialized(self) {
+    if (self === void 0) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+
+    return self;
+  }
+
+  function _possibleConstructorReturn(self, call) {
+    if (call && (typeof call === "object" || typeof call === "function")) {
+      return call;
+    }
+
+    return _assertThisInitialized(self);
+  }
+
+  function _createSuper(Derived) {
+    return function () {
+      var Super = _getPrototypeOf(Derived),
+          result;
+
+      if (_isNativeReflectConstruct()) {
+        var NewTarget = _getPrototypeOf(this).constructor;
+
+        result = Reflect.construct(Super, arguments, NewTarget);
+      } else {
+        result = Super.apply(this, arguments);
+      }
+
+      return _possibleConstructorReturn(this, result);
+    };
+  }
+
   function isObject(object) {
     return object !== null && _typeof(object) === "object" && !isArray(object);
   }
@@ -83,9 +160,6 @@ var Aias = (function (exports) {
   var METHODS = {
     GET: {
       type: "GET",
-      defaultHeaders: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
@@ -93,9 +167,6 @@ var Aias = (function (exports) {
     },
     HEAD: {
       type: "HEAD",
-      defaultHeaders: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
@@ -103,9 +174,6 @@ var Aias = (function (exports) {
     },
     POST: {
       type: "POST",
-      defaultHeaders: {
-        "Content-Type": "application/json"
-      },
       headers: {
         "Content-Type": "application/json"
       },
@@ -113,9 +181,6 @@ var Aias = (function (exports) {
     },
     PUT: {
       type: "PUT",
-      defaultHeaders: {
-        "Content-Type": "application/json"
-      },
       headers: {
         "Content-Type": "application/json"
       },
@@ -123,9 +188,6 @@ var Aias = (function (exports) {
     },
     DELETE: {
       type: "DELETE",
-      defaultHeaders: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
@@ -133,9 +195,6 @@ var Aias = (function (exports) {
     },
     CONNECT: {
       type: "CONNECT",
-      defaultHeaders: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
@@ -143,9 +202,6 @@ var Aias = (function (exports) {
     },
     OPTIONS: {
       type: "OPTIONS",
-      defaultHeaders: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
@@ -153,9 +209,6 @@ var Aias = (function (exports) {
     },
     TRACE: {
       type: "TRACE",
-      defaultHeaders: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
@@ -163,15 +216,41 @@ var Aias = (function (exports) {
     },
     PATCH: {
       type: "PATCH",
-      defaultHeaders: {
-        "Content-Type": "application/json"
-      },
       headers: {
         "Content-Type": "application/json"
       },
       data: false
     }
   };
+
+  var request = /*#__PURE__*/function () {
+    function request(method, url, responseType, data, headers) {
+      _classCallCheck(this, request);
+
+      this.method = method;
+      this.url = url;
+      this.responseType = responseType;
+      this.async = true;
+      this.noCache = false;
+      this.headers = headers || METHODS[method].headers;
+      this.data = data;
+    }
+
+    _createClass(request, [{
+      key: "setRequestHeaders",
+      value: function setRequestHeaders(http) {
+        for (var property in this.headers) {
+          if (this.headers.hasOwnProperty(property)) {
+            if (this.headers[property] !== null && this.headers[property] !== false) {
+              http.setRequestHeader(property, this.headers[property]);
+            }
+          }
+        }
+      }
+    }]);
+
+    return request;
+  }();
 
   /**
    * @this {Promise}
@@ -448,17 +527,15 @@ var Aias = (function (exports) {
   };
 
   var AudioContext = getAudioContext();
-  var promise = /*#__PURE__*/function () {
-    function promise(method, url, responseType, data) {
+  var promise = /*#__PURE__*/function (_request) {
+    _inherits(promise, _request);
+
+    var _super = _createSuper(promise);
+
+    function promise(method, url, responseType, data, headers) {
       _classCallCheck(this, promise);
 
-      this.method = method;
-      this.url = url;
-      this.responseType = responseType;
-      this.async = true;
-      this.noCache = false;
-      this.headers = METHODS[method].headers || METHODS[method].defaultHeaders;
-      this.data = data;
+      return _super.call(this, method, url, responseType, data, headers);
     }
 
     _createClass(promise, [{
@@ -547,19 +624,10 @@ var Aias = (function (exports) {
           http.send(_this.data || null);
         });
       }
-    }, {
-      key: "setRequestHeaders",
-      value: function setRequestHeaders(http) {
-        for (var property in this.headers) {
-          if (this.headers.hasOwnProperty(property)) {
-            http.setRequestHeader(property, this.headers[property]);
-          }
-        }
-      }
     }]);
 
     return promise;
-  }();
+  }(request);
 
   /*! *****************************************************************************
   Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1310,17 +1378,15 @@ var Aias = (function (exports) {
   }
 
   var AudioContext$1 = getAudioContext();
-  var observable$1 = /*#__PURE__*/function () {
-    function observable(method, url, responseType, data) {
+  var observable$1 = /*#__PURE__*/function (_request) {
+    _inherits(observable, _request);
+
+    var _super = _createSuper(observable);
+
+    function observable(method, url, responseType, data, headers) {
       _classCallCheck(this, observable);
 
-      this.method = method;
-      this.url = url;
-      this.responseType = responseType;
-      this.async = true;
-      this.noCache = false;
-      this.headers = METHODS[method].headers || METHODS[method].defaultHeaders;
-      this.data = data;
+      return _super.call(this, method, url, responseType, data, headers);
     }
 
     _createClass(observable, [{
@@ -1417,19 +1483,10 @@ var Aias = (function (exports) {
           http.send(_this.data || null);
         });
       }
-    }, {
-      key: "setRequestHeaders",
-      value: function setRequestHeaders(http) {
-        for (var property in this.headers) {
-          if (this.headers.hasOwnProperty(property)) {
-            http.setRequestHeader(property, this.headers[property]);
-          }
-        }
-      }
     }]);
 
     return observable;
-  }();
+  }(request);
 
   Array.prototype.includes || Object.defineProperty(Array.prototype, "includes", {
     value: function value(r, e) {
@@ -1460,7 +1517,11 @@ var Aias = (function (exports) {
         if (METHODS.hasOwnProperty(method)) {
           for (var property in headers) {
             if (headers.hasOwnProperty(property)) {
-              METHODS[method].headers[property] = headers[property];
+              if (headers[property] !== null && headers[property] !== false) {
+                METHODS[method].headers[property] = headers[property];
+              } else {
+                delete METHODS[method].headers[property];
+              }
             }
           }
         }
@@ -1470,61 +1531,61 @@ var Aias = (function (exports) {
     return HTTP;
   }();
   HTTP.observable = {
-    get: function get(url, responseType) {
-      return new observable$1(METHODS.GET.type, url, responseType, null).call();
+    get: function get(url, responseType, headers) {
+      return new observable$1(METHODS.GET.type, url, responseType, null, headers).call();
     },
-    head: function head(url, responseType) {
-      return new observable$1(METHODS.HEAD.type, url, responseType, null).call();
+    head: function head(url, responseType, headers) {
+      return new observable$1(METHODS.HEAD.type, url, responseType, null, headers).call();
     },
-    post: function post(url, responseType, data) {
-      return new observable$1(METHODS.POST.type, url, responseType, data).call();
+    post: function post(url, responseType, data, headers) {
+      return new observable$1(METHODS.POST.type, url, responseType, data, headers).call();
     },
-    put: function put(url, responseType, data) {
-      return new observable$1(METHODS.PUT.type, url, responseType, data).call();
+    put: function put(url, responseType, data, headers) {
+      return new observable$1(METHODS.PUT.type, url, responseType, data, headers).call();
     },
-    "delete": function _delete(url, responseType) {
-      return new observable$1(METHODS.DELETE.type, url, responseType, null).call();
+    "delete": function _delete(url, responseType, headers) {
+      return new observable$1(METHODS.DELETE.type, url, responseType, null, headers).call();
     },
-    connect: function connect(url, responseType) {
-      return new observable$1(METHODS.CONNECT.type, url, responseType, null).call();
+    connect: function connect(url, responseType, headers) {
+      return new observable$1(METHODS.CONNECT.type, url, responseType, null, headers).call();
     },
-    options: function options(url, responseType) {
-      return new observable$1(METHODS.OPTIONS.type, url, responseType, null).call();
+    options: function options(url, responseType, headers) {
+      return new observable$1(METHODS.OPTIONS.type, url, responseType, null, headers).call();
     },
-    trace: function trace(url, responseType) {
-      return new observable$1(METHODS.TRACE.type, url, responseType, null).call();
+    trace: function trace(url, responseType, headers) {
+      return new observable$1(METHODS.TRACE.type, url, responseType, null, headers).call();
     },
-    patch: function patch(url, responseType, data) {
-      return new observable$1(METHODS.PATCH.type, url, responseType, data).call();
+    patch: function patch(url, responseType, data, headers) {
+      return new observable$1(METHODS.PATCH.type, url, responseType, data, headers).call();
     }
   };
   HTTP.promise = {
-    get: function get(url, responseType) {
-      return new promise(METHODS.GET.type, url, responseType, null).call();
+    get: function get(url, responseType, headers) {
+      return new promise(METHODS.GET.type, url, responseType, null, headers).call();
     },
-    head: function head(url, responseType) {
-      return new promise(METHODS.HEAD.type, url, responseType, null).call();
+    head: function head(url, responseType, headers) {
+      return new promise(METHODS.HEAD.type, url, responseType, null, headers).call();
     },
-    post: function post(url, responseType, data) {
-      return new promise(METHODS.POST.type, url, responseType, data).call();
+    post: function post(url, responseType, data, headers) {
+      return new promise(METHODS.POST.type, url, responseType, data, headers).call();
     },
-    put: function put(url, responseType, data) {
-      return new promise(METHODS.PUT.type, url, responseType, data).call();
+    put: function put(url, responseType, data, headers) {
+      return new promise(METHODS.PUT.type, url, responseType, data, headers).call();
     },
-    "delete": function _delete(url, responseType) {
-      return new promise(METHODS.DELETE.type, url, responseType, null).call();
+    "delete": function _delete(url, responseType, headers) {
+      return new promise(METHODS.DELETE.type, url, responseType, null, headers).call();
     },
-    connect: function connect(url, responseType) {
-      return new promise(METHODS.CONNECT.type, url, responseType, null).call();
+    connect: function connect(url, responseType, headers) {
+      return new promise(METHODS.CONNECT.type, url, responseType, null, headers).call();
     },
-    options: function options(url, responseType) {
-      return new promise(METHODS.OPTIONS.type, url, responseType, null).call();
+    options: function options(url, responseType, headers) {
+      return new promise(METHODS.OPTIONS.type, url, responseType, null, headers).call();
     },
-    trace: function trace(url, responseType) {
-      return new promise(METHODS.TRACE.type, url, responseType, null).call();
+    trace: function trace(url, responseType, headers) {
+      return new promise(METHODS.TRACE.type, url, responseType, null, headers).call();
     },
-    patch: function patch(url, responseType, data) {
-      return new promise(METHODS.PATCH.type, url, responseType, data).call();
+    patch: function patch(url, responseType, data, headers) {
+      return new promise(METHODS.PATCH.type, url, responseType, data, headers).call();
     }
   };
 

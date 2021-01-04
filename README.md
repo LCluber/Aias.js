@@ -35,8 +35,16 @@ const scientist = {
   died: 1642
 };
 
-HTTP.setHeaders("POST", { "Content-Type": "application/json" }); // this is the default setting for POST requests
-HTTP.setHeaders("GET", { "Content-Type": "application/x-www-form-urlencoded" }); // this is the default setting for
+// Set headers globally
+HTTP.setHeaders("POST", { "Content-Type": "application/json" }); // Default setting for POST requests
+HTTP.setHeaders("GET", { "Content-Type": "application/x-www-form-urlencoded" }); // Default setting for GET requests
+
+// example for authorization headers :
+var bearer = `Bearer ${token}`; // where token is your json web token 
+HTTP.setHeaders("GET", { Authorization: bearer });
+HTTP.setHeaders("POST", { Authorization: bearer });
+HTTP.setHeaders("PATCH", { Authorization: bearer });
+HTTP.setHeaders("PUT", { Authorization: bearer });
 
 // Using promises
 
@@ -65,6 +73,19 @@ HTTP.observable.get("http://url.com/api/scientists/2", "json").subscribe(
   },
   err => console.log("error", err)
 );
+
+// POST request with multipart/form-data
+HTTP.observable.post(`${environment.api}post/img`, 
+                          'json',
+                          imgFile, // the file as FormData
+                          { "Content-Type": false } // set headers only for this request
+                    ).subscribe(
+  response => {
+    console.log(response);
+  },
+  err => console.log("error", err)
+); 
+
 ```
 
 ### IIFE
@@ -81,10 +102,16 @@ var scientist = {
   died: 1642
 };
 
-Aias.HTTP.setHeaders("POST", { "Content-Type": "application/json" }); // this is the default setting for POST requests
-Aias.HTTP.setHeaders("GET", {
-  "Content-Type": "application/x-www-form-urlencoded"
-}); // this is the default setting for GET requests
+// Set headers globally
+Aias.HTTP.setHeaders("POST", { "Content-Type": "application/json" }); // Default setting for POST requests
+Aias.HTTP.setHeaders("GET", { "Content-Type": "application/x-www-form-urlencoded" }); // Default setting for GET requests
+
+// example for authorization headers :
+var bearer = `Bearer ${token}`; // where token is your json web token 
+Aias.HTTP.setHeaders("GET", { Authorization: bearer });
+Aias.HTTP.setHeaders("POST", { Authorization: bearer });
+Aias.HTTP.setHeaders("PATCH", { Authorization: bearer });
+Aias.HTTP.setHeaders("PUT", { Authorization: bearer });
 
 // Using promises
 
@@ -113,6 +140,19 @@ Aias.HTTP.observable.get("http://url.com/api/scientists/2", "json").subscribe(
   },
   err => console.log("error", err)
 );
+
+// POST request with multipart/form-data
+Aias.HTTP.observable.post(`${environment.api}post/img`, 
+                          'json',
+                          imgFile, // the file as FormData
+                          { "Content-Type": false } // set headers only for this request
+                    ).subscribe(
+  response => {
+    console.log(response);
+  },
+  err => console.log("error", err)
+); 
+
 ```
 
 ## API Reference
@@ -137,66 +177,66 @@ interface Methods {
   PATCH: Method;
 
 interface HTTPHeaders {
-  "A-IM"?: string | false;
-  Accept?: string | false;
-  "Accept-Charset"?: string | false;
-  "Accept-Encoding"?: string | false;
-  "Accept-Language"?: string | false;
-  "Accept-Datetime"?: string | false;
-  "Access-Control-Request-Method"?: string | false;
-  "Access-Control-Request-Headers"?: string | false;
-  Authorization?: string | false;
-  "Cache-Control"?: string | false;
-  Connection?: string | false;
-  "Content-Length"?: number | false;
-  "Content-MD5"?: string | false;
-  "Content-Type"?: string | false;
-  Cookie?: string | false;
-  Date?: string | false;
-  Expect?: string | false;
-  Forwarded?: string | false;
-  From?: string | false;
-  Host?: string | false;
-  "HTTP2-Settings"?: string | false;
-  "If-Match"?: string | false;
-  "If-Modified-Since"?: string | false;
-  "If-None-Match"?: string | false;
-  "If-Range"?: string | false;
-  "If-Unmodified-Since"?: string | false;
-  "Max-Forwards"?: string | false;
-  Origin?: string | false;
-  Pragma?: string | false;
-  "Proxy-Authorization"?: string | false;
-  Range?: string | false;
-  Referer?: string | false;
-  TE?: string | false;
-  "User-Agent"?: string | false;
-  Upgrade?: string | false;
-  Via?: string | false;
-  Warning?: string | false;
-  [key: string]: string | number | false | undefined;
+  "A-IM"?: string | false | null;
+  Accept?: string | false | null;
+  "Accept-Charset"?: string | false | null;
+  "Accept-Encoding"?: string | false | null;
+  "Accept-Language"?: string | false | null;
+  "Accept-Datetime"?: string | false | null;
+  "Access-Control-Request-Method"?: string | false | null;
+  "Access-Control-Request-Headers"?: string | false | null;
+  Authorization?: string | false | null;
+  "Cache-Control"?: string | false | null;
+  Connection?: string | false | null;
+  "Content-Length"?: number | false | null;
+  "Content-MD5"?: string | false | null;
+  "Content-Type"?: string | false | null;
+  Cookie?: string | false | null;
+  Date?: string | false | null;
+  Expect?: string | false | null;
+  Forwarded?: string | false | null;
+  From?: string | false | null;
+  Host?: string | false | null;
+  "HTTP2-Settings"?: string | false | null;
+  "If-Match"?: string | false | null;
+  "If-Modified-Since"?: string | false | null;
+  "If-None-Match"?: string | false | null;
+  "If-Range"?: string | false | null;
+  "If-Unmodified-Since"?: string | false | null;
+  "Max-Forwards"?: string | false | null;
+  Origin?: string | false | null;
+  Pragma?: string | false | null;
+  "Proxy-Authorization"?: string | false | null;
+  Range?: string | false | null;
+  Referer?: string | false | null;
+  TE?: string | false | null;
+  "User-Agent"?: string | false | null;
+  Upgrade?: string | false | null;
+  Via?: string | false | null;
+  Warning?: string | false | null;
 }
 
-static HTTP.promise.get( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
-static HTTP.promise.head( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
-static HTTP.promise.post( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> {}
-static HTTP.promise.put( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> {}
-static HTTP.promise.delete( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
-static HTTP.promise.connect( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
-static HTTP.promise.options( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
-static HTTP.promise.trace( url: string, responseType: ResponseType ): Promise<ResponseDataType> {}
-static HTTP.promise.patch( url: string, responseType: ResponseType, data: DataType ): Promise<ResponseDataType> {}
+static HTTP.promise.get( url: string, responseType: ResponseType, headers?: HTTPHeaders | undefined ): Promise<ResponseDataType> {}
+static HTTP.promise.head( url: string, responseType: ResponseType, headers?: HTTPHeaders | undefined  ): Promise<ResponseDataType> {}
+static HTTP.promise.post( url: string, responseType: ResponseType, data: DataType, headers?: HTTPHeaders | undefined  ): Promise<ResponseDataType> {}
+static HTTP.promise.put( url: string, responseType: ResponseType, data: DataType, headers?: HTTPHeaders | undefined  ): Promise<ResponseDataType> {}
+static HTTP.promise.delete( url: string, responseType: ResponseType, headers?: HTTPHeaders | undefined  ): Promise<ResponseDataType> {}
+static HTTP.promise.connect( url: string, responseType: ResponseType, headers?: HTTPHeaders | undefined  ): Promise<ResponseDataType> {}
+static HTTP.promise.options( url: string, responseType: ResponseType, headers?: HTTPHeaders | undefined  ): Promise<ResponseDataType> {}
+static HTTP.promise.trace( url: string, responseType: ResponseType, headers?: HTTPHeaders | undefined  ): Promise<ResponseDataType> {}
+static HTTP.promise.patch( url: string, responseType: ResponseType, data: DataType, headers?: HTTPHeaders | undefined  ): Promise<ResponseDataType> {}
 
-static HTTP.observable.get( url: string, responseType: ResponseType ): Observable<ResponseDataType> {}
-static HTTP.observable.head( url: string, responseType: ResponseType ): Observable<ResponseDataType> {}
-static HTTP.observable.post( url: string, responseType: ResponseType, data: DataType ): Observable<ResponseDataType> {}
-static HTTP.observable.put( url: string, responseType: ResponseType, data: DataType ): Observable<ResponseDataType> {}
-static HTTP.observable.delete( url: string, responseType: ResponseType ): Observable<ResponseDataType> {}
-static HTTP.observable.connect( url: string, responseType: ResponseType ): Observable<ResponseDataType> {}
-static HTTP.observable.options( url: string, responseType: ResponseType ): Observable<ResponseDataType> {}
-static HTTP.observable.trace( url: string, responseType: ResponseType ): Observable<ResponseDataType> {}
-static HTTP.observable.patch( url: string, responseType: ResponseType, data: DataType ): Observable<ResponseDataType> {}
+static HTTP.observable.get( url: string, responseType: ResponseType, headers?: HTTPHeaders | undefined  ): Observable<ResponseDataType> {}
+static HTTP.observable.head( url: string, responseType: ResponseType, headers?: HTTPHeaders | undefined  ): Observable<ResponseDataType> {}
+static HTTP.observable.post( url: string, responseType: ResponseType, data: DataType, headers?: HTTPHeaders | undefined  ): Observable<ResponseDataType> {}
+static HTTP.observable.put( url: string, responseType: ResponseType, data: DataType, headers?: HTTPHeaders | undefined  ): Observable<ResponseDataType> {}
+static HTTP.observable.delete( url: string, responseType: ResponseType, headers?: HTTPHeaders | undefined  ): Observable<ResponseDataType> {}
+static HTTP.observable.connect( url: string, responseType: ResponseType, headers?: HTTPHeaders | undefined  ): Observable<ResponseDataType> {}
+static HTTP.observable.options( url: string, responseType: ResponseType, headers?: HTTPHeaders | undefined  ): Observable<ResponseDataType> {}
+static HTTP.observable.trace( url: string, responseType: ResponseType, headers?: HTTPHeaders | undefined  ): Observable<ResponseDataType> {}
+static HTTP.observable.patch( url: string, responseType: ResponseType, data: DataType, headers?: HTTPHeaders | undefined  ): Observable<ResponseDataType> {}
 
+// set headers globally
 static HTTP.setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders): void {}
 
 ```
@@ -207,9 +247,6 @@ static HTTP.setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders): void {}
 METHODS: Methods = {
   GET: {
     type: "GET",
-    defaultHeaders: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
@@ -217,9 +254,6 @@ METHODS: Methods = {
   },
   HEAD: {
     type: "HEAD",
-    defaultHeaders: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
@@ -227,9 +261,6 @@ METHODS: Methods = {
   },
   POST: {
     type: "POST",
-    defaultHeaders: {
-      "Content-Type": "application/json"
-    },
     headers: {
       "Content-Type": "application/json"
     },
@@ -237,9 +268,6 @@ METHODS: Methods = {
   },
   PUT: {
     type: "PUT",
-    defaultHeaders: {
-      "Content-Type": "application/json"
-    },
     headers: {
       "Content-Type": "application/json"
     },
@@ -247,9 +275,6 @@ METHODS: Methods = {
   },
   DELETE: {
     type: "DELETE",
-    defaultHeaders: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
@@ -257,9 +282,6 @@ METHODS: Methods = {
   },
   CONNECT: {
     type: "CONNECT",
-    defaultHeaders: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
@@ -267,9 +289,6 @@ METHODS: Methods = {
   },
   OPTIONS: {
     type: "OPTIONS",
-    defaultHeaders: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
@@ -277,9 +296,6 @@ METHODS: Methods = {
   },
   TRACE: {
     type: "TRACE",
-    defaultHeaders: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
@@ -287,9 +303,6 @@ METHODS: Methods = {
   },
   PATCH: {
     type: "PATCH",
-    defaultHeaders: {
-      "Content-Type": "application/json"
-    },
     headers: {
       "Content-Type": "application/json"
     },

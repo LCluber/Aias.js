@@ -32,8 +32,7 @@ export type DataType =
   | URLSearchParams
   | ReadableStream
   | Object
-  | null
-  | undefined;
+  | null;
 
 export type ResponseDataType =
   | string

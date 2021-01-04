@@ -1,7 +1,6 @@
 import { isObject } from "@lcluber/chjs";
 import { getAudioContext } from "./audio";
-import { METHODS } from "./methods";
-// import { Logger, Group } from "@lcluber/mouettejs";
+import { request } from "./request";
 import { HTTPHeaders } from "./interfaces";
 import { Observable } from "rxjs";
 import {
@@ -14,29 +13,16 @@ import {
 
 const AudioContext = getAudioContext();
 
-export class observable {
-  private method: HTTPRequestMethod;
-  private url: string;
-  private responseType: ResponseType;
-  private async: boolean;
-  private noCache: boolean;
-  private headers: HTTPHeaders;
-  private data: DataType;
-  // private log: Group = Logger.addGroup("Aias");
+export class observable extends request {
 
   constructor(
     method: HTTPRequestMethod,
     url: string,
     responseType: ResponseType,
-    data: DataType
+    data: DataType,
+    headers?: HTTPHeaders
   ) {
-    this.method = method;
-    this.url = url;
-    this.responseType = responseType;
-    this.async = true;
-    this.noCache = false;
-    this.headers = METHODS[method].headers || METHODS[method].defaultHeaders;
-    this.data = data;
+    super(method, url, responseType, data, headers);
   }
 
   public call(): Observable<ResponseDataType> {
@@ -157,50 +143,4 @@ export class observable {
     });
   }
 
-  private setRequestHeaders(http: XMLHttpRequest): void {
-    for (const property in this.headers) {
-      if (this.headers.hasOwnProperty(property)) {
-        http.setRequestHeader(property, <string>this.headers[property]);
-      }
-    }
-  }
-
-  // private static getMockupData(): Observable<ResponseDataType> {
-  //   return new Observable(observer => {
-  //     setTimeout(() => {
-  //       if (this.mockup.data) {
-  //         observer.next(this.mockup.data);
-  //         observer.complete();
-  //       } else {
-  //         observer.error(null);
-  //       }
-  //     }, this.mockup.delay);
-  //   });
-  // }
-
-  // private logInfo(url: string, status: number, statusText: string): void {
-  //   this.log.info(
-  //     "xhr (" +
-  //       this.method +
-  //       ":" +
-  //       url +
-  //       ") done with status " +
-  //       status +
-  //       " " +
-  //       statusText
-  //   );
-  // }
-
-  // private logError(url: string, status: number, statusText: string): void {
-  //   this.log.error(
-  //     "xhr (" +
-  //       this.method +
-  //       ":" +
-  //       url +
-  //       ") failed with status " +
-  //       status +
-  //       " " +
-  //       statusText
-  //   );
-  // }
 }

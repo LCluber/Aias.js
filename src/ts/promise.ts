@@ -1,7 +1,6 @@
 import { isObject } from "@lcluber/chjs";
 import { getAudioContext } from "./audio";
-import { METHODS } from "./methods";
-// import { Logger, Group } from "@lcluber/mouettejs";
+import { request } from "./request";
 import { HTTPHeaders } from "./interfaces";
 import {
   HTTPRequestMethod,
@@ -14,29 +13,16 @@ import Promise from "promise-polyfill";
 
 const AudioContext = getAudioContext();
 
-export class promise {
-  private method: HTTPRequestMethod;
-  private url: string;
-  private responseType: ResponseType;
-  private async: boolean;
-  private noCache: boolean;
-  private headers: HTTPHeaders;
-  private data: DataType;
-  // private log: Group = Logger.addGroup("Aias");
-
+export class promise extends request {
+ 
   constructor(
     method: HTTPRequestMethod,
     url: string,
     responseType: ResponseType,
-    data: DataType
+    data: DataType,
+    headers?: HTTPHeaders
   ) {
-    this.method = method;
-    this.url = url;
-    this.responseType = responseType;
-    this.async = true;
-    this.noCache = false;
-    this.headers = METHODS[method].headers || METHODS[method].defaultHeaders;
-    this.data = data;
+    super(method, url, responseType, data, headers);
   }
 
   public call(): Promise<ResponseDataType> {
@@ -149,52 +135,4 @@ export class promise {
     });
   }
 
-
-  private setRequestHeaders(http: XMLHttpRequest): void {
-    for (const property in this.headers) {
-      if (this.headers.hasOwnProperty(property)) {
-        http.setRequestHeader(property, <string>this.headers[property]);
-      }
-    }
-  }
-
-  // private static getMockupData(): Promise<ResponseDataType> {
-  //   return this.promiseTimeout().then(() => {
-  //     return new Promise((resolve: Function, reject: Function) => {
-  //       this.mockup.data ? resolve(this.mockup.data) : reject(null);
-  //     });
-  //   });
-  // }
-
-  // private static promiseTimeout(): Promise<void> {
-  //   return new Promise((resolve: Function) =>
-  //     setTimeout(resolve, this.mockup.delay)
-  //   );
-  // }
-
-  // private logInfo(url: string, status: number, statusText: string): void {
-  //   this.log.info(
-  //     "xhr (" +
-  //       this.method +
-  //       ":" +
-  //       url +
-  //       ") done with status " +
-  //       status +
-  //       " " +
-  //       statusText
-  //   );
-  // }
-
-  // private logError(url: string, status: number, statusText: string): void {
-  //   this.log.error(
-  //     "xhr (" +
-  //       this.method +
-  //       ":" +
-  //       url +
-  //       ") failed with status " +
-  //       status +
-  //       " " +
-  //       statusText
-  //   );
-  // }
 }

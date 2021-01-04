@@ -1,3 +1,8 @@
+## Version 3.2.0 (January 04st 2021)
+
+- Headers can be set globally or individually
+- Documentation update
+
 ## Version 3.1.0 (January 02st 2021)
 
 - Headers parameters can be set to false

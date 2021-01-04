@@ -10,7 +10,6 @@ import {
 import { HTTPHeaders } from "./interfaces";
 import { Observable } from "rxjs";
 import { METHODS } from "./methods";
-// import Promise from "promise-polyfill";
 import "polyfill-array-includes";
 
 export class HTTP {
@@ -32,7 +31,11 @@ export class HTTP {
     if (METHODS.hasOwnProperty(method)) {
       for (const property in headers) {
         if (headers.hasOwnProperty(property)) {
-          METHODS[method].headers[property] = headers[property];
+          if (headers[property] !== null && headers[property] !== false) {
+            METHODS[method].headers[property] = headers[property];
+          } else {
+            delete METHODS[method].headers[property];
+          }
         }
       }
     }
@@ -47,104 +50,122 @@ export class HTTP {
   public static observable = {
     get: function(
       url: string,
-      responseType: ResponseType
+      responseType: ResponseType,
+      headers?: HTTPHeaders
     ): Observable<ResponseDataType> {
       return new observable(
         METHODS.GET.type,
         url,
         responseType,
-        null
+        null,
+        headers
       ).call();
     },
     head: function(
       url: string,
-      responseType: ResponseType
+      responseType: ResponseType,
+      headers?: HTTPHeaders
     ): Observable<ResponseDataType> {
       return new observable(
         METHODS.HEAD.type,
         url,
         responseType,
-        null
+        null,
+        headers
       ).call();
     },
     post: function(
       url: string,
       responseType: ResponseType,
-      data?: DataType
+      data: DataType,
+      headers?: HTTPHeaders
     ): Observable<ResponseDataType> {
       return new observable(
         METHODS.POST.type,
         url,
         responseType,
-        data
+        data,
+        headers
       ).call();
     },
     put: function (
       url: string,
       responseType: ResponseType,
-      data?: DataType
+      data: DataType,
+      headers?: HTTPHeaders
     ): Observable<ResponseDataType> {
       return new observable(
         METHODS.PUT.type,
         url,
         responseType,
-        data
+        data,
+        headers
       ).call();
     },
     delete: function(
       url: string,
-      responseType: ResponseType
+      responseType: ResponseType,
+      headers?: HTTPHeaders
     ): Observable<ResponseDataType> {
       return new observable(
         METHODS.DELETE.type,
         url,
         responseType,
-        null
+        null,
+        headers
       ).call();
     },
     connect: function(
       url: string,
-      responseType: ResponseType
+      responseType: ResponseType,
+      headers?: HTTPHeaders
     ): Observable<ResponseDataType> {
       return new observable(
         METHODS.CONNECT.type,
         url,
         responseType,
-        null
+        null,
+        headers
       ).call();
     },
     options: function(
       url: string,
-      responseType: ResponseType
+      responseType: ResponseType,
+      headers?: HTTPHeaders
     ): Observable<ResponseDataType> {
       return new observable(
         METHODS.OPTIONS.type,
         url,
         responseType,
-        null
+        null,
+        headers
       ).call();
     },
     trace: function(
       url: string,
-      responseType: ResponseType
+      responseType: ResponseType,
+      headers?: HTTPHeaders
     ): Observable<ResponseDataType> {
       return new observable(
         METHODS.TRACE.type,
         url,
         responseType,
-        null
+        null,
+        headers
       ).call();
     },
     patch: function(
       url: string,
       responseType: ResponseType,
-      data?: DataType
+      data: DataType,
+      headers?: HTTPHeaders
     ): Observable<ResponseDataType> {
       return new observable(
         METHODS.PATCH.type,
         url,
         responseType,
-        data
+        data,
+        headers
       ).call();
     }
   }
@@ -152,104 +173,122 @@ export class HTTP {
   public static promise = {
     get: function(
       url: string,
-      responseType: ResponseType
+      responseType: ResponseType,
+      headers?: HTTPHeaders
     ): Promise<ResponseDataType> {
       return new promise(
         METHODS.GET.type,
         url,
         responseType,
-        null
+        null,
+        headers
       ).call();
     },
     head: function(
       url: string,
-      responseType: ResponseType
+      responseType: ResponseType,
+      headers?: HTTPHeaders
     ): Promise<ResponseDataType> {
       return new promise(
         METHODS.HEAD.type,
         url,
         responseType,
-        null
+        null,
+        headers
       ).call();
     },
     post: function(
       url: string,
       responseType: ResponseType,
-      data?: DataType
+      data: DataType,
+      headers?: HTTPHeaders
     ): Promise<ResponseDataType> {
       return new promise(
         METHODS.POST.type,
         url,
         responseType,
-        data
+        data,
+        headers
       ).call();
     },
     put: function(
       url: string,
       responseType: ResponseType,
-      data?: DataType
+      data: DataType,
+      headers?: HTTPHeaders
     ): Promise<ResponseDataType> {
       return new promise(
         METHODS.PUT.type,
         url,
         responseType,
-        data
+        data,
+        headers
       ).call();
     },
     delete: function(
       url: string,
-      responseType: ResponseType
+      responseType: ResponseType,
+      headers?: HTTPHeaders
     ): Promise<ResponseDataType> {
       return new promise(
         METHODS.DELETE.type,
         url,
         responseType,
-        null
+        null,
+        headers
       ).call();
     },
     connect: function(
       url: string,
-      responseType: ResponseType
+      responseType: ResponseType,
+      headers?: HTTPHeaders
     ): Promise<ResponseDataType> {
       return new promise(
         METHODS.CONNECT.type,
         url,
         responseType,
-        null
+        null,
+        headers
       ).call();
     },
     options: function(
       url: string,
-      responseType: ResponseType
+      responseType: ResponseType,
+      headers?: HTTPHeaders
     ): Promise<ResponseDataType> {
       return new promise(
         METHODS.OPTIONS.type,
         url,
         responseType,
-        null
+        null,
+        headers
       ).call();
     },
     trace: function(
       url: string,
-      responseType: ResponseType
+      responseType: ResponseType,
+      headers?: HTTPHeaders
     ): Promise<ResponseDataType> {
       return new promise(
         METHODS.TRACE.type,
         url,
         responseType,
-        null
+        null,
+        headers
       ).call();
     },
     patch: function (
       url: string,
       responseType: ResponseType,
-      data?: DataType
+      data: DataType,
+      headers?: HTTPHeaders
     ): Promise<ResponseDataType> {
       return new promise(
         METHODS.PATCH.type,
         url,
         responseType,
-        data
+        data,
+        headers
       ).call();
     }
   }

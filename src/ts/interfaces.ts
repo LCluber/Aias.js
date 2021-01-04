@@ -2,7 +2,6 @@ import { HTTPRequestMethod } from "./types";
 
 export interface Method {
   type: HTTPRequestMethod;
-  defaultHeaders: HTTPHeaders;
   headers: HTTPHeaders;
   data: boolean;
 }
@@ -20,42 +19,42 @@ export interface Methods {
 }
 
 export interface HTTPHeaders {
-  "A-IM"?: string | false;
-  Accept?: string | false;
-  "Accept-Charset"?: string | false;
-  "Accept-Encoding"?: string | false;
-  "Accept-Language"?: string | false;
-  "Accept-Datetime"?: string | false;
-  "Access-Control-Request-Method"?: string | false;
-  "Access-Control-Request-Headers"?: string | false;
-  Authorization?: string | false;
-  "Cache-Control"?: string | false;
-  Connection?: string | false;
-  "Content-Length"?: number | false;
-  "Content-MD5"?: string | false;
-  "Content-Type"?: string | false;
-  Cookie?: string | false;
-  Date?: string | false;
-  Expect?: string | false;
-  Forwarded?: string | false;
-  From?: string | false;
-  Host?: string | false;
-  "HTTP2-Settings"?: string | false;
-  "If-Match"?: string | false;
-  "If-Modified-Since"?: string | false;
-  "If-None-Match"?: string | false;
-  "If-Range"?: string | false;
-  "If-Unmodified-Since"?: string | false;
-  "Max-Forwards"?: string | false;
-  Origin?: string | false;
-  Pragma?: string | false;
-  "Proxy-Authorization"?: string | false;
-  Range?: string | false;
-  Referer?: string | false;
-  TE?: string | false;
-  "User-Agent"?: string | false;
-  Upgrade?: string | false;
-  Via?: string | false;
-  Warning?: string | false;
-  [key: string]: string | number | false | undefined;
+  "A-IM"?: string | false | null;
+  Accept?: string | false | null;
+  "Accept-Charset"?: string | false | null;
+  "Accept-Encoding"?: string | false | null;
+  "Accept-Language"?: string | false | null;
+  "Accept-Datetime"?: string | false | null;
+  "Access-Control-Request-Method"?: string | false | null;
+  "Access-Control-Request-Headers"?: string | false | null;
+  Authorization?: string | false | null;
+  "Cache-Control"?: string | false | null;
+  Connection?: string | false | null;
+  "Content-Length"?: number | false | null;
+  "Content-MD5"?: string | false | null;
+  "Content-Type"?: string | false | null;
+  Cookie?: string | false | null;
+  Date?: string | false | null;
+  Expect?: string | false | null;
+  Forwarded?: string | false | null;
+  From?: string | false | null;
+  Host?: string | false | null;
+  "HTTP2-Settings"?: string | false | null;
+  "If-Match"?: string | false | null;
+  "If-Modified-Since"?: string | false | null;
+  "If-None-Match"?: string | false | null;
+  "If-Range"?: string | false | null;
+  "If-Unmodified-Since"?: string | false | null;
+  "Max-Forwards"?: string | false | null;
+  Origin?: string | false | null;
+  Pragma?: string | false | null;
+  "Proxy-Authorization"?: string | false | null;
+  Range?: string | false | null;
+  Referer?: string | false | null;
+  TE?: string | false | null;
+  "User-Agent"?: string | false | null;
+  Upgrade?: string | false | null;
+  Via?: string | false | null;
+  Warning?: string | false | null;
+  [key: string]: string | number | false | null | undefined;
 }

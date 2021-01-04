@@ -3,9 +3,6 @@ import { Methods } from "./interfaces";
 export const METHODS: Methods = {
   GET: {
     type: "GET",
-    defaultHeaders: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
@@ -13,9 +10,6 @@ export const METHODS: Methods = {
   },
   HEAD: {
     type: "HEAD",
-    defaultHeaders: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
@@ -23,9 +17,6 @@ export const METHODS: Methods = {
   },
   POST: {
     type: "POST",
-    defaultHeaders: {
-      "Content-Type": "application/json"
-    },
     headers: {
       "Content-Type": "application/json"
     },
@@ -33,9 +24,6 @@ export const METHODS: Methods = {
   },
   PUT: {
     type: "PUT",
-    defaultHeaders: {
-      "Content-Type": "application/json"
-    },
     headers: {
       "Content-Type": "application/json"
     },
@@ -43,9 +31,6 @@ export const METHODS: Methods = {
   },
   DELETE: {
     type: "DELETE",
-    defaultHeaders: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
@@ -53,9 +38,6 @@ export const METHODS: Methods = {
   },
   CONNECT: {
     type: "CONNECT",
-    defaultHeaders: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
@@ -63,9 +45,6 @@ export const METHODS: Methods = {
   },
   OPTIONS: {
     type: "OPTIONS",
-    defaultHeaders: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
@@ -73,9 +52,6 @@ export const METHODS: Methods = {
   },
   TRACE: {
     type: "TRACE",
-    defaultHeaders: {
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
@@ -83,9 +59,6 @@ export const METHODS: Methods = {
   },
   PATCH: {
     type: "PATCH",
-    defaultHeaders: {
-      "Content-Type": "application/json"
-    },
     headers: {
       "Content-Type": "application/json"
     },
