@@ -1,7 +1,6 @@
-import { HTTPRequestMethod } from "./types";
 
 export interface Method {
-  type: HTTPRequestMethod;
+  type: keyof Methods;
   headers: HTTPHeaders;
   data: boolean;
 }

@@ -28,7 +28,7 @@
 import { Observable } from "rxjs";
 
 export declare class HTTP {
-    static setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders): void;
+    static setHeaders(method: keyof Methods, headers: HTTPHeaders): void;
     static observable: {
         get: (url: string, responseType: ResponseType, headers?: HTTPHeaders | undefined) => Observable<ResponseDataType>;
         head: (url: string, responseType: ResponseType, headers?: HTTPHeaders | undefined) => Observable<ResponseDataType>;
@@ -56,9 +56,8 @@ export declare function getAudioContext(): {
     new (contextOptions?: AudioContextOptions | undefined): AudioContext;
     prototype: AudioContext;
 } | false;
-
 export interface Method {
-    type: HTTPRequestMethod;
+    type: keyof Methods;
     headers: HTTPHeaders;
     data: boolean;
 }
@@ -117,8 +116,9 @@ export interface HTTPHeaders {
 export declare const METHODS: Methods;
 
 
+
 export declare class observable extends request {
-    constructor(method: HTTPRequestMethod, url: string, responseType: ResponseType, data: DataType, headers?: HTTPHeaders);
+    constructor(method: keyof Methods, url: string, responseType: ResponseType, data: DataType, headers?: HTTPHeaders);
     call(): Observable<ResponseDataType>;
 }
 
@@ -126,23 +126,22 @@ export declare class observable extends request {
 
 
 export declare class promise extends request {
-    constructor(method: HTTPRequestMethod, url: string, responseType: ResponseType, data: DataType, headers?: HTTPHeaders);
+    constructor(method: keyof Methods, url: string, responseType: ResponseType, data: DataType, headers?: HTTPHeaders);
     call(): Promise<ResponseDataType>;
 }
 
 
 export declare class request {
-    protected method: HTTPRequestMethod;
+    protected method: keyof Methods;
     protected url: string;
     protected responseType: ResponseType;
     protected async: boolean;
     protected noCache: boolean;
-    protected headers: HTTPHeaders;
+    protected headers: HTTPHeaders | undefined;
     protected data: DataType;
-    constructor(method: HTTPRequestMethod, url: string, responseType: ResponseType, data: DataType, headers?: HTTPHeaders);
+    constructor(method: keyof Methods, url: string, responseType: ResponseType, data: DataType, headers?: HTTPHeaders);
     protected setRequestHeaders(http: XMLHttpRequest): void;
 }
-export declare type HTTPRequestMethod = "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "PATCH";
 export declare type SendDataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | URLSearchParams | ReadableStream | null;
 export declare type DataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | URLSearchParams | ReadableStream | Object | null;
 export declare type ResponseDataType = string | Document | Blob | BufferSource | FormData | ArrayBufferView | ArrayBuffer | AudioBuffer | URLSearchParams | ReadableStream | Object | null;

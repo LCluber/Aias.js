@@ -1,9 +1,8 @@
 import { isObject } from "@lcluber/chjs";
 import { getAudioContext } from "./audio";
 import { request } from "./request";
-import { HTTPHeaders } from "./interfaces";
+import { HTTPHeaders, Methods } from "./interfaces";
 import {
-  HTTPRequestMethod,
   DataType,
   SendDataType,
   ResponseDataType,
@@ -16,7 +15,7 @@ const AudioContext = getAudioContext();
 export class promise extends request {
  
   constructor(
-    method: HTTPRequestMethod,
+    method: keyof Methods,
     url: string,
     responseType: ResponseType,
     data: DataType,

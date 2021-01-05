@@ -5,9 +5,8 @@ import {
   DataType,
   ResponseDataType,
   ResponseType,
-  HTTPRequestMethod
 } from "./types";
-import { HTTPHeaders } from "./interfaces";
+import { HTTPHeaders, Methods } from "./interfaces";
 import { Observable } from "rxjs";
 import { METHODS } from "./methods";
 import "polyfill-array-includes";
@@ -27,7 +26,7 @@ export class HTTP {
   //   return this.log.getLevel();
   // }
 
-  public static setHeaders(method: HTTPRequestMethod, headers: HTTPHeaders) {
+  public static setHeaders(method: keyof Methods, headers: HTTPHeaders) {
     if (METHODS.hasOwnProperty(method)) {
       for (const property in headers) {
         if (headers.hasOwnProperty(property)) {

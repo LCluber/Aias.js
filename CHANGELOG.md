@@ -1,3 +1,7 @@
+## Version 3.2.1 (January 05st 2021)
+
+- Global and individual headers are merged with priority to individual headers
+
 ## Version 3.2.0 (January 04st 2021)
 
 - Headers can be set globally or individually

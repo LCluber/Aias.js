@@ -232,17 +232,27 @@ var Aias = (function (exports) {
       this.responseType = responseType;
       this.async = true;
       this.noCache = false;
-      this.headers = headers || METHODS[method].headers;
+      this.headers = headers;
       this.data = data;
     }
 
     _createClass(request, [{
       key: "setRequestHeaders",
       value: function setRequestHeaders(http) {
-        for (var property in this.headers) {
-          if (this.headers.hasOwnProperty(property)) {
-            if (this.headers[property] !== null && this.headers[property] !== false) {
-              http.setRequestHeader(property, this.headers[property]);
+        for (var property in METHODS[this.method].headers) {
+          var headers = METHODS[this.method].headers;
+
+          if (headers.hasOwnProperty(property)) {
+            if (headers[property] !== null && headers[property] !== false) {
+              http.setRequestHeader(property, headers[property]);
+            }
+          }
+        }
+
+        for (var _property in this.headers) {
+          if (this.headers.hasOwnProperty(_property)) {
+            if (this.headers[_property] !== null && this.headers[_property] !== false) {
+              http.setRequestHeader(_property, this.headers[_property]);
             }
           }
         }

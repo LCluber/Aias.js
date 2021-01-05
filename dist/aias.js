@@ -112,10 +112,18 @@ class request {
         this.responseType = responseType;
         this.async = true;
         this.noCache = false;
-        this.headers = headers || METHODS[method].headers;
+        this.headers = headers;
         this.data = data;
     }
     setRequestHeaders(http) {
+        for (const property in METHODS[this.method].headers) {
+            let headers = METHODS[this.method].headers;
+            if (headers.hasOwnProperty(property)) {
+                if (headers[property] !== null && headers[property] !== false) {
+                    http.setRequestHeader(property, headers[property]);
+                }
+            }
+        }
         for (const property in this.headers) {
             if (this.headers.hasOwnProperty(property)) {
                 if (this.headers[property] !== null && this.headers[property] !== false) {

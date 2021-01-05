@@ -1,10 +1,9 @@
 import { isObject } from "@lcluber/chjs";
 import { getAudioContext } from "./audio";
 import { request } from "./request";
-import { HTTPHeaders } from "./interfaces";
+import { HTTPHeaders, Methods } from "./interfaces";
 import { Observable } from "rxjs";
 import {
-  HTTPRequestMethod,
   DataType,
   SendDataType,
   ResponseDataType,
@@ -16,7 +15,7 @@ const AudioContext = getAudioContext();
 export class observable extends request {
 
   constructor(
-    method: HTTPRequestMethod,
+    method: keyof Methods,
     url: string,
     responseType: ResponseType,
     data: DataType,
