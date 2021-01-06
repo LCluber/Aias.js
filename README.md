@@ -1,7 +1,7 @@
 ## Synopsis
 
 Aias.js is an open source promise and observable based HTTP client ES6 library.
-It includes features like "audiobuffer" response type, comprehensive error handling and logging.
+It includes features like "audiobuffer" response type and works on old browsers.
 
 ## Motivation
 
