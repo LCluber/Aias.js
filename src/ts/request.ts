@@ -31,19 +31,18 @@ export class request {
   }
 
   protected setRequestHeaders(http: XMLHttpRequest): void {
-    for (const property in METHODS[this.method].headers) {
-      let headers = METHODS[this.method].headers;
-      if (headers.hasOwnProperty(property)) {
-        if (headers[property] !== null && headers[property] !== false) {
-          http.setRequestHeader(property, <string>headers[property]);
+    let requestHeaders: HTTPHeaders = {...METHODS[this.method].headers, ...this.headers};
+    for (const property in requestHeaders) {
+      if (requestHeaders.hasOwnProperty(property)) {
+        if (requestHeaders[property] === '') {
+          delete requestHeaders[property];
         }
       }
     }
-    for (const property in this.headers) {
-      if (this.headers.hasOwnProperty(property)) {
-        if (this.headers[property] !== null && this.headers[property] !== false) {
-          http.setRequestHeader(property, <string>this.headers[property]);
-        }
+
+    for (const property in requestHeaders) {
+      if (requestHeaders.hasOwnProperty(property)) {
+        http.setRequestHeader(property, <string>requestHeaders[property]);
       }
     }
   }

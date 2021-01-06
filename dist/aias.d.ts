@@ -73,48 +73,47 @@ export interface Methods {
     PATCH: Method;
 }
 export interface HTTPHeaders {
-    "A-IM"?: string | false | null;
-    Accept?: string | false | null;
-    "Accept-Charset"?: string | false | null;
-    "Accept-Encoding"?: string | false | null;
-    "Accept-Language"?: string | false | null;
-    "Accept-Datetime"?: string | false | null;
-    "Access-Control-Request-Method"?: string | false | null;
-    "Access-Control-Request-Headers"?: string | false | null;
-    Authorization?: string | false | null;
-    "Cache-Control"?: string | false | null;
-    Connection?: string | false | null;
-    "Content-Length"?: number | false | null;
-    "Content-MD5"?: string | false | null;
-    "Content-Type"?: string | false | null;
-    Cookie?: string | false | null;
-    Date?: string | false | null;
-    Expect?: string | false | null;
-    Forwarded?: string | false | null;
-    From?: string | false | null;
-    Host?: string | false | null;
-    "HTTP2-Settings"?: string | false | null;
-    "If-Match"?: string | false | null;
-    "If-Modified-Since"?: string | false | null;
-    "If-None-Match"?: string | false | null;
-    "If-Range"?: string | false | null;
-    "If-Unmodified-Since"?: string | false | null;
-    "Max-Forwards"?: string | false | null;
-    Origin?: string | false | null;
-    Pragma?: string | false | null;
-    "Proxy-Authorization"?: string | false | null;
-    Range?: string | false | null;
-    Referer?: string | false | null;
-    TE?: string | false | null;
-    "User-Agent"?: string | false | null;
-    Upgrade?: string | false | null;
-    Via?: string | false | null;
-    Warning?: string | false | null;
-    [key: string]: string | number | false | null | undefined;
+    "A-IM"?: string;
+    Accept?: string;
+    "Accept-Charset"?: string;
+    "Accept-Encoding"?: string;
+    "Accept-Language"?: string;
+    "Accept-Datetime"?: string;
+    "Access-Control-Request-Method"?: string;
+    "Access-Control-Request-Headers"?: string;
+    Authorization?: string;
+    "Cache-Control"?: string;
+    Connection?: string;
+    "Content-Length"?: number;
+    "Content-MD5"?: string;
+    "Content-Type"?: string;
+    Cookie?: string;
+    Date?: string;
+    Expect?: string;
+    Forwarded?: string;
+    From?: string;
+    Host?: string;
+    "HTTP2-Settings"?: string;
+    "If-Match"?: string;
+    "If-Modified-Since"?: string;
+    "If-None-Match"?: string;
+    "If-Range"?: string;
+    "If-Unmodified-Since"?: string;
+    "Max-Forwards"?: string;
+    Origin?: string;
+    Pragma?: string;
+    "Proxy-Authorization"?: string;
+    Range?: string;
+    Referer?: string;
+    TE?: string;
+    "User-Agent"?: string;
+    Upgrade?: string;
+    Via?: string;
+    Warning?: string;
+    [key: string]: string | number | undefined;
 }
 
 export declare const METHODS: Methods;
-
 
 
 export declare class observable extends request {

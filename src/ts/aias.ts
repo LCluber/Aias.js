@@ -30,7 +30,7 @@ export class HTTP {
     if (METHODS.hasOwnProperty(method)) {
       for (const property in headers) {
         if (headers.hasOwnProperty(property)) {
-          if (headers[property] !== null && headers[property] !== false) {
+          if (headers[property] !== '') {
             METHODS[method].headers[property] = headers[property];
           } else {
             delete METHODS[method].headers[property];

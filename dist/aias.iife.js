@@ -239,21 +239,19 @@ var Aias = (function (exports) {
     _createClass(request, [{
       key: "setRequestHeaders",
       value: function setRequestHeaders(http) {
-        for (var property in METHODS[this.method].headers) {
-          var headers = METHODS[this.method].headers;
+        var requestHeaders = Object.assign(Object.assign({}, METHODS[this.method].headers), this.headers);
 
-          if (headers.hasOwnProperty(property)) {
-            if (headers[property] !== null && headers[property] !== false) {
-              http.setRequestHeader(property, headers[property]);
+        for (var property in requestHeaders) {
+          if (requestHeaders.hasOwnProperty(property)) {
+            if (requestHeaders[property] === '') {
+              delete requestHeaders[property];
             }
           }
         }
 
-        for (var _property in this.headers) {
-          if (this.headers.hasOwnProperty(_property)) {
-            if (this.headers[_property] !== null && this.headers[_property] !== false) {
-              http.setRequestHeader(_property, this.headers[_property]);
-            }
+        for (var _property in requestHeaders) {
+          if (requestHeaders.hasOwnProperty(_property)) {
+            http.setRequestHeader(_property, requestHeaders[_property]);
           }
         }
       }
@@ -1527,7 +1525,7 @@ var Aias = (function (exports) {
         if (METHODS.hasOwnProperty(method)) {
           for (var property in headers) {
             if (headers.hasOwnProperty(property)) {
-              if (headers[property] !== null && headers[property] !== false) {
+              if (headers[property] !== '') {
                 METHODS[method].headers[property] = headers[property];
               } else {
                 delete METHODS[method].headers[property];

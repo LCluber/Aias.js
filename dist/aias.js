@@ -116,19 +116,17 @@ class request {
         this.data = data;
     }
     setRequestHeaders(http) {
-        for (const property in METHODS[this.method].headers) {
-            let headers = METHODS[this.method].headers;
-            if (headers.hasOwnProperty(property)) {
-                if (headers[property] !== null && headers[property] !== false) {
-                    http.setRequestHeader(property, headers[property]);
+        let requestHeaders = Object.assign(Object.assign({}, METHODS[this.method].headers), this.headers);
+        for (const property in requestHeaders) {
+            if (requestHeaders.hasOwnProperty(property)) {
+                if (requestHeaders[property] === '') {
+                    delete requestHeaders[property];
                 }
             }
         }
-        for (const property in this.headers) {
-            if (this.headers.hasOwnProperty(property)) {
-                if (this.headers[property] !== null && this.headers[property] !== false) {
-                    http.setRequestHeader(property, this.headers[property]);
-                }
+        for (const property in requestHeaders) {
+            if (requestHeaders.hasOwnProperty(property)) {
+                http.setRequestHeader(property, requestHeaders[property]);
             }
         }
     }
@@ -319,7 +317,7 @@ class HTTP {
         if (METHODS.hasOwnProperty(method)) {
             for (const property in headers) {
                 if (headers.hasOwnProperty(property)) {
-                    if (headers[property] !== null && headers[property] !== false) {
+                    if (headers[property] !== '') {
                         METHODS[method].headers[property] = headers[property];
                     }
                     else {

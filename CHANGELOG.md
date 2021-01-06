@@ -1,13 +1,13 @@
-## Version 3.2.1 (January 05st 2021)
+## Version 3.2.1 (January 06th 2021)
 
 - Global and individual headers are merged with priority to individual headers
 
-## Version 3.2.0 (January 04st 2021)
+## Version 3.2.0 (January 04th 2021)
 
 - Headers can be set globally or individually
 - Documentation update
 
-## Version 3.1.0 (January 02st 2021)
+## Version 3.1.0 (January 02nd 2021)
 
 - Headers parameters can be set to false
 - Documentation update
@@ -17,7 +17,7 @@
 - Delete mockup data options
 - promise and observable now used as namespace instead of option
 
-## Version 2.7.4 (October 09st 2020)
+## Version 2.7.4 (October 09th 2020)
 
 - Fix default headers setup
 
